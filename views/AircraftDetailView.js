@@ -505,7 +505,7 @@ export class AircraftDetailView {
 
     // ── Compartir — Web Share API con fallback clipboard ────
     this.#el.querySelector('#shareBtn')?.addEventListener('click', async () => {
-      const url  = `${location.origin}${router.base || ''}/aircraft/${p.id}`;
+      const url  = `${location.origin}/aircraft/${p.id}`;
       const data = { title: `${p.name} — AeroPedia`, text: p.desc?.slice(0, 100), url };
       if (navigator.share && navigator.canShare?.(data)) {
         try { await navigator.share(data); return; } catch { /* fallthrough to clipboard */ }

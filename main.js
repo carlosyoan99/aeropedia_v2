@@ -1,9 +1,9 @@
 /**
- * main.js — Bootstrap de AeroPedia SPA v5
+ * main.js — Bootstrap de AeroPedia SPA
  */
 
 import { store }                               from './store/index.js';
-import { prefs, syncPrefsWithStore, applyThemeToDom } from './store/preferences.js';
+import { prefs, syncPrefsWithStore }           from './store/preferences.js';
 import { router }                              from './router/index.js';
 import { Header }                              from './components/Header.js';
 import { PWAInstallBanner, registerSW }        from './components/PWAInstallBanner.js';
@@ -14,6 +14,8 @@ import { PWAInstallBanner, registerSW }        from './components/PWAInstallBann
     const raw = JSON.parse(localStorage.getItem('aeropedia_prefs'));
     const t   = raw?.display?.theme || localStorage.getItem('aeropedia_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', t);
+    if (t === 'dark') document.body?.classList.add('dark');
+    if (t === 'high-contrast') document.body?.classList.add('high-contrast');
     if (t !== 'light') document.documentElement.classList.add('dark-preload');
   } catch { document.documentElement.setAttribute('data-theme', 'dark'); }
 })();
@@ -27,7 +29,11 @@ async function loadCoreData() {
   ]);
   if (!aRes.ok || !cRes.ok)
     throw new Error('No se pudieron cargar los datos. Usa un servidor HTTP (npx serve .)');
-  const [aircraftDB, conflictsDB, killsDB] = await Promise.all([aRes.json(), cRes.json(), kRes.ok ? kRes.json() : []]);
+  const [aircraftDB, conflictsDB, killsDB] = await Promise.all([
+    aRes.json(),
+    cRes.json(),
+    kRes.ok ? kRes.json() : [],
+  ]);
   store.setState({ aircraftDB, conflictsDB, killsDB });
 }
 
@@ -98,9 +104,9 @@ function registerRoutes() {
       render: () => {
         const el = document.createElement('div');
         el.className = 'not-found-view';
-        const recents = store.get('recents').slice(0,3);
+        const recents = store.get('recents').slice(0, 3);
         const db      = store.get('aircraftDB');
-        const recentPlanes = recents.map(id => db.find(p=>p.id===id)).filter(Boolean);
+        const recentPlanes = recents.map(id => db.find(p => p.id === id)).filter(Boolean);
         el.innerHTML = `<div class="not-found-inner">
           <p class="not-found-code mono">404</p>
           <p class="not-found-title">Página no encontrada</p>
@@ -108,7 +114,7 @@ function registerRoutes() {
           ${recentPlanes.length ? `
             <div class="not-found-recents">
               <p class="not-found-recents-label">Vistas recientemente:</p>
-              ${recentPlanes.map(p=>`
+              ${recentPlanes.map(p => `
                 <a href="/aircraft/${p.id}" data-link class="not-found-recent-item">
                   <img src="./public/min/${p.img}.webp" alt="${p.name}" width="44" height="25"
                     style="object-fit:cover;border-radius:4px" onerror="this.style.display='none'">
@@ -125,14 +131,11 @@ function registerRoutes() {
 // ── Sincronización multi-pestaña ──────────────────────────────
 function initMultiTabSync() {
   window.addEventListener('storage', (e) => {
-    // Sincronizar favoritos entre pestañas
     if (e.key === 'aeropedia_favs' && e.newValue) {
       try {
         const newFavs = JSON.parse(e.newValue);
-        if (JSON.stringify(newFavs) !== JSON.stringify(store.get('favs'))) {
+        if (JSON.stringify(newFavs) !== JSON.stringify(store.get('favs')))
           store.setState({ favs: newFavs });
-          // No mostrar toast intrusivo, solo actualizar silenciosamente
-        }
       } catch {}
     }
     if (e.key === 'aeropedia_favs_meta' && e.newValue) {
@@ -156,7 +159,7 @@ async function init() {
   const headerEl = document.getElementById('app-header');
   if (headerEl) headerEl.appendChild(new Header().render());
 
-  // 4. Skeleton
+  // 4. Skeleton loading
   const outlet = document.getElementById('app-outlet');
   if (outlet) outlet.innerHTML = `
     <div class="init-loading" role="status" aria-live="polite">
@@ -182,7 +185,7 @@ async function init() {
   // 6. Rutas
   registerRoutes();
 
-  // 7. Aria-live announcer para lectores de pantalla
+  // 7. Aria-live para lectores de pantalla
   if (prefs.get('a11y', 'announceRoutes')) {
     const announcer = document.getElementById('route-announcer');
     router.beforeEach(() => {
@@ -195,37 +198,18 @@ async function init() {
     });
   }
 
-  // Detect GitHub Pages base path automatically
-  // If deployed at /aeropedia_v2/, router needs to know to strip that prefix
-  const detectedBase = (function() {
-    // Check if there's a <base href> in the document (set at build time if needed)
-    const baseEl = document.querySelector('base[href]');
-    if (baseEl) {
-      const href = baseEl.getAttribute('href').replace(/\/+$/, '');
-      return href === '' || href === '.' ? '' : href;
-    }
-    // Auto-detect: if pathname has more than one segment before a known route,
-    // the first segment is the base. e.g. /aeropedia_v2/ → base = /aeropedia_v2
-    const segs = location.pathname.split('/').filter(Boolean);
-    const knownRoutes = ['aircraft', 'compare', 'favorites', 'theater', 'stats',
-                         'kills', 'fleets', 'mach', 'settings', 'help', 'shared'];
-    if (segs.length > 0 && !knownRoutes.includes(segs[0])) {
-      return '/' + segs[0];
-    }
-    return '';
-  })();
-  router.setBase(detectedBase);
+  // 8. Init router
   await router.init();
 
-  // 8. PWA
+  // 9. PWA
   await registerSW();
   const pwaBanner = new PWAInstallBanner();
   pwaBanner.init();
 
-  // 9. Atajos globales
+  // 10. Atajos globales
   document.addEventListener('keydown', (e) => {
     const tag    = document.activeElement?.tagName.toLowerCase();
-    const typing = ['input','select','textarea'].includes(tag);
+    const typing = ['input', 'select', 'textarea'].includes(tag);
     if (typing) return;
     if (e.key === 'Escape' && store.get('currentRoute') !== '/') router.navigate('/');
     if (e.key === ',' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); router.navigate('/settings'); }
