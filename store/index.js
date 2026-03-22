@@ -1,82 +1,52 @@
 /**
  * store/index.js — Estado global centralizado con Observer Pattern
- * Persistencia en localStorage. Sistema de favoritos enriquecido.
+ * Favoritos enriquecidos + Colecciones + Comparador + Ranking
  */
 
-// ── Helpers localStorage ───────────────────────────────────────
 function loadLS(key, fallback) {
   try { return JSON.parse(localStorage.getItem(key)) ?? fallback; } catch { return fallback; }
 }
 function saveLS(key, value) {
-  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
-}
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch {} }
 
 // ── Estado inicial ─────────────────────────────────────────────
 const initialState = {
-  // Datos
-  aircraftDB:  [],
-  conflictsDB: {},
-  fleetsDB:    [],
-  killsDB:     [],
-
-  // UI
+  aircraftDB:  [], conflictsDB: {}, fleetsDB: [], killsDB: [],
   theme:         loadLS('aeropedia_theme', 'dark'),
   view:          'gallery',
   currentRoute:  '/',
+  search:        '', cat: 'all', onlyFavs: false, activeConflict: 'all',
 
-  // Filtros globales
-  search:        '',
-  cat:           'all',
-  onlyFavs:      false,
-  activeConflict:'all',
-
-  // ── FAVORITOS ──────────────────────────────────────────────
-  // favs: string[]  — IDs en orden de inserción
+  // Favoritos
   favs:     loadLS('aeropedia_favs', []),
-  /**
-   * favsMeta: Record<id, FavMeta>
-   * FavMeta {
-   *   note:     string        — nota personal libre
-   *   tags:     string[]      — etiquetas propias ('#favorito', '#pendiente', ...)
-   *   pinned:   boolean       — fijado en la cima de la lista
-   *   rating:   0|1|2|3|4|5  — valoración personal
-   *   addedAt:  number        — timestamp ms
-   *   updatedAt:number        — último edit
-   * }
-   */
   favsMeta: loadLS('aeropedia_favs_meta', {}),
 
-  // Filtros internos de la vista Favoritos
-  favsSearch:    '',
-  favsSortBy:    'addedAt',   // 'addedAt' | 'name' | 'rating' | 'year' | 'pinned'
-  favsSortAsc:   false,
-  favsFilterTag: 'all',       // 'all' | cualquier tag
+  /**
+   * Colecciones: Record<id, { name, color, icon, createdAt, ids: string[] }>
+   * Un favorito puede estar en varias colecciones.
+   */
+  collections: loadLS('aeropedia_collections', {}),
 
-  // Timeline
-  timelineOpen:   false,
-  timelineActive: false,
-  timelineMin:    1940,
-  timelineMax:    2030,
+  favsSearch: '', favsSortBy: 'addedAt', favsSortAsc: false,
+  favsFilterTag: 'all', favsActiveCollection: 'all',
 
-  // Comparador
+  timelineOpen: false, timelineActive: false, timelineMin: 1940, timelineMax: 2030,
   compareList: [],
-
-  // Ranking
-  sortStat: 'speed',
-  sortAsc:  false,
-
-  // Estado de carga
-  loading: false,
-  error:   null,
+  sortStat: 'speed', sortAsc: false,
+  loading: false, error: null,
 };
 
-class Store {
-  #state;
-  #listeners = new Map();
+// ── Colores predefinidos para colecciones ──────────────────────
+export const COLLECTION_COLORS = [
+  '#3b82f6','#f59e0b','#10b981','#8b5cf6','#ef4444',
+  '#06b6d4','#f472b6','#84cc16','#fb923c','#a78bfa',
+];
+export const COLLECTION_ICONS = ['📁','⭐','🔥','🏆','🎯','🚀','🛡','⚡','🌍','🔬'];
 
-  constructor(initial) {
-    this.#state = { ...initial };
-  }
+class Store {
+  #state; #listeners = new Map();
+
+  constructor(initial) { this.#state = { ...initial }; }
 
   getState() { return { ...this.#state }; }
   get(key)   { return this.#state[key]; }
@@ -105,11 +75,11 @@ class Store {
     return () => this.#listeners.get('*')?.delete(id);
   }
 
-  // ── Persistencia ─────────────────────────────────────────────
   #persist(patch) {
-    if ('theme'    in patch) saveLS('aeropedia_theme',     this.#state.theme);
-    if ('favs'     in patch) saveLS('aeropedia_favs',      this.#state.favs);
-    if ('favsMeta' in patch) saveLS('aeropedia_favs_meta', this.#state.favsMeta);
+    if ('theme'       in patch) saveLS('aeropedia_theme',       this.#state.theme);
+    if ('favs'        in patch) saveLS('aeropedia_favs',        this.#state.favs);
+    if ('favsMeta'    in patch) saveLS('aeropedia_favs_meta',   this.#state.favsMeta);
+    if ('collections' in patch) saveLS('aeropedia_collections', this.#state.collections);
   }
 
   #notify(patch, prev) {
@@ -122,46 +92,33 @@ class Store {
     if (all) for (const [, cb] of all) cb({ ...this.#state }, changed);
   }
 
-  // ── Tema ─────────────────────────────────────────────────────
+  // ── Tema ────────────────────────────────────────────────────
   toggleTheme() {
     this.setState({ theme: this.#state.theme === 'dark' ? 'light' : 'dark' });
   }
 
-  // ── Favoritos básicos ─────────────────────────────────────────
+  // ── Favoritos ────────────────────────────────────────────────
   isFav(id) { return this.#state.favs.includes(id); }
 
   toggleFav(id) {
-    const favs    = [...this.#state.favs];
-    const meta    = { ...this.#state.favsMeta };
-    const idx     = favs.indexOf(id);
-
+    const favs = [...this.#state.favs];
+    const meta = { ...this.#state.favsMeta };
+    const idx  = favs.indexOf(id);
     if (idx >= 0) {
       favs.splice(idx, 1);
       delete meta[id];
+      // quitar de todas las colecciones
+      const cols = this.#removeFromAllCollections(id);
+      this.setState({ favs, favsMeta: meta, collections: cols });
     } else {
       favs.push(id);
-      meta[id] = {
-        note:      '',
-        tags:      [],
-        pinned:    false,
-        rating:    0,
-        addedAt:   Date.now(),
-        updatedAt: Date.now(),
-      };
+      meta[id] = { note:'', tags:[], pinned:false, rating:0, addedAt:Date.now(), updatedAt:Date.now() };
+      this.setState({ favs, favsMeta: meta });
     }
-    this.setState({ favs, favsMeta: meta });
   }
 
-  // ── Metadatos de favorito ──────────────────────────────────────
-  getFavMeta(id) {
-    return this.#state.favsMeta[id] ?? null;
-  }
+  getFavMeta(id) { return this.#state.favsMeta[id] ?? null; }
 
-  /**
-   * Actualiza campos parciales de la meta de un favorito.
-   * @param {string} id
-   * @param {Partial<FavMeta>} patch
-   */
   updateFavMeta(id, patch) {
     if (!this.#state.favs.includes(id)) return;
     const meta = { ...this.#state.favsMeta };
@@ -169,29 +126,21 @@ class Store {
     this.setState({ favsMeta: meta });
   }
 
-  /** Añade o elimina una tag de un favorito */
   toggleFavTag(id, tag) {
-    const m    = this.getFavMeta(id);
-    if (!m) return;
-    const tags = m.tags.includes(tag)
-      ? m.tags.filter(t => t !== tag)
-      : [...m.tags, tag];
+    const m = this.getFavMeta(id); if (!m) return;
+    const tags = m.tags.includes(tag) ? m.tags.filter(t=>t!==tag) : [...m.tags, tag];
     this.updateFavMeta(id, { tags });
   }
 
-  /** Fija/desfija un favorito en la cima de la lista */
   toggleFavPin(id) {
-    const m = this.getFavMeta(id);
-    if (!m) return;
+    const m = this.getFavMeta(id); if (!m) return;
     this.updateFavMeta(id, { pinned: !m.pinned });
   }
 
-  /** Cambia la valoración personal (0–5) */
   setFavRating(id, rating) {
     this.updateFavMeta(id, { rating: Math.max(0, Math.min(5, rating)) });
   }
 
-  /** Reordena un favorito (mueve de fromIdx a toIdx) */
   reorderFav(fromIdx, toIdx) {
     const favs = [...this.#state.favs];
     const [item] = favs.splice(fromIdx, 1);
@@ -199,68 +148,126 @@ class Store {
     this.setState({ favs });
   }
 
-  /**
-   * Devuelve todas las tags únicas usadas en los favoritos.
-   * @returns {string[]}
-   */
   getAllFavTags() {
     const tags = new Set();
-    for (const meta of Object.values(this.#state.favsMeta)) {
-      for (const t of (meta.tags || [])) tags.add(t);
+    for (const m of Object.values(this.#state.favsMeta)) {
+      for (const t of (m.tags||[])) tags.add(t);
     }
     return [...tags].sort();
   }
 
-  /**
-   * Devuelve los favoritos filtrados y ordenados según el estado interno.
-   * @returns {Array<{plane, meta}>}
-   */
   getFilteredFavs() {
-    const { favs, favsMeta, aircraftDB, favsSearch, favsSortBy, favsSortAsc, favsFilterTag } = this.#state;
-
+    const { favs, favsMeta, aircraftDB, favsSearch, favsSortBy, favsSortAsc,
+            favsFilterTag, favsActiveCollection, collections } = this.#state;
     const q = favsSearch.toLowerCase().trim();
 
-    let list = favs
+    // Filtrar por colección activa
+    const activeIds = favsActiveCollection === 'all'
+      ? favs
+      : (collections[favsActiveCollection]?.ids || []).filter(id => favs.includes(id));
+
+    let list = activeIds
       .map(id => ({ plane: aircraftDB.find(p => p.id === id), meta: favsMeta[id] || {} }))
       .filter(({ plane }) => !!plane)
-      .filter(({ plane }) => !q || plane.name.toLowerCase().includes(q) || plane.country.toLowerCase().includes(q) || plane.type.toLowerCase().includes(q))
-      .filter(({ meta }) => favsFilterTag === 'all' || (meta.tags || []).includes(favsFilterTag));
+      .filter(({ plane }) => !q || plane.name.toLowerCase().includes(q)
+        || plane.country.toLowerCase().includes(q) || plane.type.toLowerCase().includes(q))
+      .filter(({ meta }) => favsFilterTag === 'all' || (meta.tags||[]).includes(favsFilterTag));
 
     list.sort((a, b) => {
-      // Siempre pinned primero
       if (a.meta.pinned !== b.meta.pinned) return a.meta.pinned ? -1 : 1;
-
       let va, vb;
       switch (favsSortBy) {
-        case 'name':    va = a.plane.name;   vb = b.plane.name; break;
-        case 'rating':  va = a.meta.rating || 0; vb = b.meta.rating || 0; break;
-        case 'year':    va = a.plane.year;   vb = b.plane.year; break;
-        case 'speed':   va = a.plane.speed;  vb = b.plane.speed; break;
-        default:        va = a.meta.addedAt || 0; vb = b.meta.addedAt || 0;
+        case 'name':   va = a.plane.name;         vb = b.plane.name;         break;
+        case 'rating': va = a.meta.rating||0;     vb = b.meta.rating||0;     break;
+        case 'year':   va = a.plane.year;         vb = b.plane.year;         break;
+        case 'speed':  va = a.plane.speed;        vb = b.plane.speed;        break;
+        default:       va = a.meta.addedAt||0;    vb = b.meta.addedAt||0;
       }
       if (typeof va === 'string') return favsSortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
       return favsSortAsc ? va - vb : vb - va;
     });
-
     return list;
   }
 
-  /** Exporta favoritos como JSON descargable */
   exportFavs() {
-    const { favs, favsMeta, aircraftDB } = this.#state;
+    const { favs, favsMeta, aircraftDB, collections } = this.#state;
     const data = favs.map(id => {
       const plane = aircraftDB.find(p => p.id === id);
       return { id, name: plane?.name, type: plane?.type, country: plane?.country, year: plane?.year, meta: favsMeta[id] };
     });
-    return JSON.stringify({ exportedAt: new Date().toISOString(), count: data.length, favs: data }, null, 2);
+    return JSON.stringify({ exportedAt: new Date().toISOString(), count: data.length, favs: data, collections }, null, 2);
+  }
+
+  // ── Colecciones ──────────────────────────────────────────────
+  createCollection({ name, color, icon } = {}) {
+    const id   = `col_${Date.now()}`;
+    const cols = { ...this.#state.collections };
+    cols[id]   = {
+      name:      name || 'Nueva colección',
+      color:     color || COLLECTION_COLORS[Object.keys(cols).length % COLLECTION_COLORS.length],
+      icon:      icon  || COLLECTION_ICONS[Object.keys(cols).length % COLLECTION_ICONS.length],
+      createdAt: Date.now(),
+      ids:       [],
+    };
+    this.setState({ collections: cols });
+    return id;
+  }
+
+  updateCollection(id, patch) {
+    if (!this.#state.collections[id]) return;
+    const cols = { ...this.#state.collections };
+    cols[id]   = { ...cols[id], ...patch };
+    this.setState({ collections: cols });
+  }
+
+  deleteCollection(id) {
+    const cols = { ...this.#state.collections };
+    delete cols[id];
+    this.setState({ collections: cols, favsActiveCollection: 'all' });
+  }
+
+  toggleFavInCollection(favId, colId) {
+    if (!this.#state.collections[colId]) return;
+    const cols = { ...this.#state.collections };
+    const ids  = [...(cols[colId].ids || [])];
+    const idx  = ids.indexOf(favId);
+    if (idx >= 0) ids.splice(idx, 1); else ids.push(favId);
+    cols[colId] = { ...cols[colId], ids };
+    this.setState({ collections: cols });
+  }
+
+  getFavCollections(favId) {
+    return Object.entries(this.#state.collections)
+      .filter(([, col]) => col.ids.includes(favId))
+      .map(([id]) => id);
+  }
+
+  #removeFromAllCollections(favId) {
+    const cols = { ...this.#state.collections };
+    for (const id of Object.keys(cols)) {
+      cols[id] = { ...cols[id], ids: cols[id].ids.filter(i => i !== favId) };
+    }
+    return cols;
+  }
+
+  // ── Compartir URL ────────────────────────────────────────────
+  buildShareUrl(ids) {
+    const encoded = btoa(ids.join(',')).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+    return `${location.origin}/shared?ids=${encoded}`;
+  }
+
+  decodeShareUrl(encoded) {
+    try {
+      const b64 = encoded.replace(/-/g,'+').replace(/_/g,'/');
+      return atob(b64).split(',').filter(Boolean);
+    } catch { return []; }
   }
 
   // ── Comparador ────────────────────────────────────────────────
   toggleCompare(id) {
     const list = [...this.#state.compareList];
     const idx  = list.indexOf(id);
-    if (idx >= 0) list.splice(idx, 1);
-    else if (list.length < 3) list.push(id);
+    if (idx >= 0) list.splice(idx, 1); else if (list.length < 3) list.push(id);
     this.setState({ compareList: list });
   }
   clearCompare() { this.setState({ compareList: [] }); }

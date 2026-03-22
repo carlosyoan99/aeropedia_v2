@@ -1,22 +1,21 @@
 /**
- * main.js — Bootstrap de AeroPedia SPA
- * History API routing, ES Modules, store global.
+ * main.js — Bootstrap de AeroPedia SPA v5
  */
 
-import { store }                           from './store/index.js';
+import { store }                               from './store/index.js';
 import { prefs, syncPrefsWithStore, applyThemeToDom } from './store/preferences.js';
-import { router }                          from './router/index.js';
-import { Header }                          from './components/Header.js';
+import { router }                              from './router/index.js';
+import { Header }                              from './components/Header.js';
+import { PWAInstallBanner, registerSW }        from './components/PWAInstallBanner.js';
 
-// ── Tema inmediato (anti-FOUC) ─────────────────────────────────
-(function applyEarlyTheme() {
-  const theme = (() => {
-    try {
-      const raw = JSON.parse(localStorage.getItem('aeropedia_prefs'));
-      return raw?.display?.theme || localStorage.getItem('aeropedia_theme') || 'dark';
-    } catch { return 'dark'; }
-  })();
-  applyThemeToDom(theme);
+// ── Anti-FOUC ─────────────────────────────────────────────────
+;(function() {
+  try {
+    const raw = JSON.parse(localStorage.getItem('aeropedia_prefs'));
+    const t   = raw?.display?.theme || localStorage.getItem('aeropedia_theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+    if (t !== 'light') document.documentElement.classList.add('dark-preload');
+  } catch { document.documentElement.setAttribute('data-theme', 'dark'); }
 })();
 
 // ── Carga de datos ─────────────────────────────────────────────
@@ -31,7 +30,7 @@ async function loadCoreData() {
   store.setState({ aircraftDB, conflictsDB });
 }
 
-// ── Rutas (dynamic import para lazy loading) ───────────────────
+// ── Rutas ──────────────────────────────────────────────────────
 function registerRoutes() {
   router
     .route('/', async () => {
@@ -74,6 +73,16 @@ function registerRoutes() {
       return new SettingsView();
     }, { title: 'Configuración — AeroPedia' })
 
+    .route('/theater', async () => {
+      const { TheaterView } = await import('./views/TheaterView.js');
+      return new TheaterView();
+    }, { title: 'Teatro de Operaciones — AeroPedia' })
+
+    .route('/shared', async () => {
+      const { SharedView } = await import('./views/SharedView.js');
+      return new SharedView();
+    }, { title: 'Colección compartida — AeroPedia' })
+
     .notFound(async () => ({
       render: () => {
         const el = document.createElement('div');
@@ -88,22 +97,41 @@ function registerRoutes() {
     }));
 }
 
-// ── Inicialización ─────────────────────────────────────────────
+// ── Sincronización multi-pestaña ──────────────────────────────
+function initMultiTabSync() {
+  window.addEventListener('storage', (e) => {
+    // Sincronizar favoritos entre pestañas
+    if (e.key === 'aeropedia_favs' && e.newValue) {
+      try {
+        const newFavs = JSON.parse(e.newValue);
+        if (JSON.stringify(newFavs) !== JSON.stringify(store.get('favs'))) {
+          store.setState({ favs: newFavs });
+          // No mostrar toast intrusivo, solo actualizar silenciosamente
+        }
+      } catch {}
+    }
+    if (e.key === 'aeropedia_favs_meta' && e.newValue) {
+      try { store.setState({ favsMeta: JSON.parse(e.newValue) }); } catch {}
+    }
+    if (e.key === 'aeropedia_collections' && e.newValue) {
+      try { store.setState({ collections: JSON.parse(e.newValue) }); } catch {}
+    }
+  });
+}
+
+// ── Init ───────────────────────────────────────────────────────
 async function init() {
-  // 1. Conectar prefs ↔ store (tema, filtros, densidad, fontScale, animaciones)
+  // 1. Prefs ↔ store
   syncPrefsWithStore(store);
 
-  // 2. Montar header
+  // 2. Multi-tab sync
+  initMultiTabSync();
+
+  // 3. Header
   const headerEl = document.getElementById('app-header');
-  if (headerEl) {
-    const header = new Header();
-    headerEl.appendChild(header.render());
-  }
+  if (headerEl) headerEl.appendChild(new Header().render());
 
-  // 3. Announcer para lectores de pantalla (aria-live)
-  const announcer = document.getElementById('route-announcer');
-
-  // 4. Skeleton de carga
+  // 4. Skeleton
   const outlet = document.getElementById('app-outlet');
   if (outlet) outlet.innerHTML = `
     <div class="init-loading" role="status" aria-live="polite">
@@ -113,7 +141,7 @@ async function init() {
       </div>
     </div>`;
 
-  // 5. Cargar datos
+  // 5. Datos
   try {
     await loadCoreData();
   } catch (err) {
@@ -126,29 +154,38 @@ async function init() {
     return;
   }
 
-  // 6. Registrar rutas e inicializar router
+  // 6. Rutas
   registerRoutes();
 
-  // 7. Hook: anunciar ruta a lectores de pantalla
-  if (prefs.get('a11y', 'announceRoutes') && announcer) {
-    router.beforeEach((path) => {
-      const title = document.title || path;
-      announcer.textContent = `Navegando a: ${title}`;
-      setTimeout(() => { announcer.textContent = ''; }, 1000);
+  // 7. Aria-live announcer para lectores de pantalla
+  if (prefs.get('a11y', 'announceRoutes')) {
+    const announcer = document.getElementById('route-announcer');
+    router.beforeEach(() => {
+      setTimeout(() => {
+        if (announcer) {
+          announcer.textContent = `Navegando a: ${document.title}`;
+          setTimeout(() => { announcer.textContent = ''; }, 1500);
+        }
+      }, 300);
     });
   }
 
   await router.init();
 
-  // 8. Atajos de teclado globales
+  // 8. PWA
+  await registerSW();
+  const pwaBanner = new PWAInstallBanner();
+  pwaBanner.init();
+
+  // 9. Atajos globales
   document.addEventListener('keydown', (e) => {
-    const tag = document.activeElement?.tagName.toLowerCase();
-    if (['input', 'select', 'textarea'].includes(tag)) return;
+    const tag    = document.activeElement?.tagName.toLowerCase();
+    const typing = ['input','select','textarea'].includes(tag);
+    if (typing) return;
     if (e.key === 'Escape' && store.get('currentRoute') !== '/') router.navigate('/');
-    if ((e.key === ',' || e.key === '<') && (e.ctrlKey || e.metaKey)) {
-      e.preventDefault();
-      router.navigate('/settings');
-    }
+    if ((e.key === ',') && (e.ctrlKey || e.metaKey)) { e.preventDefault(); router.navigate('/settings'); }
+    if (e.key === 'm' || e.key === 'M') router.navigate('/mach');
+    if (e.key === 't' || e.key === 'T') router.navigate('/theater');
   });
 }
 
