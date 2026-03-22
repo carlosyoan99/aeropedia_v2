@@ -42,12 +42,17 @@ export class FleetsView {
         </div>
         <select id="fleetsRegion" class="cat-select" aria-label="Filtrar por región">
           <option value="all">Todas las regiones</option>
-          <option value="NATO">NATO</option>
-          <option value="Asia-Pacific">Asia-Pacífico</option>
-          <option value="Middle East">Oriente Medio</option>
-          <option value="Europe">Europa</option>
-          <option value="Americas">Américas</option>
-          <option value="Africa">África</option>
+          <option value="Europa Occidental">Europa Occidental</option>
+          <option value="Europa del Este">Europa del Este</option>
+          <option value="Europa del Sur / Asia Menor">Europa del Sur</option>
+          <option value="Norteamérica">Norteamérica</option>
+          <option value="Latinoamérica">Latinoamérica</option>
+          <option value="Asia-Pacífico">Asia-Pacífico</option>
+          <option value="Asia del Sur">Asia del Sur</option>
+          <option value="Oriente Medio">Oriente Medio</option>
+          <option value="Norte de África">Norte de África</option>
+          <option value="África Subsahariana">África Subsahariana</option>
+          <option value="Oceanía">Oceanía</option>
         </select>
         <select id="fleetsSort" class="cat-select" aria-label="Ordenar por">
           <option value="rank">Por ranking</option>

@@ -255,7 +255,7 @@ export const STAT_META = {
   mtow:    { label: 'Peso Máx. Despegue', unit: 'kg',   max: 420000, color: '#f59e0b' },
 };
 
-export const FALLBACK_IMG = './public/No-Image-Placeholder.png';
+export const FALLBACK_IMG = 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="280" height="158" viewBox="0 0 280 158"><rect width="280" height="158" fill="#1a2744"/><text x="140" y="72" font-family="system-ui" font-size="28" fill="#2a3f6f" text-anchor="middle">✈</text><text x="140" y="100" font-family="system-ui" font-size="11" fill="#3a5080" text-anchor="middle">Sin imagen</text></svg>`);
 
 // ── BÚSQUEDA AVANZADA CON OPERADORES ─────────────────────────
 /**

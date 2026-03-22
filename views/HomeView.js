@@ -35,8 +35,7 @@ export class HomeView {
 
     this.#bindEvents();
     this.#subscribeStore();
-    this.#renderAll();
-    this.#syncView(store.get('view'));
+    this.#syncView(store.get('view'));  // renders internally, no extra renderAll needed
     this.#applyDensityPrefs();
     this.#unsubs.push(prefs.subscribe('display', () => this.#applyDensityPrefs()));
 
@@ -56,30 +55,91 @@ export class HomeView {
   #scaffold() {
     const sort = store.get('sortStat');
     return `
-      <!-- Toolbar: contador + acciones -->
-      <div class="home-toolbar">
-        <div class="result-bar" role="status" aria-live="polite" aria-atomic="true">
-          <span class="result-label">// Mostrando</span>
-          <span id="resultCount" class="result-count">0</span>
-          <span class="result-label">aeronaves</span>
-          <div class="result-divider" aria-hidden="true"></div>
-          <span id="resultFilterLabel" class="result-filter"></span>
+      <!-- Controles del archivo: búsqueda + filtros + vista + acciones -->
+      <div class="archive-controls" role="search" aria-label="Controles del archivo">
+        <div class="archive-controls-row1">
+
+          <!-- Búsqueda con hint de operadores -->
+          <div class="search-wrap archive-search" role="search">
+            <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
+              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
+            </svg>
+            <input type="search" id="mainSearch" class="search-input"
+              placeholder="Buscar aeronave, país, ID… (p. ej. f35, tipo:Caza)"
+              aria-label="Buscar aeronave" autocomplete="off" value="">
+            <kbd class="search-kbd" aria-hidden="true">/</kbd>
+          </div>
+
+          <!-- Filtro de categoría -->
+          <select id="catFilter" class="cat-select" aria-label="Filtrar por categoría">
+            <option value="all">Todos los tipos</option>
+            <option value="Caza">Caza</option>
+            <option value="Bombardero">Bombardero</option>
+            <option value="Ataque">Ataque CAS</option>
+            <option value="Especial">AWACS / ISR</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Drone">Drone / UAV</option>
+            <option value="Experimental">Experimental</option>
+            <option value="Helicóptero de ataque">Helicóptero ataque</option>
+            <option value="Entrenamiento">Entrenamiento</option>
+          </select>
+
+          <!-- Acciones secundarias -->
+          <div class="archive-actions">
+            <button id="recentsBtn" class="header-btn archive-btn" title="Aeronaves vistas recientemente (H)" aria-expanded="false" aria-controls="recentsPanel" aria-label="Recientes">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V7z" clip-rule="evenodd"/></svg>
+              <span class="archive-btn-label">Recientes</span>
+            </button>
+            <button id="timelineToggleBtn" class="header-btn archive-btn timeline-toggle-btn" aria-expanded="false" aria-controls="timelinePanel" title="Filtrar por época (T)" aria-label="Timeline">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
+              <span class="archive-btn-label">Timeline</span>
+            </button>
+            <button id="clearConflictBtn" class="header-btn conflict-badge hidden" aria-label="Limpiar filtro de conflicto">
+              <span id="conflictBadgeText"></span>
+              <svg viewBox="0 0 20 20" fill="currentColor" width="11" height="11" aria-hidden="true"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+          </div>
         </div>
-        <div class="home-toolbar-actions">
-          <button id="recentsBtn" class="header-btn" title="Vistas recientemente (R)" aria-expanded="false" aria-controls="recentsPanel">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V7z" clip-rule="evenodd"/></svg>
-            Recientes
-          </button>
-          <button id="timelineToggleBtn" class="header-btn timeline-toggle-btn" aria-expanded="false" aria-controls="timelinePanel" title="Línea de tiempo (T)">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
-            Timeline
-          </button>
-          <button id="clearConflictBtn" class="header-btn conflict-badge hidden" aria-label="Limpiar filtro de conflicto">
-            <span id="conflictBadgeText"></span>
-            <svg viewBox="0 0 20 20" fill="currentColor" width="11" height="11" aria-hidden="true"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-          </button>
+
+        <div class="archive-controls-row2">
+          <!-- Contador de resultados -->
+          <div class="result-bar" role="status" aria-live="polite" aria-atomic="true">
+            <span class="result-label">// Mostrando</span>
+            <span id="resultCount" class="result-count">0</span>
+            <span class="result-label">aeronaves</span>
+            <div class="result-divider" aria-hidden="true"></div>
+            <span id="resultFilterLabel" class="result-filter"></span>
+          </div>
+
+          <!-- View toggle: galería / ranking -->
+          <div class="view-toggle" role="group" aria-label="Cambiar vista">
+            <button id="viewGalleryBtn" class="view-btn active" data-view="gallery" title="Vista galería (G)" aria-pressed="true">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
+              <span class="view-btn-label">Galería</span>
+            </button>
+            <button id="viewRankingBtn" class="view-btn" data-view="ranking" title="Vista ranking (R)" aria-pressed="false">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
+              <span class="view-btn-label">Ranking</span>
+            </button>
+          </div>
+
+          <!-- Densidad de tarjetas (solo galería) -->
+          <div class="density-toggle archive-density" id="densityToggle" role="group" aria-label="Densidad de tarjetas">
+            <button class="density-btn" data-density="compact" aria-pressed="false" aria-label="Densidad compacta" title="Compacta">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M3 4h14v2H3V4zm0 5h14v2H3V9zm0 5h14v2H3v-2z"/></svg>
+            </button>
+            <button class="density-btn active" data-density="normal" aria-pressed="true" aria-label="Densidad normal" title="Normal">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
+            </button>
+            <button class="density-btn" data-density="large" aria-pressed="false" aria-label="Densidad grande" title="Grande">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M3 3h6v6H3V3zm8 0h6v6h-6V3zm-8 8h6v6H3v-6zm8 0h6v6h-6v-6z"/></svg>
+            </button>
+          </div>
         </div>
       </div>
+
+      <!-- Hint de búsqueda avanzada -->
+      <div id="searchHint" class="search-hint hidden" aria-live="polite" role="status"></div>
 
       <!-- Panel de búsqueda avanzada (hint) -->
       <div id="searchHint" class="search-hint hidden" aria-live="polite" role="status"></div>
@@ -254,7 +314,8 @@ export class HomeView {
           ? true
           : useAdvanced
             ? matchAdvancedQuery(p, parsed)
-            : p.name.toLowerCase().includes(q.toLowerCase()) ||
+            : p.id.toLowerCase().includes(q.toLowerCase()) ||
+              p.name.toLowerCase().includes(q.toLowerCase()) ||
               p.country.toLowerCase().includes(q.toLowerCase()) ||
               p.type.toLowerCase().includes(q.toLowerCase()) ||
               (p.manufacturer || '').toLowerCase().includes(q.toLowerCase());
@@ -678,9 +739,26 @@ export class HomeView {
 
   // ── Vista toggle ───────────────────────────────────────────────
   #syncView(view) {
-    this.#el?.querySelector('#galleryView')?.classList.toggle('hidden', view !== 'gallery');
-    this.#el?.querySelector('#rankingView')?.classList.toggle('hidden', view !== 'ranking');
-    this.#renderAll();
+    const gv = this.#el?.querySelector('#galleryView');
+    const rv = this.#el?.querySelector('#rankingView');
+    if (!gv || !rv) return;
+    const wasGallery = !gv.classList.contains('hidden');
+    const nowGallery = view === 'gallery';
+    gv.classList.toggle('hidden', !nowGallery);
+    rv.classList.toggle('hidden', nowGallery);
+    // Sync view buttons
+    this.#el?.querySelectorAll('.view-btn').forEach(btn => {
+      const a = btn.dataset.view === view;
+      btn.classList.toggle('active', a);
+      btn.setAttribute('aria-pressed', a);
+    });
+    // Show density only in gallery view
+    const densityToggle = this.#el?.querySelector('#densityToggle');
+    if (densityToggle) densityToggle.style.display = nowGallery ? '' : 'none';
+    // Only re-render if view type changed
+    if (wasGallery !== nowGallery || (gv.children.length === 0 && rv.querySelector('#rankingBody')?.children.length === 0)) {
+      this.#renderAll();
+    }
   }
 
   // ── Densidad ───────────────────────────────────────────────────
@@ -698,7 +776,32 @@ export class HomeView {
 
   // ── Eventos ────────────────────────────────────────────────────
   #bindEvents() {
-    // Timeline
+    // ── Búsqueda (dentro de la vista) ────────────────────────
+    const searchInput = this.#el.querySelector('#mainSearch');
+    if (searchInput) {
+      const debouncedSearch = debounce(e => store.setState({ search: e.target.value }), 260);
+      searchInput.addEventListener('input', debouncedSearch);
+      searchInput.value = store.get('search') || '';
+    }
+
+    // Categoría
+    this.#el.querySelector('#catFilter')?.addEventListener('change', e => {
+      store.setState({ cat: e.target.value });
+    });
+    const catEl = this.#el.querySelector('#catFilter');
+    if (catEl) catEl.value = store.get('cat') || 'all';
+
+    // View toggle
+    this.#el.querySelectorAll('.view-btn[data-view]').forEach(btn => {
+      btn.addEventListener('click', () => store.setState({ view: btn.dataset.view }));
+    });
+
+    // Densidad de tarjetas
+    this.#el.querySelectorAll('.density-btn').forEach(btn => {
+      btn.addEventListener('click', () => prefs.setOne('display', 'cardDensity', btn.dataset.density));
+    });
+
+    // ── Timeline
     this.#el.querySelector('#timelineToggleBtn')?.addEventListener('click', () => this.#toggleTimeline());
     this.#el.querySelector('#timelineMin')?.addEventListener('input', () => this.#onTimelineChange());
     this.#el.querySelector('#timelineMax')?.addEventListener('input', () => this.#onTimelineChange());

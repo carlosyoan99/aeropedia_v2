@@ -1,18 +1,14 @@
 /**
  * components/Header.js — Barra de navegación principal
- * Integrada con store (tema, compareList, favs) y prefs (densidad, tema).
+ *
+ * Solo contiene: logo, nav links, comparador, tema, ayuda, settings.
+ * Los controles de contexto (búsqueda, densidad, vista) se movieron a HomeView.
+ * Hamburger menu para mobile (<768px).
  */
 
 import { store }  from '../store/index.js';
 import { prefs, applyThemeToDom } from '../store/preferences.js';
 import { router } from '../router/index.js';
-import { debounce } from '../utils/index.js';
-
-const DENSITY_ICONS = {
-  compact: `<svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M3 4h14v2H3V4zm0 5h14v2H3V9zm0 5h14v2H3v-2z"/></svg>`,
-  normal:  `<svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>`,
-  large:   `<svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M3 3h6v6H3V3zm8 0h6v6h-6V3zm-8 8h6v6H3v-6zm8 0h6v6h-6v-6z"/></svg>`,
-};
 
 export class Header {
   #el   = null;
@@ -30,27 +26,24 @@ export class Header {
       store.subscribe('theme',        ()  => this.#syncTheme()),
       store.subscribe('currentRoute', ()  => this.#syncNav()),
       store.subscribe('compareList',  ()  => this.#syncCompareBtn()),
-      store.subscribe('onlyFavs',     (v) => this.#el?.querySelector('#favFilterBtn')?.classList.toggle('active', v)),
-      store.subscribe('view',         (v) => this.#syncViewBtns(v)),
-      prefs.subscribe('display',      (d) => {
-        this.#syncTheme();
-        this.#syncDensityBtn(d.cardDensity);
-      }),
+      prefs.subscribe('display',      ()  => this.#syncTheme()),
     );
     return this.#el;
   }
 
-  destroy() { this.#subs.forEach(u => u()); }
+  destroy() {
+    this.#subs.forEach(u => u());
+    document.removeEventListener('keydown', this.#onKey);
+    document.removeEventListener('click', this.#onOutsideClick);
+  }
 
   #template() {
     const s = store.getState();
-    const density = prefs.get('display', 'cardDensity') || 'normal';
-    const theme   = prefs.getThemeAttr();
-
     return `
     <div class="header-inner">
       <div class="header-row">
 
+        <!-- Logo -->
         <a class="logo" href="/" data-link aria-label="AeroPedia — Inicio">
           <div class="logo-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20">
@@ -62,7 +55,8 @@ export class Header {
           <span class="logo-text">AERO<span>PEDIA</span></span>
         </a>
 
-        <nav class="main-nav" aria-label="Navegación principal">
+        <!-- Desktop nav -->
+        <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
           <a href="/" data-link class="nav-link" data-page="home">
             <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M2 11l8-8 8 8v7a1 1 0 01-1 1h-5v-4H6v4H3a1 1 0 01-1-1v-7z"/></svg>
             Archivo
@@ -91,65 +85,16 @@ export class Header {
             <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
             Favoritos
           </a>
+          <a href="/stats" data-link class="nav-link" data-page="stats">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+            Stats
+          </a>
         </nav>
 
+        <!-- Right-side utility controls -->
         <div class="header-controls">
 
-          <!-- Búsqueda -->
-          <div class="search-wrap" role="search">
-            <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
-              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
-            </svg>
-            <input type="search" id="mainSearch" class="search-input"
-              placeholder="Buscar aeronave, país…" aria-label="Buscar aeronave"
-              autocomplete="off" value="${s.search || ''}">
-            <kbd class="search-kbd" aria-hidden="true">/</kbd>
-            <div class="search-operators-hint" aria-hidden="true" role="tooltip">
-              Operadores: <strong>tipo:Caza</strong> · <strong>país:USA</strong> · <strong>gen:5</strong> · <strong>año:&gt;2000</strong> · <strong>stealth:alto</strong>
-            </div>
-          </div>
-
-          <!-- Filtro categoría -->
-          <select id="catFilter" class="cat-select" aria-label="Filtrar por categoría">
-            <option value="all">Todos</option>
-            <option value="Caza">Cazas</option>
-            <option value="Bombardero">Bombarderos</option>
-            <option value="Ataque">Ataque CAS</option>
-            <option value="Especial">AWACS / ISR</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Experimental">Experimental</option>
-          </select>
-
-          <!-- Favoritos -->
-          <button id="favFilterBtn" class="header-btn icon-btn ${s.onlyFavs ? 'active' : ''}"
-            aria-pressed="${s.onlyFavs}" title="Mostrar favoritos (F)" aria-label="Filtrar favoritos">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-            </svg>
-          </button>
-
-          <!-- Vista galería / ranking -->
-          <div class="view-toggle" role="group" aria-label="Cambiar vista">
-            <button id="viewGalleryBtn" class="view-btn ${s.view === 'gallery' ? 'active' : ''}"
-              data-view="gallery" title="Vista galería (G)" aria-pressed="${s.view === 'gallery'}">
-              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
-            </button>
-            <button id="viewRankingBtn" class="view-btn ${s.view === 'ranking' ? 'active' : ''}"
-              data-view="ranking" title="Vista ranking (R)" aria-pressed="${s.view === 'ranking'}">
-              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
-            </button>
-          </div>
-
-          <!-- Densidad de tarjetas -->
-          <div class="density-toggle" role="group" aria-label="Densidad de tarjetas" title="Densidad de tarjetas">
-            ${(['compact','normal','large']).map(d => `
-              <button class="density-btn ${density === d ? 'active' : ''}"
-                data-density="${d}" aria-pressed="${density === d}" aria-label="Densidad ${d}">
-                ${DENSITY_ICONS[d]}
-              </button>`).join('')}
-          </div>
-
-          <!-- Comparador -->
+          <!-- Comparador (solo visible cuando hay items) -->
           <button id="compareNavBtn" class="header-btn icon-btn ${s.compareList.length ? 'has-items' : ''}"
             title="Ver comparador" aria-label="Comparador de aeronaves">
             <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
@@ -160,27 +105,33 @@ export class Header {
 
           <!-- Tema -->
           <button id="themeToggle" class="header-btn icon-btn theme-btn"
-            aria-label="Cambiar tema (D)" title="Cambiar tema (D)">
+            aria-label="Cambiar tema" title="Cambiar tema (D)">
             <span class="theme-icon-sun" aria-hidden="true">☀</span>
             <span class="theme-icon-moon" aria-hidden="true">☽</span>
             <span class="theme-icon-hc" aria-hidden="true">◑</span>
           </button>
 
-          <!-- Configuración -->
-          <a href="/stats" data-link class="nav-link" data-page="stats">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
-            Stats
-          </a>
+          <!-- Ayuda -->
           <a href="/help" data-link class="header-btn icon-btn help-btn"
             aria-label="Ayuda" title="Ayuda">
             <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
           </a>
+
+          <!-- Settings -->
           <a href="/settings" data-link class="header-btn icon-btn settings-btn"
-            aria-label="Configuración (Ctrl+,)" title="Configuración (Ctrl+,)">
+            aria-label="Configuración" title="Configuración (Ctrl+,)">
             <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
               <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd"/>
             </svg>
           </a>
+
+          <!-- Hamburger (mobile only) -->
+          <button id="navToggle" class="header-btn icon-btn nav-toggle-btn"
+            aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNav">
+            <svg id="navHamburgerIcon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+              <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
+            </svg>
+          </button>
 
         </div>
       </div>
@@ -188,41 +139,12 @@ export class Header {
   }
 
   #bindEvents() {
-    // Búsqueda con debounce
-    const input = this.#el.querySelector('#mainSearch');
-    const debouncedSearch = debounce((e) => store.setState({ search: e.target.value }), 280);
-    input?.addEventListener('input', debouncedSearch);
-
-    // Categoría
-    this.#el.querySelector('#catFilter')?.addEventListener('change', (e) => {
-      store.setState({ cat: e.target.value });
-    });
-
-    // Favoritos
-    this.#el.querySelector('#favFilterBtn')?.addEventListener('click', () => {
-      store.setState({ onlyFavs: !store.get('onlyFavs') });
-    });
-
-    // Vista
-    this.#el.querySelectorAll('.view-btn').forEach(btn => {
-      btn.addEventListener('click', () => store.setState({ view: btn.dataset.view }));
-    });
-
-    // Densidad
-    this.#el.querySelectorAll('.density-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const d = btn.dataset.density;
-        prefs.setOne('display', 'cardDensity', d);
-        // applyDensity ya se dispara vía subscribe en preferences.js
-      });
-    });
-
     // Comparador
     this.#el.querySelector('#compareNavBtn')?.addEventListener('click', () => {
       router.navigate('/compare');
     });
 
-    // Tema — cicla: dark → light → high-contrast → dark
+    // Tema
     this.#el.querySelector('#themeToggle')?.addEventListener('click', () => {
       const themes = ['dark', 'light', 'high-contrast'];
       const cur    = prefs.get('display', 'theme') || 'dark';
@@ -231,69 +153,90 @@ export class Header {
       store.setState({ theme: next });
     });
 
-    // Atajos de teclado
-    document.addEventListener('keydown', this.#onKey.bind(this));
+    // Hamburger toggle
+    this.#el.querySelector('#navToggle')?.addEventListener('click', () => {
+      this.#toggleMobileNav();
+    });
+
+    // Close mobile nav when a link is clicked
+    this.#el.querySelector('#mainNav')?.addEventListener('click', (e) => {
+      if (e.target.closest('[data-link]')) {
+        this.#closeMobileNav();
+      }
+    });
+
+    // Keyboard shortcuts
+    this.#onKey = this.#onKey.bind(this);
+    this.#onOutsideClick = this.#onOutsideClick.bind(this);
+    document.addEventListener('keydown', this.#onKey);
+    document.addEventListener('click', this.#onOutsideClick);
   }
 
   #onKey(e) {
     const tag    = document.activeElement?.tagName.toLowerCase();
     const typing = ['input','select','textarea'].includes(tag);
-    if (e.key === '/' && !typing) { e.preventDefault(); this.#el?.querySelector('#mainSearch')?.focus(); }
     if (!typing) {
-      if (e.key === 'g' || e.key === 'G') store.setState({ view: 'gallery' });
-      if (e.key === 'r' || e.key === 'R') store.setState({ view: 'ranking' });
-      if (e.key === 'f' || e.key === 'F') store.setState({ onlyFavs: !store.get('onlyFavs') });
       if (e.key === 'd' || e.key === 'D') this.#el?.querySelector('#themeToggle')?.click();
+      if (e.key === 'Escape') this.#closeMobileNav();
     }
   }
 
-  // ── Sincronizadores ────────────────────────────────────────
+  #onOutsideClick(e) {
+    const nav    = this.#el?.querySelector('#mainNav');
+    const toggle = this.#el?.querySelector('#navToggle');
+    if (nav?.classList.contains('nav-open') && !nav.contains(e.target) && !toggle?.contains(e.target)) {
+      this.#closeMobileNav();
+    }
+  }
+
+  #toggleMobileNav() {
+    const nav    = this.#el?.querySelector('#mainNav');
+    const toggle = this.#el?.querySelector('#navToggle');
+    const isOpen = nav?.classList.contains('nav-open');
+    if (isOpen) {
+      this.#closeMobileNav();
+    } else {
+      nav?.classList.add('nav-open');
+      toggle?.setAttribute('aria-expanded', 'true');
+      toggle?.setAttribute('aria-label', 'Cerrar menú de navegación');
+      // Change icon to X
+      const icon = this.#el?.querySelector('#navHamburgerIcon');
+      if (icon) icon.innerHTML = '<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>';
+    }
+  }
+
+  #closeMobileNav() {
+    const nav    = this.#el?.querySelector('#mainNav');
+    const toggle = this.#el?.querySelector('#navToggle');
+    nav?.classList.remove('nav-open');
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Abrir menú de navegación');
+    const icon = this.#el?.querySelector('#navHamburgerIcon');
+    if (icon) icon.innerHTML = '<path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>';
+  }
+
+  // ── Sync ────────────────────────────────────────────────────
   #syncAll() {
     this.#syncTheme();
     this.#syncNav();
     this.#syncCompareBtn();
-    this.#syncViewBtns(store.get('view'));
-    this.#syncDensityBtn(prefs.get('display', 'cardDensity'));
-
-    const catFilter = this.#el?.querySelector('#catFilter');
-    if (catFilter) catFilter.value = store.get('cat') || 'all';
   }
 
   #syncTheme() {
-    const theme = prefs.getThemeAttr();
-    applyThemeToDom(theme);
-    this.#el?.querySelector('#themeToggle')?.setAttribute('aria-label',
-      `Tema: ${theme} — click para cambiar`);
+    applyThemeToDom(prefs.getThemeAttr());
   }
 
   #syncNav() {
     const route = store.get('currentRoute');
-    this.#el?.querySelectorAll('.nav-link').forEach(link => {
-      const href  = link.getAttribute('href');
-      const active = href === '/' ? route === '/' : route.startsWith(href);
-      link.classList.toggle('active', active);
+    this.#el?.querySelectorAll('[data-page]').forEach(link => {
+      const page   = link.dataset.page;
+      const href   = link.getAttribute('href');
+      const active = href === '/' ? route === '/' : route?.startsWith(href);
+      link.classList.toggle('active', !!active);
       link.setAttribute('aria-current', active ? 'page' : 'false');
     });
-    // Settings btn activo
     this.#el?.querySelector('.settings-btn')?.classList.toggle('active', route === '/settings');
-  }
-
-  #syncViewBtns(view) {
-    this.#el?.querySelectorAll('.view-btn').forEach(btn => {
-      const a = btn.dataset.view === view;
-      btn.classList.toggle('active', a);
-      btn.setAttribute('aria-pressed', a);
-    });
-  }
-
-  #syncDensityBtn(density) {
-    this.#el?.querySelectorAll('.density-btn').forEach(btn => {
-      const a = btn.dataset.density === density;
-      btn.classList.toggle('active', a);
-      btn.setAttribute('aria-pressed', a);
-      btn.innerHTML = DENSITY_ICONS[btn.dataset.density];
-    });
-    document.documentElement.setAttribute('data-density', density);
+    this.#el?.querySelector('.help-btn')?.classList.toggle('active', route === '/help');
   }
 
   #syncCompareBtn() {
@@ -301,10 +244,13 @@ export class Header {
     const btn   = this.#el?.querySelector('#compareNavBtn');
     if (!btn) return;
     btn.classList.toggle('has-items', count > 0);
+    btn.style.display = '';   // always visible (hidden when count=0 via CSS opacity)
     const badge = btn.querySelector('.compare-badge');
     if (count > 0) {
-      if (badge) { badge.textContent = count; badge.setAttribute('aria-label', `${count} aeronaves`); }
-      else btn.insertAdjacentHTML('beforeend', `<span class="compare-badge" aria-label="${count} aeronaves">${count}</span>`);
-    } else { badge?.remove(); }
+      if (badge) { badge.textContent = count; }
+      else btn.insertAdjacentHTML('beforeend', `<span class="compare-badge">${count}</span>`);
+    } else {
+      badge?.remove();
+    }
   }
 }

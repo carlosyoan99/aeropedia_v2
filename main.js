@@ -195,6 +195,26 @@ async function init() {
     });
   }
 
+  // Detect GitHub Pages base path automatically
+  // If deployed at /aeropedia_v2/, router needs to know to strip that prefix
+  const detectedBase = (function() {
+    // Check if there's a <base href> in the document (set at build time if needed)
+    const baseEl = document.querySelector('base[href]');
+    if (baseEl) {
+      const href = baseEl.getAttribute('href').replace(/\/+$/, '');
+      return href === '' || href === '.' ? '' : href;
+    }
+    // Auto-detect: if pathname has more than one segment before a known route,
+    // the first segment is the base. e.g. /aeropedia_v2/ → base = /aeropedia_v2
+    const segs = location.pathname.split('/').filter(Boolean);
+    const knownRoutes = ['aircraft', 'compare', 'favorites', 'theater', 'stats',
+                         'kills', 'fleets', 'mach', 'settings', 'help', 'shared'];
+    if (segs.length > 0 && !knownRoutes.includes(segs[0])) {
+      return '/' + segs[0];
+    }
+    return '';
+  })();
+  router.setBase(detectedBase);
   await router.init();
 
   // 8. PWA
@@ -208,7 +228,7 @@ async function init() {
     const typing = ['input','select','textarea'].includes(tag);
     if (typing) return;
     if (e.key === 'Escape' && store.get('currentRoute') !== '/') router.navigate('/');
-    if ((e.key === ',') && (e.ctrlKey || e.metaKey)) { e.preventDefault(); router.navigate('/settings'); }
+    if (e.key === ',' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); router.navigate('/settings'); }
     if (e.key === 'm' || e.key === 'M') router.navigate('/mach');
     if (e.key === 's' || e.key === 'S') router.navigate('/stats');
     if (e.key === 't' || e.key === 'T') router.navigate('/theater');

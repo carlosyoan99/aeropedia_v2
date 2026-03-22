@@ -11,13 +11,16 @@ class Router {
   #outlet     = null;
   #currentView = null;
   #beforeEach = null;
+  #base       = '';   // e.g. '/aeropedia_v2' for GitHub Pages subdirectory
 
-  constructor(selector) {
+  constructor(selector, { base = '' } = {}) {
     this.#outlet = document.querySelector(selector);
     if (!this.#outlet) throw new Error(`Router: outlet "${selector}" not found`);
+    // Normalize base: strip trailing slash
+    this.#base = base.replace(/\/+$/, '');
 
     window.addEventListener('popstate', (e) => {
-      this.#resolve(location.pathname + location.search, e.state, false);
+      this.#resolve(this.#stripBase(location.pathname) + location.search, e.state, false);
     });
 
     document.addEventListener('click', (e) => {
@@ -26,6 +29,26 @@ class Router {
       e.preventDefault();
       this.navigate(link.getAttribute('href') || '/');
     });
+  }
+
+  /** Strip the base prefix from an absolute pathname */
+  #stripBase(pathname) {
+    if (this.#base && pathname.startsWith(this.#base)) {
+      const stripped = pathname.slice(this.#base.length) || '/';
+      return stripped.startsWith('/') ? stripped : '/' + stripped;
+    }
+    return pathname;
+  }
+
+  /** Prepend base to a path for pushState */
+  #addBase(path) {
+    if (!this.#base || path.startsWith(this.#base)) return path;
+    return this.#base + path;
+  }
+
+  /** Set the base path (called from main.js after auto-detection) */
+  setBase(base) {
+    this.#base = (base || '').replace(/\/+$/, '');
   }
 
   route(path, viewFactory, meta = {}) {
@@ -38,19 +61,25 @@ class Router {
   beforeEach(fn) { this.#beforeEach = fn; return this; }
 
   async navigate(path, state = {}) {
-    const fullPath = path + location.search;
-    if (path === location.pathname && !location.search) return;
-    history.pushState(state, '', path);
+    const currentStripped = this.#stripBase(location.pathname);
+    if (path === currentStripped && !location.search) return;
+    history.pushState(state, '', this.#addBase(path));
     await this.#resolve(path, state, true);
   }
 
   async replace(path, state = {}) {
-    history.replaceState(state, '', path);
+    history.replaceState(state, '', this.#addBase(path));
     await this.#resolve(path, state, false);
   }
 
   async init() {
-    await this.#resolve(location.pathname + location.search, history.state, false);
+    // Restore route stored by 404.html GitHub Pages redirect
+    const ghRedirect = sessionStorage.getItem('gh_redirect');
+    if (ghRedirect) {
+      sessionStorage.removeItem('gh_redirect');
+      history.replaceState(null, '', this.#addBase(ghRedirect));
+    }
+    await this.#resolve(this.#stripBase(location.pathname) + location.search, history.state, false);
   }
 
   async #resolve(fullPath, state, isPush) {

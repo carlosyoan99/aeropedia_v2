@@ -147,7 +147,7 @@ export class TheaterView {
     svg.setAttribute('height', '100%');
     svg.setAttribute('role', 'img');
     svg.setAttribute('aria-label', 'Mapa mundial de conflictos militares');
-    svg.className = 'theater-svg';
+    svg.setAttribute('class', 'theater-svg');
 
     // Fondo oceánico
     const ocean = document.createElementNS('http://www.w3.org/2000/svg', 'rect');

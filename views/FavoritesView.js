@@ -153,15 +153,15 @@ export class FavoritesView {
               <div class="md-toolbar-btns" role="group" aria-label="Herramientas de formato">
                 <button type="button" class="md-btn" data-md-bold title="Negrita (**texto**)"><strong>B</strong></button>
                 <button type="button" class="md-btn" data-md-italic title="Cursiva (*texto*)"><em>I</em></button>
-                <button type="button" class="md-btn" data-md-code title="Código (`código`)"><code>`</code></button>
+                <button type="button" class="md-btn" data-md-code title="Código (backtick)"><code>&#96;</code></button>
                 <button type="button" class="md-btn" data-md-list title="Lista (- elemento)">≡</button>
                 <button type="button" class="md-btn" data-md-preview title="Vista previa" id="mdPreviewBtn">👁</button>
               </div>
             </div>
             <textarea id="modalNote" class="favs-modal-textarea" rows="4"
-              placeholder="Soporta Markdown: **negrita**, *cursiva*, \`código\`, - listas"></textarea>
+              placeholder="Soporta Markdown: **negrita**, *cursiva*, codigo, - listas"></textarea>
             <div id="mdPreview" class="md-preview hidden" aria-label="Vista previa de la nota" aria-live="polite"></div>
-            <p class="md-hint">**negrita** · *cursiva* · \`código\` · - lista</p>
+            <p class="md-hint">**negrita** &middot; *cursiva* &middot; &#96;código&#96; &middot; - lista</p>
           </div>
           <div class="favs-modal-field">
             <label class="favs-modal-label">Etiquetas</label>

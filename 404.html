@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>AeroPedia</title>
+  <script>
+    // GitHub Pages SPA redirect trick.
+    // When GitHub serves this 404.html for any deep link, we save the intended
+    // path in sessionStorage and redirect to index.html at the repo root.
+    // The router reads 'gh_redirect' on init and restores the route.
+    (function() {
+      var path = location.pathname;
+      // Strip the repo name prefix (first path segment after the domain)
+      // e.g. /aeropedia_v2/aircraft/f22 → /aircraft/f22
+      var segments = path.split('/').filter(Boolean);
+      var route = segments.length > 1
+        ? '/' + segments.slice(1).join('/') + location.search
+        : '/';
+      sessionStorage.setItem('gh_redirect', route);
+      // Redirect to the root index.html
+      var base = '/' + segments[0];
+      location.replace(base + '/' + location.search);
+    })();
+  </script>
+</head>
+<body></body>
+</html>

@@ -2,7 +2,8 @@
  * views/MachView.js — Calculadora de Número Mach
  */
 
-import { setPageMeta, speedOfSound } from '../utils/index.js';
+import { store } from '../store/index.js';
+import { setPageMeta, speedOfSound, FALLBACK_IMG } from '../utils/index.js';
 import { drawSparkline } from '../components/Charts.js';
 
 export class MachView {
@@ -18,7 +19,42 @@ export class MachView {
     this.#el.className = 'mach-view';
     this.#el.innerHTML = this.#template();
     this.#bindEvents();
+    this.#populateRecents();
     return this.#el;
+  }
+
+  #populateRecents() {
+    const recents = store.get('recents') || [];
+    const db      = store.get('aircraftDB') || [];
+    const section = this.#el?.querySelector('#machRecents');
+    const grid    = this.#el?.querySelector('#machRecentsGrid');
+    if (!section || !grid) return;
+
+    const planes = recents
+      .map(id => db.find(p => p.id === id))
+      .filter(p => p && p.speed > 0)
+      .slice(0, 6);
+
+    if (!planes.length) return;
+
+    section.style.display = '';
+    grid.innerHTML = planes.map(p => `
+      <button class="mach-ref-btn mach-ref-btn--recent" data-speed="${p.speed}"
+        aria-label="Usar velocidad de ${p.name}: ${p.speed.toLocaleString('es-ES')} km/h">
+        <img src="./public/min/${p.img}.webp" alt="" width="44" height="25"
+          style="object-fit:cover;border-radius:3px;flex-shrink:0"
+          onerror="this.style.display='none'">
+        <span class="mach-ref-name" style="flex:1;text-align:left">${p.name}</span>
+        <span class="mach-ref-speed mono">${p.speed.toLocaleString('es-ES')} km/h</span>
+      </button>`).join('');
+
+    // Bind the new buttons
+    grid.querySelectorAll('.mach-ref-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const input = this.#el?.querySelector('#machSpeedInput');
+        if (input) { input.value = btn.dataset.speed; input.dispatchEvent(new Event('input')); }
+      });
+    });
   }
 
   #template() {
@@ -108,6 +144,12 @@ export class MachView {
                 <span class="mach-ref-speed mono">${ref.speed.toLocaleString('es-ES')} km/h</span>
               </button>`).join('')}
           </div>
+        </div>
+
+        <!-- Recientes: aeronaves vistas -->
+        <div class="mach-reference" id="machRecents" aria-label="Tus aeronaves recientes" style="display:none">
+          <p class="mach-ref-title">Aeronaves que has visto</p>
+          <div class="mach-ref-grid" id="machRecentsGrid"></div>
         </div>
       </div>
 
