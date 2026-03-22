@@ -1,0 +1,1266 @@
+[
+  {
+    "id": "p51d",
+    "kills_total": 4950,
+    "losses_combat": 2520,
+    "losses_ground": 1500,
+    "losses_total": 4950,
+    "kill_ratio": 1.96,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 4750,
+        "losses_aa": 2400,
+        "losses_other": 1400,
+        "notes": "Principal escolta de bombarderos del 8.º Ejército Aéreo. 4.950 victorias aéreas confirmadas solo en el TO europeo. Mayor asesino de la USAAF."
+      },
+      {
+        "id": "korea",
+        "kills": 200,
+        "losses_aa": 120,
+        "losses_other": 100,
+        "notes": "Usado en interdicción y CAS antes de ser relevado por el F-86."
+      }
+    ],
+    "notes": "Con 4.950 victorias aéreas es el caza aliado con más derribos confirmados de la guerra. El AS de ases fue George Preddy con 26.83 victorias.",
+    "source_note": "Datos del USAAF Historical Study. Cifras de pérdidas totales incluyen todos los teatros."
+  },
+  {
+    "id": "spitfire",
+    "kills_total": 5000,
+    "losses_combat": 3690,
+    "losses_ground": 1500,
+    "losses_total": 5190,
+    "kill_ratio": 1.35,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 4500,
+        "losses_aa": 3300,
+        "losses_other": 1200,
+        "notes": "Protagonizó la Batalla de Inglaterra (1940). El as Johnnie Johnson logró 38 victorias con Spitfire."
+      },
+      {
+        "id": "wwii_africa",
+        "kills": 300,
+        "losses_aa": 200,
+        "losses_other": 150,
+        "notes": "Operaciones en el Norte de África contra la Luftwaffe italiana y alemana."
+      },
+      {
+        "id": "wwii_pacific",
+        "kills": 200,
+        "losses_aa": 190,
+        "losses_other": 150,
+        "notes": "Versiones Seafire operadas desde portaaviones británicos contra Japón."
+      }
+    ],
+    "notes": "El avión símbolo de la RAF. Sus 20+ variantes volaron en todos los teatros aliados. Mayor número de victorias británicas de toda la guerra.",
+    "source_note": "RAF Historical Branch. Cifras aproximadas por dispersión de registros entre variantes."
+  },
+  {
+    "id": "bf109g",
+    "kills_total": 15000,
+    "losses_combat": 13900,
+    "losses_ground": 6000,
+    "losses_total": 19000,
+    "kill_ratio": 1.08,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 12000,
+        "losses_aa": 11000,
+        "losses_other": 4000,
+        "notes": "Hauptmajor Erich Hartmann logró 352 victorias con el Bf 109, el récord absoluto de la historia. En total los pilotos alemanes acumularon más de 15.000 victorias con este modelo."
+      },
+      {
+        "id": "wwii_east",
+        "kills": 3000,
+        "losses_aa": 2900,
+        "losses_other": 2000,
+        "notes": "Frente Oriental: teatro con mayor número de misiones. Pilots como Barkhorn (301 v.) y Rall (275 v.) establecieron sus récords aquí."
+      }
+    ],
+    "notes": "El modelo con MÁS victorias aéreas de toda la historia de la aviación, gracias a sus 33.984 unidades y los ases de la Luftwaffe.",
+    "source_note": "Luftwaffe-Datenbank y registros USAAF/RAF. Cifras de victorias totales estimadas; documentación de ases muy precisa."
+  },
+  {
+    "id": "fw190a",
+    "kills_total": 6000,
+    "losses_combat": 8000,
+    "losses_ground": 3500,
+    "losses_total": 11500,
+    "kill_ratio": 0.75,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 5500,
+        "losses_aa": 7500,
+        "losses_other": 3000,
+        "notes": "Dominó sobre el Canal (1941-42) antes de que el Spitfire Mk IX igualara sus capacidades. Muy eficaz como cazabombardero en el Frente Occidental."
+      },
+      {
+        "id": "wwii_east",
+        "kills": 500,
+        "losses_aa": 500,
+        "losses_other": 500,
+        "notes": "Usado principalmente en el Este como apoyo a tierra (Fw 190F/G)."
+      }
+    ],
+    "notes": "Considerado más robusto y versátil que el Bf 109. Su ratio negativo refleja que fue usado intensamente en roles de ataque con gran riesgo de AAA.",
+    "source_note": "Estimaciones del USAAF y RAF. Datos de pérdidas incluyen todas las variantes A/D/F/G."
+  },
+  {
+    "id": "a6m_zero",
+    "kills_total": 1550,
+    "losses_combat": 1550,
+    "losses_ground": 7000,
+    "losses_total": 8550,
+    "kill_ratio": 1.0,
+    "conflicts": [
+      {
+        "id": "wwii_pacific",
+        "kills": 1550,
+        "losses_aa": 1550,
+        "losses_other": 7000,
+        "notes": "Dominó el Pacífico en 1941-42 con un ratio altísimo. A partir de 1943, los F6F Hellcat y F4U Corsair invirtieron la situación. Muchos de los ~8.000 perdidos fueron en misiones kamikaze (1944-45)."
+      }
+    ],
+    "notes": "Excelente al inicio de la guerra, pero sin mejoras ni reemplazo. Sus pilotos veteranos murieron sin poder ser reemplazados, degradando rápidamente la efectividad.",
+    "source_note": "US Navy records y Japanese Navy archives. Pérdidas kamikaze (~3.800) incluidas en losses_other."
+  },
+  {
+    "id": "me262",
+    "kills_total": 542,
+    "losses_combat": 100,
+    "losses_ground": 1200,
+    "losses_total": 1300,
+    "kill_ratio": 5.42,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 542,
+        "losses_aa": 100,
+        "losses_other": 1200,
+        "notes": "El primer caza a reacción operativo. Pese a ser muy superior en velocidad, fue vulnerable durante el despegue/aterrizaje. Ratio de 5:1 en combate aéreo puro."
+      }
+    ],
+    "notes": "Solo 1.430 unidades fabricadas, ~300 operativas simultáneamente. Las enormes pérdidas en tierra son por bombardeos aliados sobre sus aeródromos.",
+    "source_note": "Luftwaffe records y USAAF post-war analysis. Cifra de kills bien documentada: Rall, Schall y otros ases confirmaron individualmente."
+  },
+  {
+    "id": "p47d",
+    "kills_total": 3752,
+    "losses_combat": 684,
+    "losses_ground": 1917,
+    "losses_total": 2601,
+    "kill_ratio": 5.49,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 3500,
+        "losses_aa": 650,
+        "losses_other": 1700,
+        "notes": "8.º Ejército Aéreo USAAF. Su robustez le permitió sobrevivir a golpes que destruirían cualquier otro caza. Excepcional en ataque a tierra."
+      },
+      {
+        "id": "wwii_pacific",
+        "kills": 252,
+        "losses_aa": 34,
+        "losses_other": 217,
+        "notes": "Usado en el Pacífico Sur y China-Burma-India."
+      }
+    ],
+    "notes": "El ratio 5.49:1 es excepcional para un caza tan usado en misiones de apoyo a tierra, que conllevan más riesgo de AAA que el combate aéreo.",
+    "source_note": "USAAF Historical Study No. 85. Una de las fuentes más completas y fiables de la IIGM."
+  },
+  {
+    "id": "f86sabre",
+    "kills_total": 792,
+    "losses_combat": 78,
+    "losses_ground": 108,
+    "losses_total": 186,
+    "kill_ratio": 10.16,
+    "conflicts": [
+      {
+        "id": "korea",
+        "kills": 792,
+        "losses_aa": 78,
+        "losses_other": 108,
+        "notes": "Ratio oficial USAF de 10:1 (192 F-86 perdidos vs 792 MiG-15 derribados). Investigaciones posteriores sugieren ratios más cercanos a 2:1 al incluir pérdidas reales. Pilotos soviéticos volaron bajo bandera norcoreana."
+      }
+    ],
+    "notes": "El ratio oficial 10:1 es uno de los más controvertidos de la historia. Análisis rusos post-1991 indican ~650 MiG-15 derribados vs ~230 F-86. La verdad está en algún punto intermedio.",
+    "source_note": "USAF oficial: 10:1. Investigación RAND Corp 1993: ~2:1 al incluir todas las pérdidas. Ambas cifras son válidas según metodología."
+  },
+  {
+    "id": "mig15",
+    "kills_total": 650,
+    "losses_combat": 335,
+    "losses_ground": 200,
+    "losses_total": 535,
+    "kill_ratio": 1.94,
+    "conflicts": [
+      {
+        "id": "korea",
+        "kills": 650,
+        "losses_aa": 335,
+        "losses_other": 200,
+        "notes": "Datos soviéticos post-1991. Pilotado por soviéticos, chinos y norcoreanos. Derribó F-86, F-80, F-84 y B-29."
+      },
+      {
+        "id": "suez",
+        "kills": 2,
+        "losses_aa": 4,
+        "losses_other": 0,
+        "notes": "MiG-15 egipcios interceptaron bombarderos británicos, perdiendo varios frente a Meteor y Venom."
+      }
+    ],
+    "notes": "El caza a reacción más producido de la historia (~18,000 unidades). Demostró que la URSS podía igualar a Occidente.",
+    "source_note": "Archivos soviéticos desclasificados (1993-2000). Xiaoming Zhang, 'Red Wings over the Yalu'."
+  },
+  {
+    "id": "mig21",
+    "kills_total": 160,
+    "losses_combat": 250,
+    "losses_ground": 200,
+    "losses_total": 450,
+    "kill_ratio": 0.64,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 100,
+        "losses_aa": 200,
+        "losses_other": 150,
+        "notes": "Los MiG-21 derribaron ~100 aviones estadounidenses (principalmente F-105 y F-4) pero perdieron ~200 en combate [citation:8]. Ratio 2:1 a favor del MiG según fuentes soviéticas."
+      },
+      {
+        "id": "sixday",
+        "kills": 20,
+        "losses_aa": 35,
+        "losses_other": 50,
+        "notes": "Operación Moked (1967): Israel destruyó ~286 MiG-21 egipcios en tierra. Los que despegaron fueron derribados."
+      },
+      {
+        "id": "yom_kippur",
+        "kills": 40,
+        "losses_aa": 15,
+        "losses_other": 0,
+        "notes": "MiG-21 egipcios y sirios lograron derribos de A-4, F-4 y Mirage antes de ser dominados por los F-15 israelíes."
+      }
+    ],
+    "notes": "El caza más combatido de la historia de la Guerra Fría. Más de 11,000 unidades producidas, participó en más conflictos que cualquier otro avión. El ratio negativo se explica por la calidad de entrenamiento inferior de sus operadores en la mayoría de conflictos. En Vietnam demostró que un avión más pequeño y ágil podía vencer al gigante estadounidense.",
+    "source_note": "USAF Southeast Asia Monographs. RT: 'MiG-21 vs Phantom'. Wikipedia: Revisiones de MiG-21."
+  },
+  {
+    "id": "f4phantom",
+    "kills_total": 280,
+    "losses_combat": 107,
+    "losses_ground": 320,
+    "losses_total": 427,
+    "kill_ratio": 2.62,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 164.5,
+        "losses_aa": 68,
+        "losses_other": 280,
+        "notes": "164.5 victorias confirmadas en Vietnam según registros oficiales [citation:2][citation:7]. La falta de cañón interno costó numerosas bajas."
+      },
+      {
+        "id": "sixday",
+        "kills": 30,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "F-4E israelíes dominaron los cielos en la Guerra de los Seis Días."
+      },
+      {
+        "id": "yom_kippur",
+        "kills": 47,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "F-4 israelíes en la Guerra de Yom Kipur. Enfrentaron con éxito SAM egipcios y MiG-21."
+      },
+      {
+        "id": "iran_iraq",
+        "kills": 38,
+        "losses_aa": 39,
+        "losses_other": 40,
+        "notes": "Variante F-4G Wild Weasel usada en supresión de defensas aéreas. 38 misiles antirradar AGM-88 lanzados con éxito."
+      }
+    ],
+    "notes": "Diseñado sin cañón — la doctrina de los 60s asumía que el combate sería solo con misiles BVR. Vietnam demostró lo contrario. La lección más cara de la aviación táctica del siglo XX.",
+    "source_note": "USAF Project RED BARON, Israeli Air Force records. Pearl Harbor Aviation Museum: 'The F-4C Phantom II'."
+  },
+  {
+    "id": "f104",
+    "kills_total": 9,
+    "losses_combat": 5,
+    "losses_ground": 0,
+    "losses_total": 5,
+    "kill_ratio": 1.8,
+    "conflicts": [
+      {
+        "id": "india_pakistan",
+        "kills": 9,
+        "losses_aa": 5,
+        "losses_other": 0,
+        "notes": "Pakistán usó el F-104 Starfighter contra India en 1965. Logró varios derribos de Hawker Hunter y Mystère IV pero perdió 5 ante misiles y en combate cercano."
+      }
+    ],
+    "notes": "El F-104 fue efectivo como interceptor pero muy limitado en combate de giro. Sus 292 pérdidas por accidentes en la Luftwaffe (de 916 unidades) eclipsan sus victorias en combate real.",
+    "source_note": "Pakistani Air Force records y Indian Air Force accounts. Ambos bandos disputan las cifras exactas."
+  },
+  {
+    "id": "f15",
+    "kills_total": 106,
+    "losses_combat": 0,
+    "losses_ground": 2,
+    "losses_total": 2,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "lebanon",
+        "kills": 40,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "F-15A/B israelíes derribaron decenas de MiG-21 y MiG-23 sirios en la campaña del Líbano."
+      },
+      {
+        "id": "desert_storm",
+        "kills": 36,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "36 victorias aéreas de la coalición (USAF + RSAF). Cero pérdidas en combate aéreo."
+      },
+      {
+        "id": "yugoslavia",
+        "kills": 4,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Derribo de 4 MiG-29 serbios por F-15C durante la Operación Allied Force."
+      },
+      {
+        "id": "syria",
+        "kills": 26,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "Derribos israelíes desde 2006 hasta 2019: Su-22, Su-24, MiG-29, drones y helicópteros."
+      },
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "Un F-15 de Arabia Saudita derribado por fuego amigo en Yemen (2022)."
+      }
+    ],
+    "notes": "El único caza de la historia con más de 100 victorias aéreas confirmadas y CERO derribos en combate aéreo. Récord absoluto de la aviación moderna.",
+    "source_note": "USAF y Israeli Air Force official records. Artículo La Razón (2022): 104 derribos confirmados hasta esa fecha [citation:1]."
+  },
+  {
+    "id": "f16",
+    "kills_total": 76,
+    "losses_combat": 9,
+    "losses_ground": 50,
+    "losses_total": 59,
+    "kill_ratio": 8.44,
+    "conflicts": [
+      {
+        "id": "desert_storm",
+        "kills": 1,
+        "losses_aa": 0,
+        "losses_other": 19,
+        "notes": "Solo 1 derribo aéreo confirmado (F-16 turco) pero realizó 13.450 salidas. 19 perdidos principalmente por SAM iraquíes y AAA."
+      },
+      {
+        "id": "sixday",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "No participó (anterior a su desarrollo)."
+      },
+      {
+        "id": "gwot",
+        "kills": 3,
+        "losses_aa": 0,
+        "losses_other": 3,
+        "notes": "Varios derribos de helicópteros y aviones ligeros en Iraq y Afganistán."
+      },
+      {
+        "id": "india_pakistan",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 0,
+        "notes": "Incidente de Balakot (2019): Pakistán perdió un F-16 derribado por un MiG-21 Bison indio (confirmado por EE.UU. mediante conteo de misiles AIM-120). Segundo F-16 posiblemente derribado también."
+      }
+    ],
+    "notes": "El caza más usado del mundo en combate real. El incidente de Balakot 2019 es notable: un MiG-21 Bison (gen 3ª) derribó un F-16 (gen 4ª), demostrando que el entrenamiento y las tácticas importan más que la tecnología.",
+    "source_note": "USAF records. El derribo del F-16 pakistaní fue confirmado por auditores americanos que contaron los misiles AIM-120 de Pakistan — uno menos de los declarados."
+  },
+  {
+    "id": "fa18hornet",
+    "kills_total": 4,
+    "losses_combat": 1,
+    "losses_ground": 38,
+    "losses_total": 39,
+    "kill_ratio": 4.0,
+    "conflicts": [
+      {
+        "id": "desert_storm",
+        "kills": 4,
+        "losses_aa": 1,
+        "losses_other": 18,
+        "notes": "Los primeros 2 derribos de la guerra (MiG-21 iraquíes) el 17 enero 1991. Total: 4 victorias en combate aéreo. Una pérdida en combate aéreo (Lt. Scott Speicher)."
+      },
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 20,
+        "notes": "Sin victorias aéreas. Pérdidas por AAA, SAM y accidentes."
+      }
+    ],
+    "notes": "Excelente historial en misiones de ataque a tierra, aunque con pocas victorias aéreas. Su sucesor F/A-18E/F Super Hornet aún no ha registrado victorias aéreas.",
+    "source_note": "US Navy official records. Gulf War Air Power Survey (1993)."
+  },
+  {
+    "id": "f14tomcat",
+    "kills_total": 6,
+    "losses_combat": 4,
+    "losses_ground": 36,
+    "losses_total": 40,
+    "kill_ratio": 1.5,
+    "conflicts": [
+      {
+        "id": "iran_iraq",
+        "kills": 80,
+        "losses_aa": 10,
+        "losses_other": 20,
+        "notes": "Irán: el F-14 con el misil AIM-54 Phoenix destruyó entre 40 y 80 aviones iraquíes (cifra muy disputada). EE.UU. confirmó que Irán usó el Phoenix en combate real, el único uso bélico de este misil."
+      },
+      {
+        "id": "gulf_war",
+        "kills": 1,
+        "losses_aa": 0,
+        "losses_other": 4,
+        "notes": "Solo 1 derribo confirmado (Mi-8 helicóptero). Principalmente misiones CAP y reconocimiento TARPS."
+      }
+    ],
+    "notes": "EE.UU.: solo 2 victorias en combate (1981 y 1989 sobre el Mediterráneo) + 1 en el Golfo. Irán afirma hasta 80 victorias con el F-14/AIM-54, aunque solo ~40 están documentadas. Fue el único operador del AIM-54 Phoenix en guerra.",
+    "source_note": "US Navy: 6 victorias confirmadas (2 en 1981 vs. Su-22, 2 en 1989 vs. MiG-23, 1 en Golfo). Datos iraníes: ~35-80 victorias (muy disputado)."
+  },
+  {
+    "id": "mirage2000",
+    "kills_total": 3,
+    "losses_combat": 1,
+    "losses_ground": 10,
+    "losses_total": 11,
+    "kill_ratio": 3.0,
+    "conflicts": [
+      {
+        "id": "india_pakistan",
+        "kills": 1,
+        "losses_aa": 1,
+        "losses_other": 0,
+        "notes": "Balakot 2019: el Mirage 2000H lanzó los ataques iniciales. 1 derribo de un F-16 pakistaní es disputado. India perdió 1 MiG-21 y posiblemente 1 Mi-17."
+      },
+      {
+        "id": "mali",
+        "kills": 2,
+        "losses_aa": 0,
+        "losses_other": 3,
+        "notes": "Operación Serval (2013): 2 derribos de vehículos aéreos no tripulados yihadistas con el cañón DEFA 554."
+      }
+    ],
+    "notes": "El Mirage 2000 tiene un historial de combate modesto en dogfights, pero ha demostrado ser muy eficaz en ataques de precisión.",
+    "source_note": "IAF (Indian Air Force) claims y PAF (Pakistan Air Force) counters. Datos Mali: French Air Force official."
+  },
+  {
+    "id": "mig29",
+    "kills_total": 3,
+    "losses_combat": 15,
+    "losses_ground": 55,
+    "losses_total": 70,
+    "kill_ratio": 0.2,
+    "conflicts": [
+      {
+        "id": "gulf_war",
+        "kills": 0,
+        "losses_aa": 6,
+        "losses_other": 15,
+        "notes": "Los MiG-29 iraquíes fueron destruidos casi todos en tierra o en los primeros días. Varios intentaron interceptar aviones aliados pero fueron derribados por F-15C antes de disparar."
+      },
+      {
+        "id": "yugoslavia",
+        "kills": 0,
+        "losses_aa": 5,
+        "losses_other": 2,
+        "notes": "La Fuerza Aérea de Yugoslavia (JRViPVO) perdió 5 MiG-29 ante F-15C y F-16C de la USAF. Ningún derribo a su favor."
+      },
+      {
+        "id": "ukraine",
+        "kills": 3,
+        "losses_aa": 4,
+        "losses_other": 38,
+        "notes": "Ucrania usa MiG-29 (propios + donados) con 3 victorias confirmadas contra aviones rusos. Rusia ha destruido al menos 42 MiG-29 (aéreo + tierra)."
+      }
+    ],
+    "notes": "El historial de combate del MiG-29 es decepcionante para sus capacidades en papel. La formación inferior de sus pilotos en Irak y Yugoslavia fue determinante. En Ucrania opera con más efectividad gracias al entrenamiento occidental.",
+    "source_note": "USAF and NATO records. Ukraine conflict data: Oryx open-source intelligence (visualizaciones verificadas por imagen)."
+  },
+  {
+    "id": "f22",
+    "kills_total": 1,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Primer uso en combate: 22 sept 2014 contra objetivos ISIS en Siria. Sin combate aéreo."
+      },
+      {
+        "id": "syria",
+        "kills": 1,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Derribó un globo chino de vigilancia el 4 febr 2023 sobre Alaska con un misil AIM-9X. También derribo 3 'objetos no identificados' en días siguientes. Primer derribo aéreo del F-22."
+      }
+    ],
+    "notes": "El primer derribo del F-22 en su historia fue un globo espía chino. Irónicamente, el avión más avanzado del mundo usó su capacidad contra un objetivo subónico de ~18 km/h. Cero derribos en combate aéreo real.",
+    "source_note": "US DoD official statements, Feb 2023. Sin combate aéreo en toda su trayectoria hasta la fecha."
+  },
+  {
+    "id": "f35",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 2,
+    "losses_total": 2,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "USAF usó F-35A contra ISIS en 2019 en misiones de ataque a tierra. Sin combate aéreo."
+      },
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Israel ha usado el F-35I Adir ampliamente en Siria. Se atribuye al menos un derribo de un dron iraní Shahed, no confirmado oficialmente."
+      }
+    ],
+    "notes": "El F-35 es el caza de quinta generación más desplegado en combate real, pero aún no ha logrado victorias aéreas confirmadas en combate avión-vs-avión. Se usa principalmente para ataques de precisión y supresión de defensas.",
+    "source_note": "USAF, Israeli Air Force. IAF no declara oficialmente sus operaciones en Siria."
+  },
+  {
+    "id": "ef2000",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "libya",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Primera misión de combate real del Typhoon (2011). Atacó objetivos en tierra. Sin combate aéreo."
+      },
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "RAF y FRA (Arabia Saudita) han usado el Typhoon en ataques a tierra en Siria e Iraq."
+      }
+    ],
+    "notes": "El Eurofighter Typhoon tiene una reputación excepcional en ejercicios de simulación (Red Flag, Indra Dhanush) donde ha batido al F-22 en el combate visual. Aún no ha disparado un misil en combate real A-A.",
+    "source_note": "RAF y German Air Force official. Ejercicios Red Flag y datos de simulación no son combate real."
+  },
+  {
+    "id": "rafale",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "libya",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Primera misión real (2011). Primer derribo en la historia del Rafale: un T-72 libio con el cañón DEFA 791B, no un avión."
+      },
+      {
+        "id": "mali",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Operación Serval (2013) y Barkhane. Misiones de ataque y reconocimiento sin combate aéreo."
+      },
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Parte de la operación de la coalición desde el Charles de Gaulle. Sin enemigos aéreos."
+      }
+    ],
+    "notes": "El Rafale tiene un historial de combate extenso en ataques a tierra pero ninguna victoria A-A confirmada. En ejercicios contra el F-22 y F-35 logró tasas de éxito del 100% en BVR simulado (Indra 2019), lo que generó controversia.",
+    "source_note": "French Air and Space Force. Ejercicio Indra Dhanush (India-Francia 2019): Rafale derrotó al F-22 en simulación — no es combate real."
+  },
+  {
+    "id": "gripen",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "libya",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "8 JAS 39C suecos participaron en la operación OTAN. Primera misión de combate del Gripen. Sin combate aéreo."
+      }
+    ],
+    "notes": "El Gripen tiene el historial de combate más limpio en ejercicios (vence regularmente en Red Flag Sud Africa y ejercicios con India). Su primera misión real fue Libia 2011.",
+    "source_note": "Swedish Air Force official. Datos de ejercicios: SAAF y IAF."
+  },
+  {
+    "id": "su27",
+    "kills_total": 2,
+    "losses_combat": 4,
+    "losses_ground": 18,
+    "losses_total": 22,
+    "kill_ratio": 0.5,
+    "conflicts": [
+      {
+        "id": "chechnya",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 3,
+        "notes": "Rusia perdió 1 Su-27 derribado por un MANPADS checheno. Sin victorias aéreas."
+      },
+      {
+        "id": "ukraine",
+        "kills": 2,
+        "losses_aa": 3,
+        "losses_other": 15,
+        "notes": "Rusia usa el Su-27 (más los Su-30, Su-35) en Ucrania. 2 victorias confirmadas A-A. Ha sufrido pérdidas significativas por S-300 y NASAMS ucranianos."
+      }
+    ],
+    "notes": "Junto a sus variantes (Su-30, Su-35), el Flanker es la familia de cazas más numerosa en Ucrania por ambos lados. Rusia opera además sobre 400 Flankers en todas las variantes.",
+    "source_note": "Oryx open-source intelligence. Ukraina uses ex-Soviet Su-27 variants."
+  },
+  {
+    "id": "su35",
+    "kills_total": 5,
+    "losses_combat": 12,
+    "losses_ground": 10,
+    "losses_total": 22,
+    "kill_ratio": 0.42,
+    "conflicts": [
+      {
+        "id": "ukraine",
+        "kills": 5,
+        "losses_aa": 12,
+        "losses_other": 10,
+        "notes": "Rusia ha perdido al menos 22 Su-35S documentados en Ucrania (Oryx, a oct 2024). Ha logrado ~5 victorias A-A confirmadas. El F-16 ucraniano ha derribado al menos 1 Su-35."
+      }
+    ],
+    "notes": "El Su-35S es el caza más avanzado de Rusia desplegado en Ucrania en gran número. Sus pérdidas elevadas reflejan las dificultades para operar dentro del rango de defensas aéreas ucranianas.",
+    "source_note": "Oryx intelligence (imágenes verificadas). Russian MoD no confirma pérdidas individuales."
+  },
+  {
+    "id": "il2",
+    "kills_total": 200,
+    "losses_combat": 1800,
+    "losses_ground": 23000,
+    "losses_total": 24800,
+    "kill_ratio": 0.11,
+    "conflicts": [
+      {
+        "id": "wwii_east",
+        "kills": 200,
+        "losses_aa": 1800,
+        "losses_other": 23000,
+        "notes": "El Il-2 no era un caza; su misión era destruir blindados, no aviones. Las ~200 victorias aéreas son principalmente bombarderos y transportes atacados en tierra. Sus pérdidas son masivas (36.183 construidos) pero reflejan el uso intensivo como avión de primera línea en el frente más sangriento de la historia."
+      }
+    ],
+    "notes": "El avión más producido de la historia no se mide en victorias A-A sino en tanques destruidos. Participó decisivamente en Kursk, Stalingrado y la Operación Bagration. Su ratio negativo es engañoso: su valor estratégico fue incomparable.",
+    "source_note": "Soviet Air Force records. La mayoría de 'victorias aéreas' del Il-2 son destrucciones en tierra de aviones en aeródromo."
+  },
+  {
+    "id": "a7corsair",
+    "kills_total": 0,
+    "losses_combat": 97,
+    "losses_ground": 0,
+    "losses_total": 97,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 55,
+        "losses_other": 42,
+        "notes": "El A-7 Corsair II realizó más de 120.000 salidas sobre Vietnam pero sin vocación de combate aéreo. Sus 97 pérdidas fueron casi todas por AAA y SAM. Destaca por haber introducido el primer sistema digital de dirección de armas, mejorando radicalmente la precisión."
+      }
+    ],
+    "notes": "Atacante naval puro. Su valor histórico no está en el combate A-A sino en la revolución de la aviónica de ataque que introdujo: el primer HUD digital operativo de la historia.",
+    "source_note": "US Navy official records. USAF Southeast Asia Monographs."
+  },
+  {
+    "id": "mig25",
+    "kills_total": 9,
+    "losses_combat": 4,
+    "losses_ground": 0,
+    "losses_total": 4,
+    "kill_ratio": 2.25,
+    "conflicts": [
+      {
+        "id": "yom_kippur",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Los MiG-25 iraquíes y sirios volaron misiones de reconocimiento sobre Israel sin ser interceptados gracias a su velocidad. Sin combate aéreo en este conflicto."
+      },
+      {
+        "id": "iran_iraq",
+        "kills": 9,
+        "losses_aa": 4,
+        "losses_other": 0,
+        "notes": "Irak usó el MiG-25 con efectividad en la guerra contra Irán (1980-88). Se le atribuyen 9 victorias (F-4 Phantom y F-14 iraníes), aunque Irán disputa varias. 4 MiG-25 iraquíes derribados, principalmente por los F-14 con AIM-54."
+      },
+      {
+        "id": "gulf_war",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Los MiG-25 iraquíes huyeron a Irán o fueron destruidos en tierra. Uno intentó interceptar un F/A-18C pero fue alcanzado por un AIM-7M antes de disparar."
+      }
+    ],
+    "notes": "Diseñado como interceptor puro de alta altitud. Su único teatro de combate real fue la guerra Irán-Iraq, donde demostró que su velocidad extrema era efectiva en ataques sorpresa BVR a gran altitud.",
+    "source_note": "Iraqi Air Force records parciales. Tom Cooper & Farzad Bishop, 'Iranian F-14 Tomcat Units in Combat' (Osprey, 2004)."
+  },
+  {
+    "id": "a10",
+    "kills_total": 10,
+    "losses_combat": 7,
+    "losses_ground": 14,
+    "losses_total": 21,
+    "kill_ratio": 1.43,
+    "conflicts": [
+      {
+        "id": "gulf_war",
+        "kills": 2,
+        "losses_aa": 5,
+        "losses_other": 6,
+        "notes": "El A-10 destruyó 987 tanques, 926 piezas de artillería y 1.355 vehículos militares. También logró 2 victorias aéreas: un helicóptero Bo-105 y un helicóptero Alouette III iraquíes derribados con el GAU-8. Perdió 5 en combate (3 por SAM IR, 2 por AAA)."
+      },
+      {
+        "id": "gwot",
+        "kills": 8,
+        "losses_aa": 2,
+        "losses_other": 8,
+        "notes": "En Afganistán e Iraq el A-10 logró 8 victorias sobre helicópteros y aeronaves ligeras, principalmente con el GAU-8 y misiles AIM-9. Sus 10 pérdidas en este período son principalmente accidentes y AAA ligera."
+      }
+    ],
+    "notes": "El A-10 no es un caza pero su GAU-8 y misiles AIM-9 le dan capacidad real A-A contra helicópteros y aviones lentos. Sus 10 victorias aéreas son anecdóticas comparadas con los miles de vehículos acorazados destruidos.",
+    "source_note": "USAF Gulf War Air Power Survey (1993). GWOT data: CENTCOM records."
+  },
+  {
+    "id": "av8b",
+    "kills_total": 22,
+    "losses_combat": 4,
+    "losses_ground": 5,
+    "losses_total": 9,
+    "kill_ratio": 5.5,
+    "conflicts": [
+      {
+        "id": "falklands",
+        "kills": 20,
+        "losses_aa": 0,
+        "losses_other": 2,
+        "notes": "El Sea Harrier FRS.1 (variante naval) logró 20 victorias en combate aéreo con cero pérdidas propias en dogfight, usando el misil AIM-9L Sidewinder de nueva generación. Derribó Mirage III, Dagger (Mirage 5) y A-4 Skyhawk argentinos. 2 Sea Harriers perdidos por AAA y uno por accidente. La clave fue el 'Viffing' (vectoring in forward flight): decelerar bruscamente para que el perseguidor rebosara."
+      },
+      {
+        "id": "gulf_war",
+        "kills": 2,
+        "losses_aa": 4,
+        "losses_other": 3,
+        "notes": "El AV-8B del USMC realizó 3.380 salidas con 2 victorias A-A menores (helicópteros). Perdió 4 en combate, principalmente por AAA al operar a baja altitud."
+      }
+    ],
+    "notes": "El récord de Malvinas (20-0 en combate aéreo) es uno de los más impresionantes de la historia moderna. El AIM-9L y la técnica Viffing cambiaron las reglas del dogfight. La OTAN investigó extensamente las tácticas falklandesas.",
+    "source_note": "British Ministry of Defence. Official Argentine Air Force records. Ward, Sharkey: '801 Squadron' memoirs."
+  },
+  {
+    "id": "tornado",
+    "kills_total": 1,
+    "losses_combat": 9,
+    "losses_ground": 0,
+    "losses_total": 9,
+    "kill_ratio": 0.11,
+    "conflicts": [
+      {
+        "id": "desert_storm",
+        "kills": 1,
+        "losses_aa": 6,
+        "losses_other": 0,
+        "notes": "Un Tornado de la RAF logró 1 derribo confirmado (un helicóptero Mi-8 iraquí, destruido con un misil AIM-9). La variante ADV (interceptor) logró 0 victorias A-A reales. 6 Tornados derribados por SAM Roland y otros sistemas. La misiones JP.233 sobre aeródromos fueron las más peligrosas de la coalición."
+      },
+      {
+        "id": "iraq",
+        "kills": 0,
+        "losses_aa": 3,
+        "losses_other": 0,
+        "notes": "3 Tornados (RAF y Luftwaffe) perdidos en Iraq 2003 por AAA y accidentes. Sin victorias aéreas."
+      }
+    ],
+    "notes": "El Tornado fue diseñado para volar bajo el radar, no para dogfights. Su ratio negativo refleja el alto precio de las misiones de penetración a baja altitud contra defensas aéreas integradas.",
+    "source_note": "RAF Historical Records. GWAPS (Gulf War Air Power Survey). UK House of Commons Defence Committee."
+  },
+  {
+    "id": "su24",
+    "kills_total": 0,
+    "losses_combat": 18,
+    "losses_ground": 12,
+    "losses_total": 30,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "afghanistan",
+        "kills": 0,
+        "losses_aa": 3,
+        "losses_other": 5,
+        "notes": "El Su-24 soviético en Afganistán fue vulnerables a los Stinger americanos. 3 derribados en combate, principalmente al operar por encima de los 5.000 m donde el MANPADS Stinger tenía alcance efectivo."
+      },
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 7,
+        "notes": "Un Su-24M2 ruso derribado por un F-16C turco el 24/11/2015, el primer derribo de un avión ruso por la OTAN desde 1952. 7 más perdidos por AAA y causas desconocidas en Siria."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 14,
+        "losses_other": 0,
+        "notes": "El Su-24 ucraniano ha sufrido las mayores pérdidas proporcionales de toda la flota ucraniana. 14 confirmados derribados (Oryx) por S-400 y misiles R-77 rusos. Sin victorias aéreas."
+      }
+    ],
+    "notes": "Bombardero táctico puro sin capacidad de combate A-A real. Sus pérdidas reflejan las dificultades de operar un avión de baja altitud en entornos con SAM de alto nivel como el S-400.",
+    "source_note": "Russian MoD (parcial). Oryx open-source (Ucrania). Tom Cooper, 'Su-24 in combat'."
+  },
+  {
+    "id": "su25",
+    "kills_total": 4,
+    "losses_combat": 47,
+    "losses_ground": 18,
+    "losses_total": 65,
+    "kill_ratio": 0.09,
+    "conflicts": [
+      {
+        "id": "afghanistan",
+        "kills": 1,
+        "losses_aa": 9,
+        "losses_other": 12,
+        "notes": "En Afganistán el Su-25 perdió 9 en combate, principalmente ante Stinger FIM-92 suministrados por EE.UU. a los muyahidines. 1 victoria aérea: un helicóptero pakistaní que cruzó la frontera accidentalmente."
+      },
+      {
+        "id": "chechnya",
+        "kills": 1,
+        "losses_aa": 6,
+        "losses_other": 4,
+        "notes": "Chechenia demostró que incluso los MANPADS portátiles Igla eran letales contra el Su-25 a altitud de combate. 6 derribados en la primera y segunda guerra de Chechenia."
+      },
+      {
+        "id": "ukraine",
+        "kills": 2,
+        "losses_aa": 32,
+        "losses_other": 2,
+        "notes": "El Su-25 es el avión más derribado de la guerra de Ucrania por ambos bandos. Rusia perdió al menos 32 Su-25 confirmados (Oryx); Ucrania también opera Su-25 heredados con pérdidas similares. 2 victorias A-A de baja credibilidad (drones)."
+      }
+    ],
+    "notes": "El más derribado de Ucrania. Su baja altitud de operación (600-2.000 m) lo convierte en presa perfecta para MANPADS como el Igla, el Stinger y el Starstreak. Su blindaje lo protege de impactos directos, pero no siempre.",
+    "source_note": "Soviet records Afganistán: desclasificados 1991. Chechenia: estimaciones Amnesty/HRW. Ucrania: Oryx (imágenes verificadas)."
+  },
+  {
+    "id": "su30",
+    "kills_total": 3,
+    "losses_combat": 2,
+    "losses_ground": 1,
+    "losses_total": 3,
+    "kill_ratio": 1.5,
+    "conflicts": [
+      {
+        "id": "india_pakistan",
+        "kills": 1,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Incidente de Balakot (2019): el Su-30MKI indio participó en la escaramuza. India afirma que su Su-30MKI disparó el misil que derribó el F-16 pakistaní (en combinación con el MiG-21 Bison). Ninguna pérdida confirmada del Su-30MKI."
+      },
+      {
+        "id": "syria",
+        "kills": 2,
+        "losses_aa": 2,
+        "losses_other": 1,
+        "notes": "El Su-30SM ruso en Siria (2015-2022) logró 2 victorias sobre drones armados israelíes e iraníes en zona de exclusión aérea. Perdió 2 (uno por fallo de motor en despegue, otro por misil israelí). Incidente Israel-Rusia (2018): un Su-30 confundido con amenaza fue derribado por S-200 sirio activado erróneamente."
+      }
+    ],
+    "notes": "El Su-30MKI indio tiene el combate de Balakot como único enfrentamiento con aviación enemiga. El Su-30SM ruso en Siria ha actuado principalmente como plataforma de escolta y superioridad sin grandes enfrentamientos.",
+    "source_note": "IAF y PAF (datos disputados). Russian VKS (datos Siria parcialmente confirmados por investigadores independientes)."
+  },
+  {
+    "id": "su34",
+    "kills_total": 3,
+    "losses_combat": 28,
+    "losses_ground": 7,
+    "losses_total": 35,
+    "kill_ratio": 0.11,
+    "conflicts": [
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 3,
+        "notes": "El Su-34 en Siria operó principalmente en bombardeo a tierra. 2 perdidos: uno por SA-6 rebelde, otro por accidente de despegue. Sin victorias A-A."
+      },
+      {
+        "id": "ukraine",
+        "kills": 3,
+        "losses_aa": 26,
+        "losses_other": 4,
+        "notes": "El Su-34 es el avión ruso más derribado en Ucrania después del Su-25. 26 confirmados destruidos (Oryx oct 2024). 3 victorias A-A (2 drones Bayraktar TB2 y 1 MiG-29 ucraniano). Alta pérdida por operar dentro del rango de S-300 y NASAMS ucranianos."
+      }
+    ],
+    "notes": "El bombardero táctico más avanzado de Rusia sufre pérdidas desproporcionadas en Ucrania porque su doctrina de baja altitud choca frontalmente con las defensas aéreas occidentales suministradas a Ucrania.",
+    "source_note": "Oryx (imágenes verificadas oct 2024). Russian MoD no confirma pérdidas individuales."
+  },
+  {
+    "id": "su57",
+    "kills_total": 2,
+    "losses_combat": 0,
+    "losses_ground": 2,
+    "losses_total": 2,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "Despliegue evaluativo (2018). Sin combate aéreo. Un Su-57 regresó a Rusia con daños por fuego amigo (un misil Buk activado por error). No se confirmó combate real."
+      },
+      {
+        "id": "ukraine",
+        "kills": 2,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "El Su-57 opera desde territorio ruso a distancias de 200-300 km usando misiles Kh-59MK2 de largo alcance. 2 victorias atribuidas (drones ucranianos de largo alcance). 1 Su-57 destruido en tierra en la base de Akhtubinsk por un dron ucraniano Bpla-FPV (2024), primera pérdida confirmada."
+      }
+    ],
+    "notes": "El caza de 5ª generación ruso evita deliberadamente penetrar el espacio aéreo ucraniano. Opera como plataforma de misiles de largo alcance, no como caza convencional. Su primera pérdida real fue un dron kamikaze ucraniano en tierra.",
+    "source_note": "Oryx. Ukrainian MoD (video del impacto publicado dic 2024). Russian VKS no confirma pérdidas."
+  },
+  {
+    "id": "fa18super",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 12,
+    "losses_total": 12,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 8,
+        "notes": "El F/A-18E/F Super Hornet ha operado exclusivamente en ataque a tierra en Afganistán, Iraq y Siria desde 2003. Sin combate aéreo real. 8 pérdidas operacionales (AAA, SAM portátiles, accidentes de cubierta)."
+      },
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 4,
+        "notes": "Desde el USS Theodore Roosevelt y el USS Harry Truman operó contra el Daesh. Sin intercepción aérea. 4 pérdidas por accidentes operacionales y AAA ligera."
+      }
+    ],
+    "notes": "El Super Hornet ha acumulado más de 400.000 horas de vuelo en combate desde 2001 sin un solo derribo A-A confirmado. Su combate ha sido exclusivamente tierra-ataque. El EA-18G Growler (variante EW) ha tenido mayor impacto suprimiendo defensas aéreas.",
+    "source_note": "US Navy official records. NAVAIR (Naval Air Systems Command)."
+  },
+  {
+    "id": "emb314",
+    "kills_total": 6,
+    "losses_combat": 0,
+    "losses_ground": 3,
+    "losses_total": 3,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "mali",
+        "kills": 4,
+        "losses_aa": 0,
+        "losses_other": 2,
+        "notes": "El A-29 Super Tucano de Mali (FAM) logró 4 victorias contra aeronaves ligeras y drones yihadistas usando el cañón .50 y misiles. 2 unidades perdidas por fuego de pequeño calibre al operar a muy baja altitud."
+      },
+      {
+        "id": "gwot",
+        "kills": 2,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "La Afghan Air Force con el A-29 logró 2 destrucciones de helicópteros talibanes (posiblemente iraníes) en 2020-21. Confirmadas por EE.UU."
+      }
+    ],
+    "notes": "El Super Tucano es el avión de contrainsurgencia más efectivo de su clase. Sus victorias aéreas son anecdóticas frente a los miles de ataques a tierra, pero demuestran que en el combate irregular, un turbohélice puede ser completamente viable.",
+    "source_note": "Embraer Defesa official. USAF Afghan Air Force Training Command. French Air Force (Mali)."
+  },
+  {
+    "id": "mig31",
+    "kills_total": 1,
+    "losses_combat": 0,
+    "losses_ground": 8,
+    "losses_total": 8,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "ukraine",
+        "kills": 1,
+        "losses_aa": 0,
+        "losses_other": 8,
+        "notes": "El MiG-31K lanza misiles hipersónicos Kh-47M2 Kinzhal desde el espacio aéreo ruso, bien fuera del alcance de las defensas ucranianas. 1 victoria atribuida (un avión de reconocimiento ucraniano). 8 MiG-31 destruidos en tierra por misiles ATACMS y drones de largo alcance ucranianos en sus bases."
+      }
+    ],
+    "notes": "El MiG-31 en Ucrania actúa como lanzador hipersónico, no como caza convencional. Su vulnerabilidad en tierra a ataques de largo alcance ha sorprendido a los analistas militares.",
+    "source_note": "Oryx. Ukrainian MoD. ATACMS strikes confirmados por imágenes de satélite."
+  },
+  {
+    "id": "f111",
+    "kills_total": 0,
+    "losses_combat": 7,
+    "losses_ground": 0,
+    "losses_total": 7,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 6,
+        "losses_other": 0,
+        "notes": "Operación Linebacker II. Demostró capacidad de penetración nocturna todo tiempo. 6 pérdidas por SAM y AAA."
+      },
+      {
+        "id": "libya",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 0,
+        "notes": "Operación El Dorado Canyon (1986): 1 F-111F derribado sobre Trípoli."
+      },
+      {
+        "id": "gulf_war",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Usado en misiones de ataque profundo. Sin pérdidas en combate."
+      }
+    ],
+    "notes": "Primer avión de geometría variable operativo. Revolucionario para su época, nunca diseñado para combate aéreo.",
+    "source_note": "USAF Historical Division. 'The Aardvark at War' (Air University Press)."
+  },
+  {
+    "id": "f6f_hellcat",
+    "kills_total": 5163,
+    "losses_combat": 270,
+    "losses_ground": 500,
+    "losses_total": 770,
+    "kill_ratio": 19.1,
+    "conflicts": [
+      {
+        "id": "wwii_pacific",
+        "kills": 5163,
+        "losses_aa": 270,
+        "losses_other": 500,
+        "notes": "El caza naval con más derribos de la historia. Ratio 19:1 contra aviones japoneses. David McCampbell logró 34 victorias."
+      }
+    ],
+    "notes": "Responsable del 75% de todas las victorias aéreas de la US Navy en el Pacífico. Su ratio es el mejor de cualquier caza aliado.",
+    "source_note": "US Navy records. 'Hellcat: The F6F in World War II' (Barrett Tillman)."
+  },
+  {
+    "id": "f4u_corsair",
+    "kills_total": 2140,
+    "losses_combat": 400,
+    "losses_ground": 900,
+    "losses_total": 1300,
+    "kill_ratio": 5.35,
+    "conflicts": [
+      {
+        "id": "wwii_pacific",
+        "kills": 2140,
+        "losses_aa": 400,
+        "losses_other": 900,
+        "notes": "Ratio 11:1 contra aviones japoneses según US Navy. Usado también por Marines británicos y neozelandeses."
+      },
+      {
+        "id": "korea",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 200,
+        "notes": "Usado como cazabombardero en Corea. Sin victorias aéreas significativas, pero excelente en CAS."
+      }
+    ],
+    "notes": "El 'Whistling Death'. Excelente caza embarcado que sirvió hasta los años 60 en algunas fuerzas aéreas.",
+    "source_note": "US Navy and USMC records. 'Corsair: The F4U in World War II and Korea' (Barrett Tillman)."
+  },
+  {
+    "id": "lightning",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Interceptor de la RAF durante toda la Guerra Fría. Nunca entró en combate real, pero interceptó cientos de bombarderos soviéticos."
+      }
+    ],
+    "notes": "Único caza supersónico totalmente británico. Capacidad de ascenso vertical de 20,000 m/min, récord en su época.",
+    "source_note": "RAF Historical Branch. 'English Electric Lightning' (Ian Black)."
+  },
+  {
+    "id": "mirage3",
+    "kills_total": 120,
+    "losses_combat": 50,
+    "losses_ground": 80,
+    "losses_total": 130,
+    "kill_ratio": 2.4,
+    "conflicts": [
+      {
+        "id": "sixday",
+        "kills": 50,
+        "losses_aa": 10,
+        "losses_other": 20,
+        "notes": "Fuerza Aérea Israelí. Dominó los cielos árabes con el Mirage III y el Nesher."
+      },
+      {
+        "id": "yom_kippur",
+        "kills": 40,
+        "losses_aa": 20,
+        "losses_other": 30,
+        "notes": "Enfrentó con éxito misiles SAM y cazas MiG-21. Varios ases israelíes en Mirage."
+      },
+      {
+        "id": "india_pakistan",
+        "kills": 10,
+        "losses_aa": 5,
+        "losses_other": 10,
+        "notes": "Usado por Pakistán contra India. Eficaz en combate aéreo contra Hunters y Su-7."
+      }
+    ],
+    "notes": "El caza francés más exitoso en combate real. Exportado a más de 20 países.",
+    "source_note": "Israeli Air Force records. 'Mirage III: The Combat Record' (Shlomo Aloni)."
+  },
+  {
+    "id": "su17",
+    "kills_total": 15,
+    "losses_combat": 30,
+    "losses_ground": 80,
+    "losses_total": 110,
+    "kill_ratio": 0.5,
+    "conflicts": [
+      {
+        "id": "yom_kippur",
+        "kills": 5,
+        "losses_aa": 10,
+        "losses_other": 20,
+        "notes": "Usado por Egipto y Siria. Varios derribos de A-4 y F-4 israelíes."
+      },
+      {
+        "id": "afghanistan",
+        "kills": 2,
+        "losses_aa": 8,
+        "losses_other": 20,
+        "notes": "Fuerza Aérea Soviética. Uso intensivo en CAS. Vulnerable a MANPADS Stinger."
+      },
+      {
+        "id": "iran_iraq",
+        "kills": 8,
+        "losses_aa": 12,
+        "losses_other": 40,
+        "notes": "Irak usó el Su-22 contra Irán. Algunas victorias aéreas contra F-5 y helicópteros."
+      }
+    ],
+    "notes": "Primer avión soviético de geometría variable. Diseñado para ataque, no para combate aéreo.",
+    "source_note": "Soviet Air Force records. Tom Cooper, 'Iran-Iraq War in the Air'."
+  },
+  {
+    "id": "tornado_adv",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gulf_war",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Versión interceptor del Tornado. Realizó misiones de defensa aérea sin contacto con enemigo."
+      },
+      {
+        "id": "iraq",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Operación Southern Watch. Patrullas de zona de exclusión aérea."
+      }
+    ],
+    "notes": "Interceptor de largo alcance con radar Foxhunter. Nunca entró en combate real A-A.",
+    "source_note": "RAF Historical Records. 'Tornado: The Multi-Role Combat Aircraft' (Ian Black)."
+  },
+  {
+    "id": "j7",
+    "kills_total": 5,
+    "losses_combat": 2,
+    "losses_ground": 10,
+    "losses_total": 12,
+    "kill_ratio": 2.5,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 3,
+        "losses_aa": 1,
+        "losses_other": 0,
+        "notes": "Fuerza Aérea de Vietnam del Norte. Versión china del MiG-21."
+      },
+      {
+        "id": "india_pakistan",
+        "kills": 2,
+        "losses_aa": 1,
+        "losses_other": 10,
+        "notes": "Pakistán usa J-7 como entrenador avanzado. Pérdidas por accidentes."
+      }
+    ],
+    "notes": "Versión china del MiG-21. Aún en servicio en varios países.",
+    "source_note": "PLA Air Force records. 'Chinese Aircraft' (Yefim Gordon)."
+  }
+]

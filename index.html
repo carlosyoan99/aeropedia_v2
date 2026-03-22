@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AeroPedia — Archivo Global de Aviación</title>
+
+  <!-- SEO básico -->
+  <meta name="description" content="Enciclopedia interactiva de aviación militar: fichas técnicas, comparador, historial de combate y calculadora Mach.">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#0a0f1e">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="AeroPedia — Archivo Global de Aviación">
+  <meta property="og:description" content="Enciclopedia interactiva de aviación militar.">
+  <meta property="og:type" content="website">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-96.svg">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="AeroPedia">
+  <link rel="apple-touch-icon" href="icons/icon-192.svg">
+
+  <!-- Tema inmediato (evitar FOUC) -->
+  <script>
+    (function() {
+      const t = localStorage.getItem('aeropedia_theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+      if (t === 'dark') document.documentElement.classList.add('dark-preload');
+    })();
+  </script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Precarga de fuentes web nativas -->
+  <link rel="preconnect" href="https://fonts.bunny.net">
+  <link rel="stylesheet" href="https://fonts.bunny.net/css?family=orbitron:400,700,900|inter:300,400,500,600|jetbrains-mono:400,600&display=swap">
+</head>
+<body>
+  <!-- Accesibilidad: saltar al contenido -->
+  <a href="#app-outlet" class="skip-link">Saltar al contenido principal</a>
+
+  <!-- Header compartido -->
+  <div id="app-header"></div>
+
+  <!-- Contenedor de vistas (router outlet) -->
+  <main id="app-outlet" tabindex="-1" aria-label="Contenido principal"></main>
+
+  <!-- Toast global -->
+  <div id="global-toast" class="toast" role="alert" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Punto de entrada ES Module -->
+  <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,373 @@
+{
+  "wwii_europe": {
+    "label": "SGM — Europa",
+    "years": "1939–1945",
+    "flag": "🎖️",
+    "color": "#78350f",
+    "desc": "El teatro europeo, desde la Batalla de Inglaterra hasta el Día D y la toma de Berlín. Participaron Bf 109, Fw 190, Spitfire, Hurricane, P-47, P-51, B-17, Lancaster, B-24, Ju 87, He 111, Ju 88, Me 262, Ar 234, Il-2, Yak-3, La-7, Pe-2, Tu-2."
+  },
+  "wwii_pacific": {
+    "label": "SGM — Pacífico",
+    "years": "1941–1945",
+    "flag": "⛩️",
+    "color": "#b45309",
+    "desc": "De Pearl Harbor a Midway, Guadalcanal, Iwo Jima y las bombas atómicas sobre Japón. Participaron A6M Zero, Ki-43 Oscar, Ki-84 Hayate, G4M Betty, P-38 Lightning, P-47 Thunderbolt, P-51 Mustang, F4F Wildcat, F6F Hellcat, F4U Corsair, SBD Dauntless, TBF Avenger, B-25 Mitchell, B-29 Superfortress."
+  },
+  "wwii_east": {
+    "label": "SGM — Frente Oriental",
+    "years": "1941–1945",
+    "flag": "❄️",
+    "color": "#1e3a5f",
+    "desc": "El frente más brutal de la historia, entre la URSS y la Alemania Nazi. Participaron Bf 109, Fw 190, Ju 87, Ju 88, He 111, Il-2 Shturmovik, Yak-1/3/9, La-5/7, Pe-2, Tu-2, MiG-3, Po-2 (Nachthexen)."
+  },
+  "wwii_africa": {
+    "label": "SGM — Norte de África",
+    "years": "1940–1943",
+    "flag": "🏜️",
+    "color": "#92400e",
+    "desc": "La guerra del desierto entre las fuerzas del Eje y los Aliados, con Rommel y Montgomery como protagonistas. Participaron Bf 109, Fw 190, Macchi C.202/205, Spitfire, P-40 Tomahawk, Hurricane, B-17, B-24, Ju 87 Stuka."
+  },
+  "spanish_civil_war": {
+    "label": "Guerra Civil Española",
+    "years": "1936–1939",
+    "flag": "🇪🇸",
+    "color": "#b91c1c",
+    "desc": "El banco de pruebas de la Segunda Guerra Mundial. Participaron Bf 109 B/C, He 51, CR.32, SM.79, I-16 'Mosca', I-15 'Chato', SB-2 Katiuska, Ju 52. El bombardeo de Guernica (1937) fue el primer ataque masivo contra población civil."
+  },
+  "battle_of_britain": {
+    "label": "Batalla de Inglaterra",
+    "years": "1940",
+    "flag": "🇬🇧",
+    "color": "#1e3a5f",
+    "desc": "Primera gran campaña aérea de la historia. Participaron Spitfire Mk I, Hurricane Mk I, Bf 109E, Bf 110, He 111, Do 17, Ju 87 Stuka. La RAF detuvo a la Luftwaffe, evitando la invasión de Gran Bretaña."
+  },
+  "winter_war": {
+    "label": "Guerra de Invierno",
+    "years": "1939–1940",
+    "flag": "🇫🇮",
+    "color": "#0891b2",
+    "desc": "La Fuerza Aérea finesa resistió a la URSS con Fokker D.XXI, Gloster Gladiator, Brewster Buffalo (B-239), Bristol Blenheim, Tupolev SB. La URSS desplegó I-15, I-16, DB-3, SB-2. Los ases fineses lograron ratios de victoria excepcionales."
+  },
+  "korea": {
+    "label": "Guerra de Corea",
+    "years": "1950–1953",
+    "flag": "🇰🇷",
+    "color": "#1e40af",
+    "desc": "El primer conflicto jet-contra-jet de la historia. Participaron F-86 Sabre, F-80 Shooting Star, F-84 Thunderjet, F-9F Panther, B-29 Superfortress, MiG-15, Yak-9, Il-10, Tu-2. Los combates en el 'Callejón de los MiGs' definieron la doctrina aérea de la Guerra Fría."
+  },
+  "suez": {
+    "label": "Crisis de Suez",
+    "years": "1956",
+    "flag": "🇪🇬",
+    "color": "#b91c1c",
+    "desc": "Intervención militar anglo-francesa-israelí en Egipto. Participaron Mystère IV, Vickers Valiant, English Electric Canberra, de Havilland Venom, F-84F Thunderstreak, Gloster Meteor. Única ocasión en que los bombarderos V entraron en combate."
+  },
+  "vietnam": {
+    "label": "Guerra de Vietnam",
+    "years": "1955–1975",
+    "flag": "🇻🇳",
+    "color": "#16a34a",
+    "desc": "El conflicto que redefinió la doctrina aérea moderna. Participaron F-4 Phantom, F-105 Thunderchief, F-100 Super Sabre, A-4 Skyhawk, A-6 Intruder, A-7 Corsair II, B-52 Stratofortress, F-8 Crusader, AC-47 Spooky, OV-10 Bronco, MiG-17, MiG-19, MiG-21, Il-28, An-2. Demostró las limitaciones del combate supersónico en combate cercano."
+  },
+  "sixday": {
+    "label": "Guerra de los Seis Días",
+    "years": "1967",
+    "flag": "🇮🇱",
+    "color": "#4338ca",
+    "desc": "El ataque preventivo israelí destruyó 400 aviones árabes en tierra en la Operación Moked. Participaron Mirage III, Super Mystère, Vautour, Ouragan, Fouga Magister, MiG-17, MiG-19, MiG-21, Su-7, Tu-16, Il-28. Reescribió el manual de la guerra aérea."
+  },
+  "war_of_attrition": {
+    "label": "Guerra de Desgaste",
+    "years": "1967–1970",
+    "flag": "🇪🇬",
+    "color": "#9a3412",
+    "desc": "Conflicto entre Israel y Egipto tras la Guerra de los Seis Días. Participaron Mirage III, A-4 Skyhawk, F-4 Phantom, MiG-21, Su-7, Tu-16. Prueba de fuego para la guerra electrónica y supresión de defensas aéreas (SEAD)."
+  },
+  "yom_kippur": {
+    "label": "Guerra de Yom Kipur",
+    "years": "1973",
+    "flag": "🌙",
+    "color": "#6d28d9",
+    "desc": "Reveló la letalidad de los misiles SAM soviéticos (SA-2, SA-3, SA-6). Participaron F-4 Phantom, A-4 Skyhawk, Mirage III, Nesher, MiG-17, MiG-19, MiG-21, Su-7, Su-20, Tu-16. Cambió la doctrina de supresión de defensas aéreas (SEAD/DEAD)."
+  },
+  "iran_iraq": {
+    "label": "Guerra Irán-Iraq",
+    "years": "1980–1988",
+    "flag": "⚔️",
+    "color": "#9a3412",
+    "desc": "El mayor conflicto bélico entre estados del siglo XX por número de bajas. Participaron F-14 Tomcat, F-4 Phantom, F-5 Tiger, Mirage F1, Super Étendard, MiG-21, MiG-23, MiG-25, Su-20, Su-22, Su-24, Su-25, Tu-22, Il-76. El F-14 iraní con AIM-54 Phoenix logró la mayor cantidad de victorias aéreas de su historia."
+  },
+  "ogaden": {
+    "label": "Guerra de Ogadén",
+    "years": "1977–1978",
+    "flag": "🇪🇹",
+    "color": "#78350f",
+    "desc": "Conflicto entre Somalia y Etiopía con intervención cubana. Participaron MiG-17, MiG-19, MiG-21, MiG-23, Su-22, Il-28, An-12, An-24. La Fuerza Aérea etíope, con pilotos cubanos, derrotó a la somalí."
+  },
+  "cambodian_civil_war": {
+    "label": "Guerra Civil Camboyana",
+    "years": "1967–1975",
+    "flag": "🇰🇭",
+    "color": "#854d0e",
+    "desc": "Conflicto entre el gobierno de Lon Nol y los Jemeres Rojos. Participaron T-28 Trojan, AC-47 Spooky, A-1 Skyraider, O-1 Bird Dog, F-5A, C-123 Provider. La aviación estadounidense realizó intensos bombardeos sobre la 'Ruta Ho Chi Minh' en territorio camboyano."
+  },
+  "lebanon": {
+    "label": "Guerra del Líbano",
+    "years": "1982",
+    "flag": "🇱🇧",
+    "color": "#1f2937",
+    "desc": "Invasión israelí de Líbano. Participaron F-15 Eagle, F-16 Fighting Falcon, Kfir, A-4 Skyhawk, AH-1 Cobra, MiG-21, MiG-23, MiG-25, Su-22. El Kfir israelí derribó varios MiG-21 y MiG-23 sirios en la mayor batalla aérea desde Vietnam."
+  },
+  "falklands": {
+    "label": "Malvinas",
+    "years": "1982",
+    "flag": "🇦🇷",
+    "color": "#0891b2",
+    "desc": "El primer conflicto donde los misiles guiados y el combate naval moderno fueron protagonistas absolutos. Participaron Sea Harrier, Vulcan, Victor, Nimrod, Sea King, Lynx, A-4 Skyhawk, Super Étendard, Mirage III, Pucará, MB-339, C-130 Hercules. El misil Exocet del Super Étendard hundió el HMS Sheffield."
+  },
+  "afghanistan": {
+    "label": "Afganistán (URSS)",
+    "years": "1979–1989",
+    "flag": "🇦🇫",
+    "color": "#92400e",
+    "desc": "El 'Vietnam soviético'. Participaron Su-25, Su-17, MiG-21, MiG-23, Su-24, Mi-24 Hind, Mi-8 Hip, An-12, Il-76. Los Stinger suministrados por EE.UU. a los muyahidines cambiaron el curso del conflicto."
+  },
+  "gulf_war": {
+    "label": "Guerra del Golfo",
+    "years": "1990–1991",
+    "flag": "🇰🇼",
+    "color": "#d97706",
+    "desc": "Primer gran despliegue de tecnología stealth y munición guiada por láser en combate real. Participaron F-117 Nighthawk, F-15 Eagle, F-16 Fighting Falcon, F-111 Aardvark, Tornado GR1, A-10 Thunderbolt II, B-52 Stratofortress, Mirage 2000, B-1B Lancer, E-3 Sentry, KC-135 Stratotanker, MiG-29, MiG-25, Su-25, Su-22, Mirage F1."
+  },
+  "desert_storm": {
+    "label": "Tormenta del Desierto",
+    "years": "1991",
+    "flag": "🇮🇶",
+    "color": "#b45309",
+    "desc": "La campaña aérea más intensa desde la SGM: 100.000 salidas en 43 días. Participaron F-117 Nighthawk, F-15C/E, F-16C, F-111F, A-10A, B-52G, B-1B, Tornado GR1, AV-8B Harrier II, AH-64 Apache, AH-1 Cobra, CH-47 Chinook, E-3 Sentry, EA-6B Prowler, MiG-29, MiG-25, Mirage F1, Su-25, Su-24, SA.342 Gazelle, Mi-24 Hind."
+  },
+  "yugoslavia": {
+    "label": "Yugoslavia / Bosnia",
+    "years": "1991–1999",
+    "flag": "🇷🇸",
+    "color": "#7c3aed",
+    "desc": "Los conflictos balcánicos que vieron el primer uso de armas de precisión en Europa desde la SGM. Participaron F-16, F-15, F/A-18 Hornet, Tornado, Mirage 2000, Jaguar, MiG-21, MiG-29, Su-25, J-22 Orao, G-4 Super Galeb. Los MiG-29 serbios enfrentaron a la OTAN en 1999."
+  },
+  "croatian_independence": {
+    "label": "Guerra de Independencia Croata",
+    "years": "1991–1995",
+    "flag": "🇭🇷",
+    "color": "#0284c7",
+    "desc": "Croacia se independizó de Yugoslavia. Participaron MiG-21bis, MiG-21UM, An-2, An-26, Mi-8, Mi-24 (croatas), MiG-21, MiG-29, J-22 Orao, G-4 Super Galeb (yugoslavos/serbios). Los MiG-21 croatas fueron clave en la Operación Tormenta (1995)."
+  },
+  "bosnian_war": {
+    "label": "Guerra de Bosnia",
+    "years": "1992–1995",
+    "flag": "🇧🇦",
+    "color": "#b45309",
+    "desc": "Conflicto étnico en Bosnia-Herzegovina. Participaron MiG-21, J-22 Orao, G-4 Super Galeb, Mi-8, Mi-24 (bosnios-serbios), F-16, F/A-18, Tornado, Mirage 2000, A-10 (OTAN). La OTAN intervino con bombardeos de precisión (Operación Fuerza Deliberada)."
+  },
+  "kosovo": {
+    "label": "Kosovo",
+    "years": "1998–1999",
+    "flag": "🇽🇰",
+    "color": "#6d28d9",
+    "desc": "Primera guerra ganada casi exclusivamente con poder aéreo, sin bajas propias en combate. Participaron F-15, F-16, F-117, F/A-18, AV-8B, B-52, B-1B, B-2 Spirit, A-10, EA-6B, E-3 Sentry, Tornado, Mirage 2000, MiG-29, G-4 Super Galeb, J-22 Orao. El B-2 Spirit debutó en combate."
+  },
+  "ethiopia_eritrea": {
+    "label": "Guerra Etiopía-Eritrea",
+    "years": "1998–2000",
+    "flag": "🇪🇷",
+    "color": "#78350f",
+    "desc": "Uno de los conflictos más intensos en África. Participaron Su-27, Su-25, MiG-21, MiG-23, MiG-29, Mi-24, Mi-8, L-39 Albatros. Los Su-27 etíopes derribaron varios MiG-29 eritreos en combates aéreos post-Guerra Fría."
+  },
+  "gwot": {
+    "label": "Guerra Global contra el Terror",
+    "years": "2001–pres.",
+    "flag": "🌍",
+    "color": "#dc2626",
+    "desc": "El conflicto más largo de EE.UU., con operaciones en múltiples teatros simultáneos. Participaron F-15E, F-16, F/A-18, A-10, AC-130, B-1B, B-2, B-52, MQ-1 Predator, MQ-9 Reaper, RQ-4 Global Hawk, AH-64 Apache, CH-47 Chinook, C-130 Hercules, C-17 Globemaster."
+  },
+  "iraq": {
+    "label": "Iraq",
+    "years": "2003–2011",
+    "flag": "🇮🇶",
+    "color": "#c2410c",
+    "desc": "Segunda campaña en Iraq que demostró la superioridad absoluta de la coalición en el dominio aéreo. Participaron F-15E, F-16, F/A-18, A-10, AV-8B, B-1B, B-2, B-52, MQ-1 Predator, AH-64 Apache, AH-1 Cobra, CH-47 Chinook, CH-53 Sea Stallion, C-130, C-17."
+  },
+  "georgia_war": {
+    "label": "Guerra de Georgia",
+    "years": "2008",
+    "flag": "🇬🇪",
+    "color": "#1e40af",
+    "desc": "Conflicto entre Georgia y Rusia por Osetia del Sur. Participaron Su-25, Su-24, Su-27, Tu-22M, MiG-29 (rusos), Su-25, L-39 Albatros (georgianos). El Tu-22M fue derribado por un sistema Buk georgiano."
+  },
+  "chechnya": {
+    "label": "Chechenia",
+    "years": "1994–2009",
+    "flag": "🏔️",
+    "color": "#065f46",
+    "desc": "Conflicto urbano donde la aviación rusa sufrió pérdidas inesperadas frente a MANPADS. Participaron Su-25, Su-24, Su-27, MiG-29, Mi-24 Hind, Mi-8 Hip, Mi-26 Halo. La aviación rusa aprendió duras lecciones sobre guerra urbana."
+  },
+  "libya": {
+    "label": "Libia",
+    "years": "2011",
+    "flag": "🇱🇾",
+    "color": "#0369a1",
+    "desc": "Primer uso del Rafale y del Typhoon en combate real. Participaron Rafale, Mirage 2000, Typhoon, Tornado, F-16, F-15E, AV-8B, Harrier GR9, E-3 Sentry, KC-135, MiG-23, Su-22, Su-24, Mi-24, CH-47. La OTAN estableció una zona de exclusión aérea."
+  },
+  "mali": {
+    "label": "Mali / Sahel",
+    "years": "2013–pres.",
+    "flag": "🇲🇱",
+    "color": "#78350f",
+    "desc": "Operación Serval: demostró la proyección global del Rafale a larga distancia. Participaron Rafale, Mirage 2000, C-130 Hercules, C-160 Transall, A-29 Super Tucano, Mi-24, Mi-8, drones MQ-9 Reaper, TB2."
+  },
+  "sahel_insurgency": {
+    "label": "Insurgencia en el Sahel",
+    "years": "2011–pres.",
+    "flag": "🏜️",
+    "color": "#92400e",
+    "desc": "Operaciones contra grupos yihadistas en Burkina Faso, Níger, Mali y Chad. Participaron A-29 Super Tucano, Mirage 2000, Rafale, C-130, Mi-24, Mi-17, drones MQ-9 Reaper, TB2, Bayraktar Akıncı. La aviación francesa y turca son protagonistas."
+  },
+  "central_african_republic": {
+    "label": "República Centroafricana",
+    "years": "2012–pres.",
+    "flag": "🇨🇫",
+    "color": "#b45309",
+    "desc": "Conflicto civil con intervención de la ONU (MINUSCA) y mercenarios rusos (Wagner). Participaron Mi-24, Mi-8, An-26, An-32, L-39 Albatros, Su-25 (rusos/Wagner), C-130, C-160 (ONU)."
+  },
+  "syria": {
+    "label": "Siria",
+    "years": "2011–pres.",
+    "flag": "🇸🇾",
+    "color": "#991b1b",
+    "desc": "El teatro donde más aviaciones han coincidido: EE.UU., Rusia, Francia, RU, Israel, Turquía e Irán. Participaron Su-24, Su-25, Su-30, Su-34, Su-35, Su-57, MiG-23, MiG-29, MiG-31, Tu-22M, Tu-95, Tu-160, F-15, F-16, F-22, F-35, Rafale, Typhoon, MQ-9 Reaper, TB2, Shahed, S-70 Okhotnik, Ka-52, Mi-28, Mi-35."
+  },
+  "ukraine": {
+    "label": "Ucrania",
+    "years": "2022–pres.",
+    "flag": "🇺🇦",
+    "color": "#1d4ed8",
+    "desc": "El mayor conflicto convencional en Europa desde 1945, con drones y misiles de crucero como protagonistas. Participaron Su-27, Su-25, Su-24, Su-34, Su-35, Su-57, MiG-29, MiG-31, Tu-22M, Tu-95, Tu-160, A-50, Ka-52, Mi-28, Mi-24, TB2, Lancet, Shahed, Orlan-10, MQ-9 Reaper, F-16 (2024), Mirage 2000 (2025)."
+  },
+  "nagorno_karabakh": {
+    "label": "Nagorno Karabaj",
+    "years": "2020",
+    "flag": "🇦🇿",
+    "color": "#b91c1c",
+    "desc": "Conflicto entre Armenia y Azerbaiyán; el TB2 demostró la efectividad de los drones MALE en combate moderno. Participaron TB2, Harop, Su-25, Su-30, MiG-29, Mi-24, Mi-8, Su-24 (Azerbaiyán), Su-25, Su-30, MiG-29, Mi-24, Mi-8 (Armenia)."
+  },
+  "yemen": {
+    "label": "Yemen",
+    "years": "2015–pres.",
+    "flag": "🇾🇪",
+    "color": "#92400e",
+    "desc": "Guerra civil con intervención saudí y emiratí. Participaron F-15S, Typhoon, Tornado, Mirage 2000, MQ-9 Reaper, Shahed, TB2, Su-22, MiG-21, MiG-29, Su-24, Su-25 (hutíes), C-130, A-330 MRTT."
+  },
+  "red_sea_crisis": {
+    "label": "Crisis del Mar Rojo",
+    "years": "2023–pres.",
+    "flag": "🇾🇪",
+    "color": "#dc2626",
+    "desc": "Ataques hutíes contra el comercio marítimo e intervención de EE.UU., RU y otros. Participaron F/A-18 Super Hornet, F-35B, F-15E, F-16, Typhoon, E-2 Hawkeye, MQ-9 Reaper, Tomahawk (buques). Respuesta a ataques con misiles balísticos y drones Shahed."
+  },
+  "sudan_civil_war": {
+    "label": "Guerra Civil Sudanesa",
+    "years": "2023–pres.",
+    "flag": "🇸🇩",
+    "color": "#78350f",
+    "desc": "Conflicto entre el Ejército sudanés (SAF) y las Fuerzas de Apoyo Rápido (RSF). Participaron Su-25, MiG-29, Su-24, An-26, Il-76, Mi-24, Mi-8, drones TB2, Shahed."
+  },
+  "sierra_leone": {
+    "label": "Sierra Leona",
+    "years": "1991–2002",
+    "flag": "🌍",
+    "color": "#047857",
+    "desc": "Conflicto civil con intervención británica (Operación Palliser, 2000). Participaron A-29 Super Tucano, Mi-24, Mi-8, C-130 Hercules, Chinook, Lynx, Harrier GR7 (británicos)."
+  },
+  "portuguese_colonial": {
+    "label": "Guerra Colonial Portuguesa",
+    "years": "1961–1974",
+    "flag": "🇵🇹",
+    "color": "#0f172a",
+    "desc": "Conflictos en Angola, Mozambique y Guinea-Bisáu. Participaron F-86 Sabre, Fiat G.91, T-6 Texan, C-47 Skytrain, C-54 Skymaster, B-26 Invader, Alouette III, SA.316. La aviación portuguesa desarrolló tácticas de contrainsurgencia."
+  },
+  "rhodesian_bush_war": {
+    "label": "Guerra de Rhodesia",
+    "years": "1964–1979",
+    "flag": "🇿🇼",
+    "color": "#a16207",
+    "desc": "Conflicto entre el gobierno de Rhodesia y guerrillas nacionalistas. Participaron Hunter FGA.9, Vampire, Canberra B.2, C-47 Dakota, Alouette III, Lynx. La aviación rhodesiana desarrolló tácticas innovadoras de COIN."
+  },
+  "south_african_border": {
+    "label": "Guerra de la Frontera de Sudáfrica",
+    "years": "1966–1990",
+    "flag": "🇳🇦",
+    "color": "#15803d",
+    "desc": "Conflicto entre Sudáfrica y SWAPO en Namibia/Angola. Participaron Mirage III, Mirage F1, Buccaneer, Canberra, Impala, C-130, C-160, Alouette III, Puma, MiG-21, MiG-23, Su-22, Mi-24 (angoleños/cubanos)."
+  },
+  "malayan_emergency": {
+    "label": "Emergencia Malaya",
+    "years": "1948–1960",
+    "flag": "🇲🇾",
+    "color": "#065f46",
+    "desc": "Guerra de contrainsurgencia británica contra guerrillas comunistas. Participaron Spitfire PR.19, Beaufighter, Mosquito, Auster AOP, C-47 Dakota, Avro Lincoln, Bristol Brigand, de Havilland Hornet, Short Sunderland."
+  },
+  "algerian_war": {
+    "label": "Guerra de Independencia de Argelia",
+    "years": "1954–1962",
+    "flag": "🇩🇿",
+    "color": "#9f1239",
+    "desc": "Conflicto entre Francia y el FLN argelino. Participaron T-6 Texan, B-26 Invader, P-47 Thunderbolt, A-1 Skyraider, F4U Corsair, T-28 Trojan, Morane-Saulnier MS.733, C-47 Dakota. La aviación francesa desarrolló tácticas de contrainsurgencia."
+  },
+  "congo_crisis": {
+    "label": "Crisis del Congo",
+    "years": "1960–1965",
+    "flag": "🇨🇩",
+    "color": "#1f2937",
+    "desc": "Conflicto post-independencia con intervención de la ONU. Participaron B-26 Invader, T-6 Texan, C-47 Dakota, C-130 Hercules, Junkers Ju 52, Fouga CM.170 Magister, F-86 Sabre (ONU), MiG-17, MiG-19, Il-14 (secesionistas)."
+  },
+  "dominican_republic": {
+    "label": "Intervención en República Dominicana",
+    "years": "1965",
+    "flag": "🇩🇴",
+    "color": "#a0522d",
+    "desc": "Intervención estadounidense (Operación Power Pack). Participaron A-1 Skyraider, A-4 Skyhawk, F-4 Phantom II, F-8 Crusader, C-47 Dakota, C-130 Hercules, UH-1 Huey, CH-46 Sea Knight."
+  },
+  "ivory_coast": {
+    "label": "Costa de Marfil",
+    "years": "2002–2007",
+    "flag": "🇨🇮",
+    "color": "#15803d",
+    "desc": "Conflicto civil con intervención francesa (Operación Licorne). Participaron Mirage F1, Gazelle, Puma, C-130, A-29 Super Tucano, Su-25, Mi-24. Los Su-25 del gobierno atacaron posiciones rebeldes."
+  },
+  "rwanda_genocide": {
+    "label": "Genocidio de Ruanda",
+    "years": "1994",
+    "flag": "🇷🇼",
+    "color": "#7f1a1a",
+    "desc": "Operación Turquoise: intervención francesa para establecer zona humanitaria. Participaron Mirage F1, Jaguar, C-130, C-160 Transall, Gazelle, Puma, C-47 Dakota. Se estableció una zona de exclusión aérea."
+  },
+  "congo_wars": {
+    "label": "Guerras del Congo",
+    "years": "1996–2003",
+    "flag": "🇨🇩",
+    "color": "#14532d",
+    "desc": "La 'Guerra Mundial Africana' con intervención de múltiples países. Participaron Su-25, MiG-21, MiG-23, Su-22, An-26, An-32, Mi-24, Mi-8, C-130, C-160, Mirage F1, MB-326, A-29 Super Tucano."
+  },
+  "humanitarian": {
+    "label": "Misiones humanitarias",
+    "years": "Varias",
+    "flag": "🕊️",
+    "color": "#0891b2",
+    "desc": "Evacuaciones, entregas de ayuda y apoyo en desastres naturales. Participaron C-130 Hercules, C-17 Globemaster, C-5 Galaxy, C-160 Transall, A400M Atlas, CH-47 Chinook, CH-53 Sea Stallion, Mi-8 Hip, Mi-26 Halo, Airbus A330 MRTT."
+  },
+  "panama": {
+    "label": "Invasión de Panamá",
+    "years": "1989",
+    "flag": "🇵🇦",
+    "color": "#047857",
+    "desc": "Operación Just Cause. Participaron F-117 Nighthawk (primer uso en combate), AC-130 Spectre, AH-1 Cobra, AH-64 Apache, UH-60 Black Hawk, CH-47 Chinook, C-130 Hercules, MC-130 Combat Talon, OV-10 Bronco."
+  }
+}
