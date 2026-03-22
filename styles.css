@@ -1404,3 +1404,71 @@ button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible
   transition: all var(--t-fast);
 }
 .favs-modal-remove:hover { background: rgba(220,38,38,.1); border-color: var(--danger); }
+
+/* ═══════════════════════════════════════════════════
+   PREFERENCES — clases de sistema de preferencias
+═══════════════════════════════════════════════════ */
+
+/* ── Reducir movimiento ───────────────────────────── */
+.no-animations *,
+.no-animations *::before,
+.no-animations *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+
+/* ── Alto contraste ───────────────────────────────── */
+[data-theme="high-contrast"] {
+  --bg-base:       #000000;
+  --bg-surface:    #0a0a0a;
+  --bg-surface2:   #111111;
+  --bg-surface3:   #1a1a1a;
+  --border:        rgba(255,255,255,0.35);
+  --border-strong: rgba(255,255,255,0.6);
+  --text-1:        #ffffff;
+  --text-2:        #f0f0f0;
+  --text-3:        #cccccc;
+  --text-4:        #aaaaaa;
+  --primary:       #4d9fff;
+  --primary-glow:  rgba(77,159,255,0.2);
+  --accent:        #00ffff;
+  --warning:       #ffdd00;
+  --danger:        #ff4444;
+  --success:       #00ff88;
+  --header-bg:     #000000;
+  --header-shadow: 0 2px 0 rgba(255,255,255,0.3);
+}
+[data-theme="high-contrast"] .card,
+[data-theme="high-contrast"] .detail-section,
+[data-theme="high-contrast"] .fav-card {
+  border-width: 2px;
+}
+[data-theme="high-contrast"] .gen-badge,
+[data-theme="high-contrast"] .status-badge,
+[data-theme="high-contrast"] .radar-badge {
+  border-width: 2px;
+  font-weight: 700;
+}
+
+/* ── Focus ring siempre visible ───────────────────── */
+.focus-ring-always :focus {
+  outline: 3px solid var(--primary) !important;
+  outline-offset: 3px !important;
+}
+
+/* ── Densidad de tarjetas ─────────────────────────── */
+.gallery-grid[data-density="compact"] {
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: .65rem;
+}
+.gallery-grid[data-density="compact"] .card-name { font-size: .8rem; }
+.gallery-grid[data-density="compact"] .card-img-wrap { aspect-ratio: 2/1; }
+.gallery-grid[data-density="compact"] .card-body { padding: .6rem; gap: .4rem; }
+
+.gallery-grid[data-density="large"] {
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 1.4rem;
+}
+.gallery-grid[data-density="large"] .card-name { font-size: 1rem; }
+.gallery-grid[data-density="large"] .card-body { padding: 1rem; gap: .75rem; }

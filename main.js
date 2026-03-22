@@ -4,6 +4,7 @@
  */
 
 import { store } from './store/index.js';
+import { prefs, syncPrefsWithStore } from './store/preferences.js';
 import { router } from './router/index.js';
 import { Header } from './components/Header.js';
 
@@ -111,6 +112,7 @@ function applyInitialTheme() {
 // ── Init ───────────────────────────────────────────────────────
 async function init() {
   applyInitialTheme();
+  syncPrefsWithStore(store);
 
   // Montar header
   const headerContainer = document.getElementById('app-header');
