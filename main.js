@@ -84,6 +84,11 @@ function registerRoutes() {
       return new StatsView();
     }, { title: 'Estadísticas Globales — AeroPedia' })
 
+    .route('/help', async () => {
+      const { HelpView } = await import('./views/HelpView.js');
+      return new HelpView();
+    }, { title: 'Ayuda — AeroPedia' })
+
     .route('/shared', async () => {
       const { SharedView } = await import('./views/SharedView.js');
       return new SharedView();

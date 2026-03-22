@@ -808,7 +808,7 @@
         "notes": "En retirada acelerada. Se espera que desaparezca del servicio de primera línea en 2025."
       },
       {
-        "id": "wz7",
+        "id": "rq4",
         "name": "WZ-7 / WZ-8 / WZ-9",
         "qty": 30,
         "role": "ISR estratégico",
@@ -869,7 +869,7 @@
         "notes": "En retirada acelerada. Se espera que los últimos escuadrones se retiren en 2025."
       },
       {
-        "id": "tejas",
+        "id": "hal_tejas",
         "name": "Tejas Mk1A",
         "qty": 35,
         "role": "Caza ligero",
@@ -930,7 +930,7 @@
         "notes": "Primeras entregas en 2024. Reemplazará al E-3D."
       },
       {
-        "id": "protector",
+        "id": "rq4",
         "name": "Protector RG Mk1 (MQ-9B)",
         "qty": 16,
         "role": "ISR / CAS",
@@ -970,7 +970,7 @@
         "notes": "4 unidades, en proceso de modernización para extender su vida hasta que llegue el reemplazo (probablemente E-7)."
       },
       {
-        "id": "a330mrtt",
+        "id": "kc46",
         "name": "A330 MRTT Phénix",
         "qty": 12,
         "role": "Reabastecimiento / Transporte",
@@ -1010,7 +1010,7 @@
         "notes": "Flota reducida a 50 mientras llegan el F-35 y el Eurofighter ECR. Retiro completo planeado para finales de 2025."
       },
       {
-        "id": "a330mrtt",
+        "id": "kc46",
         "name": "A330 MRTT",
         "qty": 9,
         "role": "Reabastecimiento / Transporte",
@@ -1217,7 +1217,7 @@
         "notes": "Columna vertebral de la PAF. El Bloque III con radar AESA KLJ-7A y misiles PL-15 es un gran salto de capacidad."
       },
       {
-        "id": "mirage3_5",
+        "id": "mirage3",
         "name": "Mirage III/V Rose",
         "qty": 60,
         "role": "Ataque / reconocimiento",
@@ -1276,7 +1276,7 @@
         "notes": "70 activos. Participa en misiones de policía aérea báltica."
       },
       {
-        "id": "f18",
+        "id": "fa18hornet",
         "name": "EF-18A/B Hornet",
         "qty": 60,
         "role": "Caza multirol",
@@ -1436,7 +1436,7 @@
         "notes": "Flota en retirada acelerada. Reemplazados por Gripen."
       },
       {
-        "id": "a29",
+        "id": "emb314",
         "name": "A-29 Super Tucano",
         "qty": 99,
         "role": "COIN / ataque ligero / entrenamiento",
@@ -1712,14 +1712,14 @@
         "notes": "Adquiridos de Dinamarca en 2023. Primeras entregas en 2024. Reemplazan a los Mirage y A-4AR. Representan un salto tecnológico histórico."
       },
       {
-        "id": "a4ar",
+        "id": "a4",
         "name": "A-4AR Fightinghawk",
         "qty": 10,
         "role": "Ataque ligero (retiro)",
         "notes": "En retiro acelerado tras la llegada de los F-16."
       },
       {
-        "id": "ia63",
+        "id": "hawk",
         "name": "IA-63 Pampa III",
         "qty": 18,
         "role": "Entrenamiento avanzado / ataque ligero",
@@ -1778,7 +1778,7 @@
         "notes": "Flota envejecida. Sigue siendo el principal caza hasta la llegada del F-16."
       },
       {
-        "id": "a29",
+        "id": "emb314",
         "name": "A-29 Super Tucano",
         "qty": 25,
         "role": "COIN / ataque ligero",
@@ -1849,7 +1849,7 @@
         "notes": "36 F-35A pedidos en 2021 para reemplazar Hornet y F-5. Entregas previstas 2027-2030."
       },
       {
-        "id": "f5tiger",
+        "id": "f5",
         "name": "F-5E Tiger II",
         "qty": 12,
         "role": "Caza ligero (retirada)",
@@ -2097,7 +2097,7 @@
         "notes": "40 F-16 modernizados al estándar MLU. Columna vertebral."
       },
       {
-        "id": "f5tiger",
+        "id": "f5",
         "name": "F-5E/F Tiger II",
         "qty": 30,
         "role": "Caza ligero",
@@ -2137,7 +2137,7 @@
         "notes": "Filipinas negocia la compra de 12 F-16V o el Gripen en el marco del Horizon 3."
       },
       {
-        "id": "a29",
+        "id": "emb314",
         "name": "A-29 Super Tucano",
         "qty": 6,
         "role": "COIN / ataque ligero",
@@ -2394,7 +2394,7 @@
         "notes": "22 F-16: 12 Block 40 y 10 Block 70 (F-16V) entregados en 2023."
       },
       {
-        "id": "f5tiger",
+        "id": "f5",
         "name": "F-5E/F Tiger II",
         "qty": 12,
         "role": "Caza ligero (retirada)",
@@ -2465,7 +2465,7 @@
     "strength_rank": 65,
     "aircraft": [
       {
-        "id": "f5tiger",
+        "id": "f5",
         "name": "F-5E/F Tiger II",
         "qty": 12,
         "role": "Caza ligero",
@@ -2654,7 +2654,7 @@
     "strength_rank": 66,
     "aircraft": [
       {
-        "id": "f5tiger",
+        "id": "f5",
         "name": "F-5E/F Tiger II",
         "qty": 18,
         "role": "Caza ligero",

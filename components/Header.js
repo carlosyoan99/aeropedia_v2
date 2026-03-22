@@ -171,6 +171,10 @@ export class Header {
             <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
             Stats
           </a>
+          <a href="/help" data-link class="header-btn icon-btn help-btn"
+            aria-label="Ayuda" title="Ayuda">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+          </a>
           <a href="/settings" data-link class="header-btn icon-btn settings-btn"
             aria-label="Configuración (Ctrl+,)" title="Configuración (Ctrl+,)">
             <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
