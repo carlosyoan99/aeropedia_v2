@@ -34,62 +34,62 @@ async function loadCoreData() {
 // ── Rutas ──────────────────────────────────────────────────────
 function registerRoutes() {
   router
-    .route('/', async () => {
+    .route('/aeropedia_v2', async () => {
       const { HomeView } = await import('./views/HomeView.js');
       return new HomeView();
     }, { title: 'AeroPedia — Archivo Global de Aviación' })
 
-    .route('/aircraft/:id', async () => {
+    .route('/aeropedia_v2/aircraft/:id', async () => {
       const { AircraftDetailView } = await import('./views/AircraftDetailView.js');
       return new AircraftDetailView();
     }, { title: 'Ficha técnica — AeroPedia' })
 
-    .route('/compare', async () => {
+    .route('/aeropedia_v2/compare', async () => {
       const { CompareView } = await import('./views/CompareView.js');
       return new CompareView();
     }, { title: 'Comparador — AeroPedia' })
 
-    .route('/kills', async () => {
+    .route('/aeropedia_v2/kills', async () => {
       const { KillsView } = await import('./views/KillsView.js');
       return new KillsView();
     }, { title: 'Historial de Combate — AeroPedia' })
 
-    .route('/fleets', async () => {
+    .route('/aeropedia_v2/fleets', async () => {
       const { FleetsView } = await import('./views/FleetsView.js');
       return new FleetsView();
     }, { title: 'Flotas Aéreas — AeroPedia' })
 
-    .route('/mach', async () => {
+    .route('/aeropedia_v2/mach', async () => {
       const { MachView } = await import('./views/MachView.js');
       return new MachView();
     }, { title: 'Calculadora Mach — AeroPedia' })
 
-    .route('/favorites', async () => {
+    .route('/aeropedia_v2/favorites', async () => {
       const { FavoritesView } = await import('./views/FavoritesView.js');
       return new FavoritesView();
     }, { title: 'Mis Favoritos — AeroPedia' })
 
-    .route('/settings', async () => {
+    .route('/aeropedia_v2/settings', async () => {
       const { SettingsView } = await import('./views/SettingsView.js');
       return new SettingsView();
     }, { title: 'Configuración — AeroPedia' })
 
-    .route('/theater', async () => {
+    .route('/aeropedia_v2/theater', async () => {
       const { TheaterView } = await import('./views/TheaterView.js');
       return new TheaterView();
     }, { title: 'Teatro de Operaciones — AeroPedia' })
 
-    .route('/stats', async () => {
+    .route('/aeropedia_v2/stats', async () => {
       const { StatsView } = await import('./views/StatsView.js');
       return new StatsView();
     }, { title: 'Estadísticas Globales — AeroPedia' })
 
-    .route('/help', async () => {
+    .route('/aeropedia_v2/help', async () => {
       const { HelpView } = await import('./views/HelpView.js');
       return new HelpView();
     }, { title: 'Ayuda — AeroPedia' })
 
-    .route('/shared', async () => {
+    .route('/aeropedia_v2/shared', async () => {
       const { SharedView } = await import('./views/SharedView.js');
       return new SharedView();
     }, { title: 'Colección compartida — AeroPedia' })
