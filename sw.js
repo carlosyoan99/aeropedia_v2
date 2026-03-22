@@ -3,7 +3,7 @@
  * Cache-first para assets, network-first para datos JSON.
  */
 
-const CACHE_VERSION = 'aeropedia-v2';
+const CACHE_VERSION = 'aeropedia-v3';
 const CACHE_STATIC  = `${CACHE_VERSION}-static`;
 const CACHE_DATA    = `${CACHE_VERSION}-data`;
 const CACHE_IMAGES  = `${CACHE_VERSION}-images`;
