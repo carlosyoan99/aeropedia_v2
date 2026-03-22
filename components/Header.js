@@ -104,6 +104,9 @@ export class Header {
               placeholder="Buscar aeronave, país…" aria-label="Buscar aeronave"
               autocomplete="off" value="${s.search || ''}">
             <kbd class="search-kbd" aria-hidden="true">/</kbd>
+            <div class="search-operators-hint" aria-hidden="true" role="tooltip">
+              Operadores: <strong>tipo:Caza</strong> · <strong>país:USA</strong> · <strong>gen:5</strong> · <strong>año:&gt;2000</strong> · <strong>stealth:alto</strong>
+            </div>
           </div>
 
           <!-- Filtro categoría -->

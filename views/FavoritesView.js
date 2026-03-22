@@ -5,8 +5,9 @@
 import { store, COLLECTION_COLORS, COLLECTION_ICONS } from '../store/index.js';
 import { prefs }   from '../store/preferences.js';
 import { router }  from '../router/index.js';
-import { setPageMeta, FALLBACK_IMG, genBadgeHTML, debounce, copyToClipboard, showToast } from '../utils/index.js';
+import { setPageMeta, FALLBACK_IMG, genBadgeHTML, debounce, copyToClipboard, showToast, renderMarkdown } from '../utils/index.js';
 import { drawPieChart, drawBarChart } from '../components/Charts.js';
+import { exportFavsAsImage } from '../utils/exportImage.js';
 
 const SUGGESTED_TAGS = ['favorito','pendiente','histórico','moderno','furtivo','naval','UAV','legendario'];
 
@@ -62,7 +63,11 @@ export class FavoritesView {
           <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/></svg>
           Compartir
         </button>
-        <button class="header-btn" id="exportBtn" title="Exportar favoritos">
+        <button class="header-btn" id="exportImgBtn" title="Exportar como imagen PNG" aria-label="Exportar colección como imagen">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd"/></svg>
+          PNG
+        </button>
+        <button class="header-btn" id="exportBtn" title="Exportar favoritos JSON" aria-label="Exportar favoritos como JSON">
           <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           Exportar
         </button>
@@ -143,8 +148,20 @@ export class FavoritesView {
             </div>
           </div>
           <div class="favs-modal-field">
-            <label class="favs-modal-label" for="modalNote">Nota personal</label>
-            <textarea id="modalNote" class="favs-modal-textarea" rows="3" placeholder="Añade una nota…"></textarea>
+            <div class="md-note-toolbar">
+              <label class="favs-modal-label" for="modalNote">Nota personal</label>
+              <div class="md-toolbar-btns" role="group" aria-label="Herramientas de formato">
+                <button type="button" class="md-btn" data-md-bold title="Negrita (**texto**)"><strong>B</strong></button>
+                <button type="button" class="md-btn" data-md-italic title="Cursiva (*texto*)"><em>I</em></button>
+                <button type="button" class="md-btn" data-md-code title="Código (`código`)"><code>`</code></button>
+                <button type="button" class="md-btn" data-md-list title="Lista (- elemento)">≡</button>
+                <button type="button" class="md-btn" data-md-preview title="Vista previa" id="mdPreviewBtn">👁</button>
+              </div>
+            </div>
+            <textarea id="modalNote" class="favs-modal-textarea" rows="4"
+              placeholder="Soporta Markdown: **negrita**, *cursiva*, \`código\`, - listas"></textarea>
+            <div id="mdPreview" class="md-preview hidden" aria-label="Vista previa de la nota" aria-live="polite"></div>
+            <p class="md-hint">**negrita** · *cursiva* · \`código\` · - lista</p>
           </div>
           <div class="favs-modal-field">
             <label class="favs-modal-label">Etiquetas</label>
@@ -481,7 +498,7 @@ export class FavoritesView {
           </div>
           <div class="fav-card-rating" aria-label="Valoración ${meta.rating||0} de 5">${stars}</div>
         </div>
-        ${meta.note&&!compact?`<p class="fav-card-note">"${meta.note}"</p>`:''}
+        ${meta.note&&!compact?`<div class="fav-card-note md-note">${renderMarkdown(meta.note)}</div>`:''}
         ${tags?`<div class="fav-card-tags" aria-label="Etiquetas">${tags}</div>`:''}
         ${!compact?`<div class="fav-card-stats">
           <span class="fav-stat-chip">⚡ ${plane.speed.toLocaleString('es-ES')} km/h</span>
@@ -821,6 +838,26 @@ export class FavoritesView {
 
       // Exportar / Compartir
       if (e.target.closest('#exportBtn')) {
+        // Exportar imagen
+        if (e.target.closest('#exportImgBtn')) {
+          const items = store.getFilteredFavs();
+          if (!items.length) { showToast('No hay favoritos para exportar'); return; }
+          showToast('Generando imagen…');
+          const dark = document.body.classList.contains('dark');
+          try {
+            const dataUrl = await exportFavsAsImage(items, { dark, title: 'Mis Favoritos — AeroPedia' });
+            const a = Object.assign(document.createElement('a'), {
+              href: dataUrl,
+              download: `aeropedia-favoritos-${new Date().toISOString().slice(0,10)}.png`,
+            });
+            a.click();
+            showToast(`✓ Imagen exportada (${items.length} aeronaves)`);
+          } catch (err) {
+            showToast(`✗ Error al generar imagen: ${err.message}`);
+          }
+          return;
+        }
+
         const json = store.exportFavs();
         const url  = URL.createObjectURL(new Blob([json],{type:'application/json'}));
         Object.assign(document.createElement('a'),{href:url,download:`aeropedia-favs-${new Date().toISOString().slice(0,10)}.json`}).click();
@@ -842,6 +879,45 @@ export class FavoritesView {
       if (e.target.closest('[data-id]') && !e.target.closest('[data-action]')) {
         const row = e.target.closest('[data-id]');
         if (row?.tagName === 'TR') router.navigate(`/aircraft/${row.dataset.id}`);
+      }
+    });
+
+    // Markdown toolbar
+    this.#el?.querySelector('.md-note-toolbar')?.addEventListener('click', e => {
+      const btn = e.target.closest('[data-md-bold],[data-md-italic],[data-md-code],[data-md-list],[data-md-preview]');
+      if (!btn) return;
+      const ta = this.#el?.querySelector('#modalNote');
+      if (!ta) return;
+      const start = ta.selectionStart, end = ta.selectionEnd;
+      const selected = ta.value.slice(start, end);
+
+      if (btn.hasAttribute('data-md-preview')) {
+        const preview = this.#el?.querySelector('#mdPreview');
+        const isShowing = !preview?.classList.contains('hidden');
+        preview?.classList.toggle('hidden', isShowing);
+        if (!isShowing) preview.innerHTML = renderMarkdown(ta.value || '');
+        btn.classList.toggle('active', !isShowing);
+        return;
+      }
+
+      let wrap;
+      if (btn.hasAttribute('data-md-bold'))   wrap = ['**', '**'];
+      if (btn.hasAttribute('data-md-italic'))  wrap = ['*', '*'];
+      if (btn.hasAttribute('data-md-code'))    wrap = ['`', '`'];
+      if (btn.hasAttribute('data-md-list'))    wrap = ['- ', ''];
+
+      if (!wrap) return;
+      const [pre, post] = wrap;
+      const newText = pre + (selected || 'texto') + post;
+      ta.setRangeText(newText, start, end, 'select');
+      ta.focus();
+    });
+
+    // Live preview update
+    this.#el?.querySelector('#modalNote')?.addEventListener('input', () => {
+      const preview = this.#el?.querySelector('#mdPreview');
+      if (!preview?.classList.contains('hidden')) {
+        preview.innerHTML = renderMarkdown(this.#el?.querySelector('#modalNote')?.value || '');
       }
     });
 

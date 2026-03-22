@@ -1,12 +1,16 @@
 /**
- * views/HomeView.js — Vista principal: galería + ranking
- * Fixes: timeline panel UI, activeConflict filter, conflict badge in counter.
+ * views/HomeView.js — Galería + Ranking + Búsqueda avanzada +
+ *                     Panel de recientes + Comparación rápida inline +
+ *                     Timeline panel + Filtro por conflicto
  */
 
 import { store } from '../store/index.js';
 import { prefs }  from '../store/preferences.js';
 import { router } from '../router/index.js';
-import { genBadgeHTML, formatStat, FALLBACK_IMG, lazyLoad, setPageMeta, debounce } from '../utils/index.js';
+import {
+  genBadgeHTML, formatStat, FALLBACK_IMG, lazyLoad, setPageMeta, debounce,
+  parseAdvancedQuery, matchAdvancedQuery, getQueryHints,
+} from '../utils/index.js';
 
 const STAT_COLORS = {
   speed: '#3b82f6', range: '#8b5cf6', ceiling: '#06b6d4', mtow: '#f59e0b', year: '#10b981',
@@ -16,12 +20,13 @@ const TL_MIN = 1940, TL_MAX = 2030, TL_STEP = 10;
 export class HomeView {
   #el      = null;
   #unsubs  = [];
-  #tl      = { open: false };   // timeline local state
+  #tl      = { open: false };
+  #quickCompareId = null;   // ID del avión en comparación rápida
 
   async render() {
     setPageMeta({
       title: 'AeroPedia — Archivo Global de Aviación',
-      description: 'Enciclopedia interactiva de aviación militar: fichas técnicas, comparador y más.',
+      description: 'Enciclopedia interactiva de aviación militar.',
     });
 
     this.#el = document.createElement('div');
@@ -35,22 +40,23 @@ export class HomeView {
     this.#applyDensityPrefs();
     this.#unsubs.push(prefs.subscribe('display', () => this.#applyDensityPrefs()));
 
-    // Activar filtro de conflicto si viene de Theater
-    const conflict = store.get('activeConflict');
-    if (conflict && conflict !== 'all') {
-      this.#showConflictBadge(conflict);
+    if (store.get('activeConflict') !== 'all') {
+      this.#showConflictBadge(store.get('activeConflict'));
     }
 
     return this.#el;
   }
 
-  destroy() { this.#unsubs.forEach(u => u()); }
+  destroy() {
+    this.#unsubs.forEach(u => u());
+    this.#closeQuickCompare();
+  }
 
-  // ── Scaffold ─────────────────────────────────────────────────
+  // ── Scaffold ──────────────────────────────────────────────────
   #scaffold() {
     const sort = store.get('sortStat');
     return `
-      <!-- Barra de herramientas contextual -->
+      <!-- Toolbar: contador + acciones -->
       <div class="home-toolbar">
         <div class="result-bar" role="status" aria-live="polite" aria-atomic="true">
           <span class="result-label">// Mostrando</span>
@@ -60,8 +66,12 @@ export class HomeView {
           <span id="resultFilterLabel" class="result-filter"></span>
         </div>
         <div class="home-toolbar-actions">
-          <button id="timelineToggleBtn" class="header-btn timeline-toggle-btn" aria-expanded="false" aria-controls="timelinePanel" title="Línea de tiempo (T)">
+          <button id="recentsBtn" class="header-btn" title="Vistas recientemente (R)" aria-expanded="false" aria-controls="recentsPanel">
             <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V7z" clip-rule="evenodd"/></svg>
+            Recientes
+          </button>
+          <button id="timelineToggleBtn" class="header-btn timeline-toggle-btn" aria-expanded="false" aria-controls="timelinePanel" title="Línea de tiempo (T)">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
             Timeline
           </button>
           <button id="clearConflictBtn" class="header-btn conflict-badge hidden" aria-label="Limpiar filtro de conflicto">
@@ -71,8 +81,20 @@ export class HomeView {
         </div>
       </div>
 
-      <!-- Panel Timeline (colapsable) -->
-      <div id="timelinePanel" class="timeline-panel" aria-hidden="true" role="region" aria-label="Filtro por línea de tiempo">
+      <!-- Panel de búsqueda avanzada (hint) -->
+      <div id="searchHint" class="search-hint hidden" aria-live="polite" role="status"></div>
+
+      <!-- Panel de recientes -->
+      <div id="recentsPanel" class="recents-panel hidden" aria-hidden="true" role="region" aria-label="Aeronaves vistas recientemente">
+        <div class="recents-panel-header">
+          <span class="recents-panel-title">Vistas recientemente</span>
+          <button id="clearRecentsBtn" class="recents-clear-btn" aria-label="Limpiar historial">Limpiar</button>
+        </div>
+        <div id="recentsList" class="recents-list" role="list"></div>
+      </div>
+
+      <!-- Timeline panel -->
+      <div id="timelinePanel" class="timeline-panel" aria-hidden="true" role="region" aria-label="Filtro por año">
         <div class="timeline-panel-inner">
           <div class="timeline-header">
             <div class="timeline-header-left">
@@ -80,27 +102,21 @@ export class HomeView {
               <span class="timeline-title">Línea de Tiempo</span>
               <span id="timelineRangeLabel" class="timeline-range-label">TODAS LAS ÉPOCAS</span>
             </div>
-            <button id="timelineResetBtn" class="timeline-reset-btn" disabled aria-label="Restablecer rango de tiempo">
+            <button id="timelineResetBtn" class="timeline-reset-btn" disabled>
               <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12" aria-hidden="true"><path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1z" clip-rule="evenodd"/></svg>
               Reset
             </button>
           </div>
-
-          <!-- Marcas de décadas -->
           <div id="decadeMarks" class="decade-marks" role="group" aria-label="Décadas"></div>
-
-          <!-- Sliders duales -->
-          <div class="timeline-sliders-wrap" aria-label="Rango de años">
+          <div class="timeline-sliders-wrap">
             <div class="timeline-track-bg"><div id="timelineTrackFill" class="timeline-track-fill"></div></div>
-            <input type="range" id="timelineMin" class="timeline-input" min="${TL_MIN}" max="2020" step="${TL_STEP}" value="${TL_MIN}"
-              aria-label="Año inicial" aria-valuemin="${TL_MIN}" aria-valuemax="2020">
-            <input type="range" id="timelineMax" class="timeline-input" min="1950" max="${TL_MAX}" step="${TL_STEP}" value="${TL_MAX}"
-              aria-label="Año final" aria-valuemin="1950" aria-valuemax="${TL_MAX}">
+            <input type="range" id="timelineMin" class="timeline-input" min="${TL_MIN}" max="2020" step="${TL_STEP}" value="${TL_MIN}" aria-label="Año inicial">
+            <input type="range" id="timelineMax" class="timeline-input" min="1950" max="${TL_MAX}" step="${TL_STEP}" value="${TL_MAX}" aria-label="Año final">
           </div>
           <div class="timeline-ticks" aria-hidden="true">
-            ${[1940,1960,1980,2000,2024].map(y=>`<span>${y}</span>`).join('')}
+            ${[1940,1960,1980,2000,2024].map(y => `<span>${y}</span>`).join('')}
           </div>
-          <p class="timeline-hint">Arrastra los extremos para filtrar por año de entrada en servicio</p>
+          <p class="timeline-hint">Arrastra para filtrar por año de entrada en servicio</p>
         </div>
       </div>
 
@@ -111,6 +127,7 @@ export class HomeView {
 
       <!-- Ranking -->
       <div id="rankingView" class="hidden" role="main">
+        <!-- Pills de ordenación (mobile) -->
         <div class="ranking-pills" role="group" aria-label="Ordenar por">
           <span class="ranking-pills-label">Ordenar por:</span>
           ${['speed','range','ceiling','mtow','year'].map(stat =>
@@ -118,22 +135,42 @@ export class HomeView {
               ${{speed:'Velocidad',range:'Alcance',ceiling:'Techo',mtow:'MTOW',year:'Año'}[stat]}
             </button>`
           ).join('')}
+          <!-- Dirección en mobile -->
+          <button class="rank-dir-btn" id="rankDirBtn" aria-label="Invertir dirección de ordenación" title="Invertir orden">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" id="rankDirIcon" aria-hidden="true">
+              <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
+            </svg>
+          </button>
         </div>
         <div class="ranking-table-wrap">
           <table class="ranking-table" aria-label="Tabla de ranking">
-            <thead><tr>
-              <th scope="col">#</th>
-              <th scope="col">Aeronave</th>
-              <th scope="col" class="sort-th" data-col="speed">Velocidad <span class="sort-icon" aria-hidden="true">↕</span></th>
-              <th scope="col" class="sort-th hidden-sm" data-col="range">Alcance <span class="sort-icon" aria-hidden="true">↕</span></th>
-              <th scope="col" class="sort-th hidden-sm" data-col="ceiling">Techo <span class="sort-icon" aria-hidden="true">↕</span></th>
-              <th scope="col" class="sort-th hidden-md" data-col="mtow">MTOW <span class="sort-icon" aria-hidden="true">↕</span></th>
-              <th scope="col" class="sort-th hidden-md" data-col="year">Año <span class="sort-icon" aria-hidden="true">↕</span></th>
-              <th scope="col"></th>
-            </tr></thead>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Aeronave</th>
+                <th scope="col" class="sort-th" data-col="speed">
+                  <span class="sort-th-inner">Velocidad <span class="sort-icon" aria-hidden="true">↕</span></span>
+                </th>
+                <th scope="col" class="sort-th hidden-sm" data-col="range">
+                  <span class="sort-th-inner">Alcance <span class="sort-icon" aria-hidden="true">↕</span></span>
+                </th>
+                <th scope="col" class="sort-th hidden-sm" data-col="ceiling">
+                  <span class="sort-th-inner">Techo <span class="sort-icon" aria-hidden="true">↕</span></span>
+                </th>
+                <th scope="col" class="sort-th hidden-md" data-col="mtow">
+                  <span class="sort-th-inner">MTOW <span class="sort-icon" aria-hidden="true">↕</span></span>
+                </th>
+                <th scope="col" class="sort-th hidden-md" data-col="year">
+                  <span class="sort-th-inner">Año <span class="sort-icon" aria-hidden="true">↕</span></span>
+                </th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
             <tbody id="rankingBody"></tbody>
           </table>
         </div>
+        <!-- Info de ordenación actual (mobile feedback) -->
+        <p class="rank-sort-info mono" id="rankSortInfo" aria-live="polite"></p>
       </div>
 
       <!-- Barra de comparación flotante -->
@@ -156,37 +193,75 @@ export class HomeView {
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- Quick Compare overlay (aparece debajo de la card seleccionada) -->
+      <div id="quickCompareOverlay" class="qc-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="qcTitle" aria-hidden="true">
+        <div class="qc-inner">
+          <div class="qc-header">
+            <h2 id="qcTitle" class="qc-title">Comparación rápida</h2>
+            <button id="qcClose" class="qc-close" aria-label="Cerrar comparación rápida">×</button>
+          </div>
+          <div id="qcContent" class="qc-content"></div>
+          <div class="qc-footer">
+            <button id="qcGoFull" class="btn-compare">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+              Ver comparación completa
+            </button>
+          </div>
+        </div>
       </div>`;
   }
 
-  // ── Suscripciones ─────────────────────────────────────────────
+  // ── Suscripciones ──────────────────────────────────────────────
   #subscribeStore() {
     const rerender = debounce(() => this.#renderAll(), 50);
     this.#unsubs.push(
-      store.subscribe(['search','cat','onlyFavs','favs','timelineActive','timelineMin','timelineMax','sortStat','sortAsc','activeConflict'], rerender),
-      store.subscribe('view',        (v) => this.#syncView(v)),
-      store.subscribe('compareList', ()  => this.#updateCompareBar()),
-      store.subscribe('aircraftDB',  ()  => { this.#buildDecadeMarks(); this.#renderAll(); }),
-      store.subscribe('activeConflict', (v) => this.#showConflictBadge(v)),
+      store.subscribe(['search','cat','onlyFavs','favs','timelineActive','timelineMin',
+        'timelineMax','sortStat','sortAsc','activeConflict'], rerender),
+      store.subscribe('view',        v => this.#syncView(v)),
+      store.subscribe('compareList', () => this.#updateCompareBar()),
+      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#renderAll(); }),
+      store.subscribe('activeConflict', v => this.#showConflictBadge(v)),
+      store.subscribe('recents',     () => this.#renderRecentsList()),
     );
   }
 
-  // ── Filtrado — FIX CRÍTICO: incluye activeConflict ─────────────
+  // ── Filtrado avanzado ──────────────────────────────────────────
   #getFiltered() {
     const { aircraftDB, search: q, cat, onlyFavs, timelineActive,
             timelineMin, timelineMax, favs, activeConflict } = store.getState();
 
+    const parsed = parseAdvancedQuery(q);
+    const useAdvanced = q.includes(':');
+
+    // Mostrar hint de operadores activos
+    const hintEl = this.#el?.querySelector('#searchHint');
+    const hints  = getQueryHints(q);
+    if (hintEl) {
+      if (hints) {
+        hintEl.textContent = `Filtros activos: ${hints}`;
+        hintEl.classList.remove('hidden');
+      } else {
+        hintEl.classList.add('hidden');
+      }
+    }
+
     return [...aircraftDB]
       .sort((a, b) => a.name.localeCompare(b.name))
       .filter(p => {
-        const s = q.toLowerCase();
-        const matchSearch   = !q || p.name.toLowerCase().includes(s) ||
-          p.country.toLowerCase().includes(s) || p.type.toLowerCase().includes(s) ||
-          (p.manufacturer || '').toLowerCase().includes(s);
+        const matchSearch = !q
+          ? true
+          : useAdvanced
+            ? matchAdvancedQuery(p, parsed)
+            : p.name.toLowerCase().includes(q.toLowerCase()) ||
+              p.country.toLowerCase().includes(q.toLowerCase()) ||
+              p.type.toLowerCase().includes(q.toLowerCase()) ||
+              (p.manufacturer || '').toLowerCase().includes(q.toLowerCase());
+
         const matchCat      = cat === 'all' || p.type === cat;
         const matchFav      = !onlyFavs || favs.includes(p.id);
         const matchTimeline = !timelineActive || (p.year >= timelineMin && p.year <= timelineMax);
-        // FIX: filtro por conflicto activo
         const matchConflict = activeConflict === 'all' || (p.conflicts || []).includes(activeConflict);
         return matchSearch && matchCat && matchFav && matchTimeline && matchConflict;
       });
@@ -201,9 +276,8 @@ export class HomeView {
   #updateCounter(filtered) {
     const countEl = this.#el?.querySelector('#resultCount');
     if (countEl) countEl.textContent = filtered.length;
-
-    const labels = [];
     const { cat, search: q, onlyFavs, timelineActive, timelineMin, timelineMax, activeConflict } = store.getState();
+    const labels = [];
     if (cat !== 'all') labels.push(cat.toUpperCase());
     if (onlyFavs) labels.push('⭐ FAVORITOS');
     if (timelineActive) labels.push(`${timelineMin}–${timelineMax}`);
@@ -211,13 +285,12 @@ export class HomeView {
       const cf = store.get('conflictsDB')[activeConflict];
       if (cf) labels.push(`${cf.flag} ${cf.label}`);
     }
-    if (q) labels.push(`"${q}"`);
-
+    if (q && !q.includes(':')) labels.push(`"${q}"`);
     const lbl = this.#el?.querySelector('#resultFilterLabel');
     if (lbl) lbl.textContent = labels.length ? labels.join(' · ') : 'TODOS LOS MODELOS';
   }
 
-  // ── Galería ───────────────────────────────────────────────────
+  // ── Galería ────────────────────────────────────────────────────
   #renderGallery(planes) {
     const gallery = this.#el?.querySelector('#gallery');
     if (!gallery) return;
@@ -236,7 +309,7 @@ export class HomeView {
     const rangePct   = Math.min((plane.range   / 15000) * 100, 100);
     const ceilingPct = Math.min((plane.ceiling / 25000) * 100, 100);
     const statusMap  = { active:['Activo','active'], prototype:['Prototipo','proto'], limited:['Limitado','limited'] };
-    const [statusLabel, statusCls] = statusMap[plane.status] || [null, ''];
+    const [statusLabel, statusCls] = statusMap[plane.status] || [null,''];
 
     const card = document.createElement('article');
     card.className = `card${inCompare ? ' selected-for-compare' : ''}`;
@@ -293,25 +366,35 @@ export class HomeView {
                 : '<path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/>'}
             </svg>
           </button>
+          <!-- Quick compare button -->
+          <button class="btn-icon qc-btn" data-qc="${plane.id}"
+            aria-label="Comparación rápida de ${plane.name}" title="Comparación rápida (vista previa)">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true">
+              <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"/>
+            </svg>
+          </button>
         </div>
       </div>`;
     return card;
   }
 
-  // ── Ranking ───────────────────────────────────────────────────
+  // ── Ranking — FIX: ordenación mobile consistente ────────────────
   #renderRanking(planes) {
     const body = this.#el?.querySelector('#rankingBody');
     if (!body) return;
+
     const { sortStat, sortAsc } = store.getState();
-    const sorted = [...planes].sort((a,b) => sortAsc ? a[sortStat]-b[sortStat] : b[sortStat]-a[sortStat]);
+    const sorted = [...planes].sort((a, b) =>
+      sortAsc ? a[sortStat] - b[sortStat] : b[sortStat] - a[sortStat]
+    );
     const maxVal = sorted.length ? Math.max(...sorted.map(p => p[sortStat])) : 1;
     const color  = STAT_COLORS[sortStat] || '#3b82f6';
     const medals = ['🥇','🥈','🥉'];
 
     body.innerHTML = sorted.length
-      ? sorted.map((p,i) => {
+      ? sorted.map((p, i) => {
           const pct = (p[sortStat] / maxVal) * 100;
-          return `<tr class="rank-row" data-id="${p.id}" tabindex="0" role="button" aria-label="Ver ficha de ${p.name}">
+          return `<tr class="rank-row" data-id="${p.id}" tabindex="0" role="button" aria-label="${p.name}: ${formatStat(sortStat, p[sortStat])}">
             <td class="rank-pos mono">${medals[i] || (i+1)}</td>
             <td class="rank-plane">
               <div class="rank-plane-cell">
@@ -335,16 +418,164 @@ export class HomeView {
         }).join('')
       : '<tr><td colspan="8" class="rank-empty">Sin resultados</td></tr>';
 
+    // Sync headers — incluyendo dirección
     this.#el?.querySelectorAll('.sort-th').forEach(th => {
       const active = th.dataset.col === sortStat;
       th.classList.toggle('sorted', active);
+      th.setAttribute('aria-sort', active ? (sortAsc ? 'ascending' : 'descending') : 'none');
       const icon = th.querySelector('.sort-icon');
       if (icon) icon.textContent = active ? (sortAsc ? '↑' : '↓') : '↕';
     });
+
+    // Sync pills
+    this.#el?.querySelectorAll('.rank-stat-pill').forEach(b => {
+      b.classList.toggle('active', b.dataset.stat === sortStat);
+      b.setAttribute('aria-pressed', b.dataset.stat === sortStat);
+    });
+
+    // Mobile sort info label
+    const info = this.#el?.querySelector('#rankSortInfo');
+    if (info) {
+      const statLabel = {speed:'Velocidad',range:'Alcance',ceiling:'Techo',mtow:'MTOW',year:'Año'}[sortStat];
+      info.textContent = `Ordenado por ${statLabel} ${sortAsc ? '↑ asc.' : '↓ desc.'}`;
+    }
+
+    // Mobile dir btn icon
+    const dirIcon = this.#el?.querySelector('#rankDirIcon');
+    if (dirIcon) {
+      dirIcon.innerHTML = sortAsc
+        ? '<path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>'
+        : '<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>';
+    }
+
     lazyLoad(body);
   }
 
-  // ── Timeline ──────────────────────────────────────────────────
+  // ── Quick Compare ──────────────────────────────────────────────
+  #openQuickCompare(id, anchorCard) {
+    const db   = store.get('aircraftDB');
+    const p    = db.find(x => x.id === id);
+    if (!p) return;
+
+    this.#quickCompareId = id;
+    const overlay = this.#el?.querySelector('#quickCompareOverlay');
+    if (!overlay) return;
+
+    const compareList = store.get('compareList');
+    const STATS = [
+      ['Velocidad',  p => `${p.speed.toLocaleString('es-ES')} km/h`, 'speed',   '#3b82f6'],
+      ['Alcance',    p => `${p.range.toLocaleString('es-ES')} km`,   'range',   '#8b5cf6'],
+      ['Techo',      p => `${p.ceiling.toLocaleString('es-ES')} m`,  'ceiling', '#06b6d4'],
+      ['MTOW',       p => `${(p.mtow/1000).toFixed(1)} T`,           'mtow',    '#f59e0b'],
+      ['T/Peso',     p => p.thrust_to_weight ? p.thrust_to_weight.toFixed(2) : '—', 'thrust_to_weight', '#10b981'],
+      ['Año',        p => String(p.year),                             'year',    '#94a3b8'],
+    ];
+
+    // Si hay aviones en compareList, mostrar comparación contra ellos
+    const compareAgainst = compareList.slice(0, 2).map(cid => db.find(x => x.id === cid)).filter(Boolean);
+    const allPlanes = [p, ...compareAgainst];
+
+    overlay.querySelector('#qcTitle').textContent =
+      compareAgainst.length ? `${p.name} vs ${compareAgainst.map(x => x.name).join(' vs ')}` : `Vista rápida: ${p.name}`;
+
+    overlay.querySelector('#qcContent').innerHTML = `
+      <div class="qc-planes-row">
+        ${allPlanes.map((plane, i) => `
+          <div class="qc-plane" style="${i === 0 ? '' : 'opacity:.85'}">
+            <img src="./public/min/${plane.img}.webp" alt="${plane.name}" width="100" height="56"
+              style="width:100%;height:56px;object-fit:cover;border-radius:6px"
+              onerror="this.style.display='none'">
+            <p class="qc-plane-name">${plane.name}</p>
+            <p class="qc-plane-sub mono">${plane.country} · ${plane.year}</p>
+          </div>`).join('<div class="qc-vs" aria-hidden="true">vs</div>')}
+      </div>
+      <div class="qc-stats">
+        ${STATS.map(([label, fn, key, color]) => {
+          const vals = allPlanes.map(pl => ({ raw: pl[key] || 0, display: fn(pl) }));
+          const maxV = Math.max(...vals.map(v => parseFloat(v.raw) || 0), 1);
+          return `<div class="qc-stat-row">
+            <span class="qc-stat-label" style="color:${color}">${label}</span>
+            ${vals.map(v => {
+              const pct = (parseFloat(v.raw) / maxV) * 100;
+              return `<div class="qc-stat-val-wrap">
+                <span class="qc-stat-val mono">${v.display}</span>
+                <div class="qc-stat-bar-track"><div class="qc-stat-bar-fill" style="width:${pct}%;background:${color}"></div></div>
+              </div>`;
+            }).join('')}
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="qc-actions-row">
+        <button class="btn-detail" data-id="${id}" style="flex:1">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
+          Ver ficha completa
+        </button>
+        <button class="btn-icon cmp-btn${compareList.includes(id)?' active':''}" data-cmp="${id}" aria-label="Añadir al comparador" style="width:34px">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="${compareList.includes(id) ? 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' : 'M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z'}" clip-rule="evenodd"/></svg>
+        </button>
+      </div>`;
+
+    // Posicionar cerca de la card si cabe, sino centrar
+    overlay.classList.remove('hidden');
+    overlay.setAttribute('aria-hidden', 'false');
+    if (anchorCard) {
+      const rect = anchorCard.getBoundingClientRect();
+      const outletRect = this.#el.getBoundingClientRect();
+      overlay.style.setProperty('--qc-top', `${anchorCard.offsetTop + anchorCard.offsetHeight + 8}px`);
+      overlay.style.setProperty('--qc-left', `${Math.max(0, Math.min(anchorCard.offsetLeft, outletRect.width - 420))}px`);
+      overlay.classList.add('qc-overlay--anchored');
+    } else {
+      overlay.classList.remove('qc-overlay--anchored');
+    }
+    overlay.querySelector('#qcClose')?.focus();
+  }
+
+  #closeQuickCompare() {
+    const overlay = this.#el?.querySelector('#quickCompareOverlay');
+    overlay?.classList.add('hidden');
+    overlay?.setAttribute('aria-hidden', 'true');
+    overlay?.classList.remove('qc-overlay--anchored');
+    this.#quickCompareId = null;
+  }
+
+  // ── Recientes ──────────────────────────────────────────────────
+  #toggleRecents() {
+    const panel = this.#el?.querySelector('#recentsPanel');
+    const btn   = this.#el?.querySelector('#recentsBtn');
+    const isOpen = !panel?.classList.contains('hidden');
+    panel?.classList.toggle('hidden', isOpen);
+    panel?.setAttribute('aria-hidden', isOpen);
+    btn?.classList.toggle('active', !isOpen);
+    btn?.setAttribute('aria-expanded', !isOpen);
+    if (!isOpen) this.#renderRecentsList();
+  }
+
+  #renderRecentsList() {
+    const listEl = this.#el?.querySelector('#recentsList');
+    if (!listEl) return;
+    const recents = store.get('recents');
+    const db      = store.get('aircraftDB');
+    const planes  = recents.map(id => db.find(p => p.id === id)).filter(Boolean);
+
+    if (!planes.length) {
+      listEl.innerHTML = '<p class="recents-empty">Ninguna aeronave vista aún. Explora el archivo para que aparezcan aquí.</p>';
+      return;
+    }
+
+    listEl.innerHTML = planes.map(p => `
+      <button class="recents-item" data-id="${p.id}" role="listitem" aria-label="Ver ficha de ${p.name}">
+        <img src="./public/min/${p.img}.webp" alt="" width="52" height="30"
+          style="object-fit:cover;border-radius:4px;flex-shrink:0"
+          onerror="this.style.display='none'">
+        <div class="recents-item-info">
+          <span class="recents-item-name">${p.name}</span>
+          <span class="recents-item-sub mono">${p.country} · ${p.year}</span>
+        </div>
+        <svg viewBox="0 0 20 20" fill="currentColor" width="12" height="12" style="color:var(--text-4);flex-shrink:0" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+      </button>`).join('');
+  }
+
+  // ── Timeline ───────────────────────────────────────────────────
   #toggleTimeline() {
     this.#tl.open = !this.#tl.open;
     const panel = this.#el?.querySelector('#timelinePanel');
@@ -362,8 +593,7 @@ export class HomeView {
     container.dataset.built = 'true';
     for (let y = TL_MIN; y <= TL_MAX; y += TL_STEP) {
       const btn = document.createElement('button');
-      btn.className    = 'decade-mark';
-      btn.dataset.year = y;
+      btn.className = 'decade-mark'; btn.dataset.year = y;
       btn.setAttribute('aria-label', `Año ${y}`);
       btn.innerHTML = `<div class="decade-dot"></div><span class="decade-label mono">'${String(y).slice(2)}</span>`;
       btn.addEventListener('click', () => this.#jumpToDecade(y));
@@ -392,7 +622,6 @@ export class HomeView {
     if (!minEl || !maxEl) return;
     let minVal = parseInt(minEl.value), maxVal = parseInt(maxEl.value);
     if (minVal > maxVal) { minVal = maxVal; minEl.value = minVal; }
-
     const active = !(minVal === TL_MIN && maxVal === TL_MAX);
     store.setState({ timelineMin: minVal, timelineMax: maxVal, timelineActive: active });
     this.#syncTimelineUI();
@@ -402,76 +631,61 @@ export class HomeView {
     const { timelineMin, timelineMax, timelineActive } = store.getState();
     const label = this.#el?.querySelector('#timelineRangeLabel');
     if (label) label.textContent = timelineActive ? `${timelineMin}–${timelineMax}` : 'TODAS LAS ÉPOCAS';
-
-    const total    = TL_MAX - TL_MIN;
+    const total = TL_MAX - TL_MIN;
     const leftPct  = ((timelineMin - TL_MIN) / total) * 100;
     const rightPct = ((timelineMax - TL_MIN) / total) * 100;
-    const fill     = this.#el?.querySelector('#timelineTrackFill');
+    const fill = this.#el?.querySelector('#timelineTrackFill');
     if (fill) { fill.style.left = `${leftPct}%`; fill.style.width = `${rightPct - leftPct}%`; }
-
     this.#el?.querySelectorAll('.decade-mark').forEach(m => {
       const y = parseInt(m.dataset.year);
       m.classList.toggle('active', y >= timelineMin && y <= timelineMax);
     });
-
     const resetBtn = this.#el?.querySelector('#timelineResetBtn');
     if (resetBtn) resetBtn.disabled = !timelineActive;
     this.#el?.querySelector('#timelineToggleBtn')?.classList.toggle('active', timelineActive);
   }
 
-  // ── Conflict badge ────────────────────────────────────────────
+  // ── Conflict badge ─────────────────────────────────────────────
   #showConflictBadge(conflictId) {
     const btn  = this.#el?.querySelector('#clearConflictBtn');
     const text = this.#el?.querySelector('#conflictBadgeText');
     if (!btn || !text) return;
-
-    if (!conflictId || conflictId === 'all') {
-      btn.classList.add('hidden');
-      return;
-    }
+    if (!conflictId || conflictId === 'all') { btn.classList.add('hidden'); return; }
     const cf = store.get('conflictsDB')[conflictId];
     if (!cf) return;
     text.textContent = `${cf.flag} ${cf.label}`;
     btn.classList.remove('hidden');
   }
 
-  // ── Compare Bar ───────────────────────────────────────────────
+  // ── Compare bar ────────────────────────────────────────────────
   #updateCompareBar() {
     const bar = this.#el?.querySelector('#compareBar');
     if (!bar) return;
-    const list       = store.get('compareList');
-    const aircraftDB = store.get('aircraftDB');
-
+    const list = store.get('compareList');
+    const db   = store.get('aircraftDB');
     if (!list.length) { bar.classList.remove('visible'); bar.setAttribute('aria-hidden','true'); return; }
-    bar.classList.add('visible');
-    bar.setAttribute('aria-hidden','false');
-
+    bar.classList.add('visible'); bar.setAttribute('aria-hidden','false');
     const slots = bar.querySelector('#compareSlots');
     if (slots) slots.innerHTML = list.map(id => {
-      const p = aircraftDB.find(x => x.id === id);
-      return `<div class="compare-slot">
-        <span>${p ? p.name : id}</span>
-        <button data-remove="${id}" aria-label="Quitar ${p?.name||id}">×</button>
-      </div>`;
+      const p = db.find(x => x.id === id);
+      return `<div class="compare-slot"><span>${p?.name || id}</span><button data-remove="${id}" aria-label="Quitar ${p?.name||id}">×</button></div>`;
     }).join('');
-
     const btn  = bar.querySelector('#compareBtn');
     const hint = bar.querySelector('#compareHint');
     if (btn) { btn.disabled = list.length < 2; btn.setAttribute('aria-disabled', list.length < 2); }
-    if (hint) hint.textContent = list.length < 2 ? `Selecciona ${2-list.length} más`
-      : list.length < 3 ? 'Puedes añadir 1 más' : 'Máximo alcanzado (3)';
+    if (hint) hint.textContent = list.length < 2 ? `Selecciona ${2-list.length} más` : list.length < 3 ? 'Puedes añadir 1 más' : 'Máximo (3)';
   }
 
-  // ── Vista toggle ──────────────────────────────────────────────
+  // ── Vista toggle ───────────────────────────────────────────────
   #syncView(view) {
     this.#el?.querySelector('#galleryView')?.classList.toggle('hidden', view !== 'gallery');
     this.#el?.querySelector('#rankingView')?.classList.toggle('hidden', view !== 'ranking');
     this.#renderAll();
   }
 
-  // ── Preferencias de densidad ──────────────────────────────────
+  // ── Densidad ───────────────────────────────────────────────────
   #applyDensityPrefs() {
-    const gallery = this.#el?.querySelector('#gallery');
+    const gallery  = this.#el?.querySelector('#gallery');
     if (!gallery) return;
     const density  = prefs.get('display','cardDensity') || 'normal';
     const cols     = prefs.get('display','galleryColumns') || 'auto';
@@ -482,66 +696,91 @@ export class HomeView {
     document.documentElement.classList.toggle('no-stat-bars', !showBars);
   }
 
-  // ── Eventos ───────────────────────────────────────────────────
+  // ── Eventos ────────────────────────────────────────────────────
   #bindEvents() {
-    // Timeline toggle button
+    // Timeline
     this.#el.querySelector('#timelineToggleBtn')?.addEventListener('click', () => this.#toggleTimeline());
-
-    // Timeline sliders
     this.#el.querySelector('#timelineMin')?.addEventListener('input', () => this.#onTimelineChange());
     this.#el.querySelector('#timelineMax')?.addEventListener('input', () => this.#onTimelineChange());
-
-    // Timeline reset
     this.#el.querySelector('#timelineResetBtn')?.addEventListener('click', () => {
-      const minEl = this.#el.querySelector('#timelineMin');
-      const maxEl = this.#el.querySelector('#timelineMax');
-      if (minEl) minEl.value = TL_MIN;
-      if (maxEl) maxEl.value = TL_MAX;
+      this.#el.querySelector('#timelineMin').value = TL_MIN;
+      this.#el.querySelector('#timelineMax').value = TL_MAX;
       store.setState({ timelineMin: TL_MIN, timelineMax: TL_MAX, timelineActive: false });
       this.#syncTimelineUI();
     });
 
-    // Limpiar filtro de conflicto
+    // Recientes
+    this.#el.querySelector('#recentsBtn')?.addEventListener('click', () => this.#toggleRecents());
+    this.#el.querySelector('#clearRecentsBtn')?.addEventListener('click', () => {
+      store.setState({ recents: [] });
+    });
+
+    // Conflict badge
     this.#el.querySelector('#clearConflictBtn')?.addEventListener('click', () => {
       store.setState({ activeConflict: 'all' });
     });
 
-    // Keyboard shortcut: T → toggle timeline
-    document.addEventListener('keydown', (e) => {
+    // Quick compare overlay
+    this.#el.querySelector('#quickCompareOverlay')?.addEventListener('click', e => {
+      if (e.target.closest('#qcClose')) { this.#closeQuickCompare(); return; }
+      if (e.target.closest('#qcGoFull')) {
+        const list = store.get('compareList');
+        if (this.#quickCompareId && !list.includes(this.#quickCompareId)) store.toggleCompare(this.#quickCompareId);
+        sessionStorage.setItem('aeropedia_compare', JSON.stringify(store.get('compareList')));
+        router.navigate('/compare');
+        return;
+      }
+      // Botones dentro del overlay
+      const detailBtn = e.target.closest('[data-id]');
+      if (detailBtn?.classList.contains('btn-detail')) { router.navigate(`/aircraft/${detailBtn.dataset.id}`); return; }
+      const cmpBtn = e.target.closest('[data-cmp]');
+      if (cmpBtn) { store.toggleCompare(cmpBtn.dataset.cmp); this.#closeQuickCompare(); return; }
+    });
+
+    // ESC cierra overlay
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        if (this.#quickCompareId) { this.#closeQuickCompare(); return; }
+      }
       const tag    = document.activeElement?.tagName.toLowerCase();
       const typing = ['input','select','textarea'].includes(tag);
-      if (!typing && (e.key === 't' || e.key === 'T') && store.get('currentRoute') === '/') {
-        this.#toggleTimeline();
+      if (!typing) {
+        if ((e.key === 't' || e.key === 'T') && store.get('currentRoute') === '/') this.#toggleTimeline();
+        if ((e.key === 'h' || e.key === 'H') && store.get('currentRoute') === '/') this.#toggleRecents();
       }
     });
 
-    // Clicks delegados
-    this.#el.addEventListener('click', (e) => {
+    // Clicks delegados principales
+    this.#el.addEventListener('click', e => {
       // Ficha
-      const detailBtn = e.target.closest('[data-id]');
-      if (detailBtn?.classList.contains('btn-detail')) {
-        router.navigate(`/aircraft/${detailBtn.dataset.id}`); return;
-      }
+      const detailBtn = e.target.closest('.btn-detail[data-id]');
+      if (detailBtn) { router.navigate(`/aircraft/${detailBtn.dataset.id}`); return; }
       // Favorito
       const favBtn = e.target.closest('[data-fav]');
       if (favBtn) {
-        const id = favBtn.dataset.fav;
-        store.toggleFav(id);
+        const id = favBtn.dataset.fav; store.toggleFav(id);
         const now = store.isFav(id);
-        favBtn.classList.toggle('active', now);
-        favBtn.setAttribute('aria-pressed', now);
+        favBtn.classList.toggle('active', now); favBtn.setAttribute('aria-pressed', now); return;
+      }
+      // Comparar (toggle al comparador)
+      const cmpBtn = e.target.closest('.cmp-btn[data-cmp]');
+      if (cmpBtn) { store.toggleCompare(cmpBtn.dataset.cmp); return; }
+      // Quick compare
+      const qcBtn = e.target.closest('[data-qc]');
+      if (qcBtn) {
+        const id   = qcBtn.dataset.qc;
+        const card = qcBtn.closest('.card');
+        if (this.#quickCompareId === id) { this.#closeQuickCompare(); return; }
+        this.#openQuickCompare(id, card);
         return;
       }
-      // Comparar
-      const cmpBtn = e.target.closest('[data-cmp]');
-      if (cmpBtn) { store.toggleCompare(cmpBtn.dataset.cmp); return; }
-      // Ranking row
+      // Rank row
       const rankRow = e.target.closest('.rank-row');
       if (rankRow?.dataset.id) { router.navigate(`/aircraft/${rankRow.dataset.id}`); return; }
-      // Remove from compare
+      // Remove from compare bar
       const removeBtn = e.target.closest('[data-remove]');
       if (removeBtn) { store.toggleCompare(removeBtn.dataset.remove); return; }
-      // Compare button
+      // Compare nav
       if (e.target.closest('#compareBtn')) {
         const list = store.get('compareList');
         if (list.length >= 2) { sessionStorage.setItem('aeropedia_compare', JSON.stringify(list)); router.navigate('/compare'); }
@@ -549,27 +788,35 @@ export class HomeView {
       }
       // Clear compare
       if (e.target.closest('#clearCompareBtn')) { store.clearCompare(); return; }
-      // Sort pills
+      // Sort pills (mobile)
       const pill = e.target.closest('.rank-stat-pill');
       if (pill) {
         const stat = pill.dataset.stat;
         store.setState({ sortAsc: stat === store.get('sortStat') ? !store.get('sortAsc') : false, sortStat: stat });
-        this.#el.querySelectorAll('.rank-stat-pill').forEach(b => {
-          b.classList.toggle('active', b.dataset.stat === stat);
-          b.setAttribute('aria-pressed', b.dataset.stat === stat);
-        });
         return;
       }
-      // Sort table header
+      // Dir btn (mobile)
+      if (e.target.closest('#rankDirBtn')) {
+        store.setState({ sortAsc: !store.get('sortAsc') }); return;
+      }
+      // Sort th (desktop)
       const sortTh = e.target.closest('.sort-th');
       if (sortTh) {
         const col = sortTh.dataset.col;
         store.setState({ sortAsc: col === store.get('sortStat') ? !store.get('sortAsc') : false, sortStat: col });
+        return;
+      }
+      // Recents item
+      const recentItem = e.target.closest('.recents-item[data-id]');
+      if (recentItem) { this.#toggleRecents(); router.navigate(`/aircraft/${recentItem.dataset.id}`); return; }
+      // Click fuera del overlay lo cierra
+      if (this.#quickCompareId && !e.target.closest('#quickCompareOverlay') && !e.target.closest('[data-qc]')) {
+        this.#closeQuickCompare();
       }
     });
 
-    // Keyboard en ranking rows
-    this.#el.addEventListener('keydown', (e) => {
+    // Teclado en ranking rows
+    this.#el.addEventListener('keydown', e => {
       if (e.key === 'Enter' || e.key === ' ') {
         const row = e.target.closest('.rank-row');
         if (row?.dataset.id) { e.preventDefault(); router.navigate(`/aircraft/${row.dataset.id}`); }
@@ -580,17 +827,11 @@ export class HomeView {
   #emptyState() {
     const { onlyFavs, activeConflict } = store.getState();
     const cf  = activeConflict !== 'all' ? store.get('conflictsDB')[activeConflict] : null;
-    const msg = onlyFavs
-      ? 'No tienes aeronaves guardadas. Usa ★ en las tarjetas.'
-      : cf
-        ? `Ninguna aeronave registrada en "${cf.label}". Prueba en Teatro de Operaciones.`
-        : 'No hay resultados. Ajusta la búsqueda o los filtros.';
+    const msg = onlyFavs ? 'No tienes aeronaves guardadas. Usa ★ en las tarjetas.'
+      : cf ? `Ninguna aeronave registrada en "${cf.label}".`
+      : 'No hay resultados. Prueba con la búsqueda avanzada: <code>tipo:Caza país:USA</code>';
     return `<div class="empty-state" role="status">
-      <div class="hud-lines" aria-hidden="true">
-        <div class="hud-scan-line"></div>
-        <div class="hud-scan-line" style="animation-delay:.25s"></div>
-        <div class="hud-scan-line" style="animation-delay:.5s"></div>
-      </div>
+      <div class="hud-lines" aria-hidden="true"><div class="hud-scan-line"></div><div class="hud-scan-line" style="animation-delay:.25s"></div></div>
       <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
         <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6m-3-3h6"/>
       </svg>

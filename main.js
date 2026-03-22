@@ -205,6 +205,7 @@ async function init() {
     if (e.key === 'Escape' && store.get('currentRoute') !== '/') router.navigate('/');
     if ((e.key === ',') && (e.ctrlKey || e.metaKey)) { e.preventDefault(); router.navigate('/settings'); }
     if (e.key === 'm' || e.key === 'M') router.navigate('/mach');
+    if (e.key === 's' || e.key === 'S') router.navigate('/stats');
     if (e.key === 't' || e.key === 'T') router.navigate('/theater');
   });
 }

@@ -256,3 +256,197 @@ export const STAT_META = {
 };
 
 export const FALLBACK_IMG = './public/No-Image-Placeholder.png';
+
+// ── BÚSQUEDA AVANZADA CON OPERADORES ─────────────────────────
+/**
+ * Parsea una query con operadores tipo `país:USA generación:5 tipo:Caza`
+ * Operadores soportados: país/country, tipo/type, gen/generación, estado/status,
+ *   año/year, velocidad/speed, stealth, naval, uav, g4/g5
+ * Texto sin operador → búsqueda libre en nombre, país, fabricante.
+ *
+ * @param {string} raw — query cruda del usuario
+ * @returns {{ terms: string, filters: Record<string, string> }}
+ */
+export function parseAdvancedQuery(raw) {
+  if (!raw?.trim()) return { terms: '', filters: {} };
+
+  const OPERATOR_MAP = {
+    'país': 'country', 'pais': 'country', 'country': 'country',
+    'tipo': 'type',    'type': 'type',
+    'gen': 'generation', 'generación': 'generation', 'generacion': 'generation', 'generation': 'generation',
+    'estado': 'status', 'status': 'status',
+    'año': 'year', 'anio': 'year', 'year': 'year',
+    'velocidad': 'speed', 'speed': 'speed',
+    'stealth': 'stealth',
+    'naval': 'carrier_capable',
+    'uav': 'crew',
+    'piloto': 'crew',
+  };
+
+  const filters  = {};
+  const freeParts = [];
+
+  // Tokenizar respetando comillas
+  const tokens = raw.match(/\S+:"[^"]+"|[^\s]+/g) || [];
+
+  for (const token of tokens) {
+    const colonIdx = token.indexOf(':');
+    if (colonIdx > 0) {
+      const rawKey = token.slice(0, colonIdx).toLowerCase();
+      const rawVal = token.slice(colonIdx + 1).replace(/^"|"$/g, '').toLowerCase();
+      const mappedKey = OPERATOR_MAP[rawKey];
+      if (mappedKey) { filters[mappedKey] = rawVal; continue; }
+    }
+    freeParts.push(token);
+  }
+
+  return { terms: freeParts.join(' '), filters };
+}
+
+/**
+ * Aplica la query avanzada a un plano.
+ * @param {object} plane
+ * @param {{ terms: string, filters: Record<string, string> }} parsed
+ * @returns {boolean}
+ */
+export function matchAdvancedQuery(plane, parsed) {
+  const { terms, filters } = parsed;
+
+  // Filtros de operadores
+  for (const [key, val] of Object.entries(filters)) {
+    switch (key) {
+      case 'country': {
+        if (!plane.country.toLowerCase().includes(val)) return false;
+        break;
+      }
+      case 'type': {
+        if (!plane.type.toLowerCase().includes(val)) return false;
+        break;
+      }
+      case 'generation': {
+        const g = (plane.generation || '').toLowerCase().replace('ª', '').replace('.', '');
+        const v = val.replace('ª', '').replace('gen', '').trim();
+        if (!g.includes(v)) return false;
+        break;
+      }
+      case 'status': {
+        if (plane.status !== val && !plane.status?.toLowerCase().includes(val)) return false;
+        break;
+      }
+      case 'year': {
+        const [op, num] = val.match(/^([<>]?)(\d+)$/)?.slice(1) || [];
+        if (!num) break;
+        const n = parseInt(num);
+        if (op === '<' && !(plane.year < n)) return false;
+        if (op === '>' && !(plane.year > n)) return false;
+        if (!op && plane.year !== n) return false;
+        break;
+      }
+      case 'speed': {
+        const [op, num] = val.match(/^([<>]?)(\d+)$/)?.slice(1) || [];
+        if (!num) break;
+        const n = parseInt(num);
+        if (op === '<' && !(plane.speed < n)) return false;
+        if (op === '>' && !(plane.speed > n)) return false;
+        if (!op && plane.speed !== n) return false;
+        break;
+      }
+      case 'stealth': {
+        if (val === 'sí' || val === 'si' || val === 'yes' || val === 'true') {
+          if (plane.stealth === 'none' || !plane.stealth) return false;
+        } else if (val === 'alto' || val === 'high') {
+          if (plane.stealth !== 'high') return false;
+        } else if (val === 'medio' || val === 'medium') {
+          if (plane.stealth !== 'medium') return false;
+        }
+        break;
+      }
+      case 'carrier_capable': {
+        if (val === 'sí' || val === 'si' || val === 'yes') {
+          if (!plane.carrier_capable) return false;
+        }
+        break;
+      }
+      case 'crew': {
+        if (val === '0' || val === 'uav') {
+          if (plane.crew !== 0) return false;
+        } else {
+          const n = parseInt(val);
+          if (!isNaN(n) && plane.crew !== n) return false;
+        }
+        break;
+      }
+    }
+  }
+
+  // Búsqueda libre en texto
+  if (terms.trim()) {
+    const q = terms.toLowerCase();
+    const haystack = [
+      plane.name, plane.country, plane.type,
+      plane.manufacturer || '', plane.engine || '',
+      ...(plane.tags || []), ...(plane.roles || []),
+    ].join(' ').toLowerCase();
+    if (!haystack.includes(q)) return false;
+  }
+
+  return true;
+}
+
+/**
+ * Tokeniza la query e identifica qué operadores se están usando (para hints en la UI).
+ */
+export function getQueryHints(raw) {
+  if (!raw?.trim()) return null;
+  const parsed = parseAdvancedQuery(raw);
+  if (!Object.keys(parsed.filters).length) return null;
+  return Object.entries(parsed.filters).map(([k, v]) => `${k}: "${v}"`).join(' · ');
+}
+
+// ── RENDER MARKDOWN LITE ──────────────────────────────────────
+/**
+ * Convierte Markdown básico a HTML seguro (sin XSS).
+ * Soporta: **negrita**, *cursiva*, `código`, - lista, > cita, \n párrafo.
+ */
+export function renderMarkdown(text) {
+  if (!text) return '';
+
+  // Escapar HTML primero
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+
+  const lines = escaped.split('\n');
+  const result = [];
+  let inList = false;
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
+      if (!inList) { result.push('<ul class="md-list">'); inList = true; }
+      result.push(`<li class="md-li">${inlineMarkdown(trimmed.slice(2))}</li>`);
+    } else {
+      if (inList) { result.push('</ul>'); inList = false; }
+      if (!trimmed) {
+        result.push('<br>');
+      } else if (trimmed.startsWith('&gt; ')) {
+        result.push(`<blockquote class="md-blockquote">${inlineMarkdown(trimmed.slice(5))}</blockquote>`);
+      } else {
+        result.push(`<span class="md-p">${inlineMarkdown(trimmed)}</span><br>`);
+      }
+    }
+  }
+  if (inList) result.push('</ul>');
+
+  return result.join('');
+}
+
+function inlineMarkdown(text) {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code class="md-code">$1</code>');
+}
