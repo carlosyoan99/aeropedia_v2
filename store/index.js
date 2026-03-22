@@ -32,6 +32,8 @@ const initialState = {
 
   timelineOpen: false, timelineActive: false, timelineMin: 1940, timelineMax: 2030,
   compareList: [],
+  // Historial de aeronaves vistas recientemente
+  recents: loadLS('aeropedia_recents', []),   // string[] últimos 20 IDs
   sortStat: 'speed', sortAsc: false,
   loading: false, error: null,
 };
@@ -80,6 +82,7 @@ class Store {
     if ('favs'        in patch) saveLS('aeropedia_favs',        this.#state.favs);
     if ('favsMeta'    in patch) saveLS('aeropedia_favs_meta',   this.#state.favsMeta);
     if ('collections' in patch) saveLS('aeropedia_collections', this.#state.collections);
+    if ('recents'     in patch) saveLS('aeropedia_recents',     this.#state.recents);
   }
 
   #notify(patch, prev) {
@@ -261,6 +264,12 @@ class Store {
       const b64 = encoded.replace(/-/g,'+').replace(/_/g,'/');
       return atob(b64).split(',').filter(Boolean);
     } catch { return []; }
+  }
+
+  // ── Historial reciente ───────────────────────────────────────────
+  addRecent(id) {
+    const recents = [id, ...this.#state.recents.filter(r => r !== id)].slice(0, 20);
+    this.setState({ recents });
   }
 
   // ── Comparador ────────────────────────────────────────────────

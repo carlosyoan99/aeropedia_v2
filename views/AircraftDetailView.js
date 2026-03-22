@@ -18,6 +18,9 @@ export class AircraftDetailView {
     const aircraftDB = store.get('aircraftDB');
     this.#plane = aircraftDB.find(p => p.id === id);
 
+    // Registrar en historial de recientes
+    if (this.#plane) store.addRecent(id);
+
     if (!this.#plane) {
       const el = document.createElement('div');
       el.className = 'detail-not-found';
@@ -35,6 +38,7 @@ export class AircraftDetailView {
     setPageMeta({
       title: `${p.name} — AeroPedia`,
       description: p.desc,
+      image: `./public/max/${p.img}.webp`,
     });
 
     this.#el = document.createElement('div');

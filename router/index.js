@@ -1,29 +1,25 @@
 /**
- * router/index.js — Sistema de enrutamiento con History API
- * pushState / replaceState / popstate — sin hash routing.
+ * router/index.js — History API Router
+ * Fixes: scroll-to-top en navegación, beforeEach async correcto.
  */
 
 import { store } from '../store/index.js';
 
 class Router {
-  #routes = new Map();
-  #notFound = null;
-  #outlet = null;
+  #routes     = new Map();
+  #notFound   = null;
+  #outlet     = null;
   #currentView = null;
   #beforeEach = null;
 
-  /**
-   * @param {string} selector - Selector CSS del contenedor de vistas
-   */
   constructor(selector) {
     this.#outlet = document.querySelector(selector);
     if (!this.#outlet) throw new Error(`Router: outlet "${selector}" not found`);
 
     window.addEventListener('popstate', (e) => {
-      this.#resolve(location.pathname, e.state, false);
+      this.#resolve(location.pathname + location.search, e.state, false);
     });
 
-    // Interceptar clicks en <a> con data-link
     document.addEventListener('click', (e) => {
       const link = e.target.closest('[data-link]');
       if (!link) return;
@@ -32,54 +28,40 @@ class Router {
     });
   }
 
-  /**
-   * Registra una ruta.
-   * @param {string} path - Ruta, puede tener parámetros :param
-   * @param {Function} viewFactory - async () => instancia de vista
-   * @param {object} [meta] - Metadatos (title, description)
-   */
   route(path, viewFactory, meta = {}) {
     this.#routes.set(path, { viewFactory, meta, pattern: this.#pathToRegex(path) });
     return this;
   }
 
-  /** Ruta 404 */
-  notFound(viewFactory) {
-    this.#notFound = viewFactory;
-    return this;
-  }
+  notFound(viewFactory) { this.#notFound = viewFactory; return this; }
 
-  /** Hook antes de cada navegación. Retorna false para cancelar. */
-  beforeEach(fn) {
-    this.#beforeEach = fn;
-    return this;
-  }
+  beforeEach(fn) { this.#beforeEach = fn; return this; }
 
-  /** Navega a una ruta nueva */
   async navigate(path, state = {}) {
-    if (path === location.pathname) return;
+    const fullPath = path + location.search;
+    if (path === location.pathname && !location.search) return;
     history.pushState(state, '', path);
     await this.#resolve(path, state, true);
   }
 
-  /** Reemplaza la entrada actual del historial */
   async replace(path, state = {}) {
     history.replaceState(state, '', path);
     await this.#resolve(path, state, false);
   }
 
-  /** Inicializa el router con la ruta actual */
   async init() {
-    await this.#resolve(location.pathname, history.state, false);
+    await this.#resolve(location.pathname + location.search, history.state, false);
   }
 
-  async #resolve(path, state, isPush) {
+  async #resolve(fullPath, state, isPush) {
+    // Separar path de query string
+    const [path] = fullPath.split('?');
+
     if (this.#beforeEach) {
       const result = await this.#beforeEach(path, state);
       if (result === false) return;
     }
 
-    // Buscar ruta coincidente
     let matchedRoute = null;
     let params = {};
 
@@ -95,43 +77,42 @@ class Router {
     store.setState({ currentRoute: path });
 
     if (!matchedRoute) {
-      if (this.#notFound) {
-        await this.#render(this.#notFound, params, {});
-      }
+      if (this.#notFound) await this.#render(this.#notFound, params, {});
       return;
     }
 
-    // Actualizar meta tags SEO
     if (matchedRoute.meta?.title) {
       document.title = matchedRoute.meta.title;
       this.#updateMeta('description', matchedRoute.meta.description || '');
     }
 
     await this.#render(matchedRoute.viewFactory, params, matchedRoute.meta);
+
+    // FIX: Scroll al top en cada navegación
+    if (isPush) {
+      window.scrollTo({ top: 0, behavior: 'instant' });
+    }
   }
 
   async #render(viewFactory, params, meta) {
-    // Destruir vista anterior
     if (this.#currentView?.destroy) {
       await this.#currentView.destroy();
     }
 
-    // Mostrar loading
     this.#outlet.classList.add('route-loading');
 
     try {
-      // Dynamic import (lazy loading de la vista)
       const view = await viewFactory(params, meta);
       this.#currentView = view;
-
       this.#outlet.innerHTML = '';
       const el = await view.render(params);
       if (el) this.#outlet.appendChild(el);
     } catch (err) {
-      console.error('[Router] Error al renderizar vista:', err);
-      this.#outlet.innerHTML = `<div class="route-error">
+      console.error('[Router]', err);
+      this.#outlet.innerHTML = `<div class="route-error" role="alert">
         <p>Error al cargar la vista.</p>
         <small>${err.message}</small>
+        <a href="/" data-link style="margin-top:.75rem;display:inline-block">← Volver al inicio</a>
       </div>`;
     } finally {
       this.#outlet.classList.remove('route-loading');
@@ -141,7 +122,7 @@ class Router {
   #pathToRegex(path) {
     const escaped = path
       .replace(/\//g, '\\/')
-      .replace(/:([a-zA-Z]+)/g, '([^/]+)');
+      .replace(/:([a-zA-Z]+)/g, '([^/?]+)');
     return new RegExp(`^${escaped}\\/?$`);
   }
 
@@ -150,9 +131,8 @@ class Router {
     const keyRe = /:([a-zA-Z]+)/g;
     let m;
     while ((m = keyRe.exec(routePath)) !== null) keys.push(m[1]);
-
     const values = actualPath.match(this.#pathToRegex(routePath))?.slice(1) || [];
-    return Object.fromEntries(keys.map((k, i) => [k, values[i]]));
+    return Object.fromEntries(keys.map((k, i) => [k, decodeURIComponent(values[i] || '')]));
   }
 
   #updateMeta(name, content) {

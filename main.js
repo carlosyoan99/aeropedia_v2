@@ -20,14 +20,15 @@ import { PWAInstallBanner, registerSW }        from './components/PWAInstallBann
 
 // ── Carga de datos ─────────────────────────────────────────────
 async function loadCoreData() {
-  const [aRes, cRes] = await Promise.all([
+  const [aRes, cRes, kRes] = await Promise.all([
     fetch('./data/aircraft.json'),
     fetch('./data/conflicts.json'),
+    fetch('./data/kills.json'),
   ]);
   if (!aRes.ok || !cRes.ok)
     throw new Error('No se pudieron cargar los datos. Usa un servidor HTTP (npx serve .)');
-  const [aircraftDB, conflictsDB] = await Promise.all([aRes.json(), cRes.json()]);
-  store.setState({ aircraftDB, conflictsDB });
+  const [aircraftDB, conflictsDB, killsDB] = await Promise.all([aRes.json(), cRes.json(), kRes.ok ? kRes.json() : []]);
+  store.setState({ aircraftDB, conflictsDB, killsDB });
 }
 
 // ── Rutas ──────────────────────────────────────────────────────
@@ -78,6 +79,11 @@ function registerRoutes() {
       return new TheaterView();
     }, { title: 'Teatro de Operaciones — AeroPedia' })
 
+    .route('/stats', async () => {
+      const { StatsView } = await import('./views/StatsView.js');
+      return new StatsView();
+    }, { title: 'Estadísticas Globales — AeroPedia' })
+
     .route('/shared', async () => {
       const { SharedView } = await import('./views/SharedView.js');
       return new SharedView();
@@ -87,10 +93,24 @@ function registerRoutes() {
       render: () => {
         const el = document.createElement('div');
         el.className = 'not-found-view';
+        const recents = store.get('recents').slice(0,3);
+        const db      = store.get('aircraftDB');
+        const recentPlanes = recents.map(id => db.find(p=>p.id===id)).filter(Boolean);
         el.innerHTML = `<div class="not-found-inner">
           <p class="not-found-code mono">404</p>
           <p class="not-found-title">Página no encontrada</p>
-          <a href="/" data-link class="btn-back-home">← Volver al archivo</a>
+          <p class="not-found-sub">La ruta <code>${location.pathname}</code> no existe.</p>
+          ${recentPlanes.length ? `
+            <div class="not-found-recents">
+              <p class="not-found-recents-label">Vistas recientemente:</p>
+              ${recentPlanes.map(p=>`
+                <a href="/aircraft/${p.id}" data-link class="not-found-recent-item">
+                  <img src="./public/min/${p.img}.webp" alt="${p.name}" width="44" height="25"
+                    style="object-fit:cover;border-radius:4px" onerror="this.style.display='none'">
+                  <span>${p.name}</span>
+                </a>`).join('')}
+            </div>` : ''}
+          <a href="/" data-link class="btn-back-home" style="margin-top:1rem">← Volver al archivo</a>
         </div>`;
         return el;
       },
