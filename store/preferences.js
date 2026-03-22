@@ -1,214 +1,167 @@
 /**
  * store/preferences.js — Gestor de preferencias del usuario
+ * Clave localStorage: "aeropedia_prefs" (objeto versionado)
  *
- * Separado del store global para responsabilidad única.
- * Todas las preferencias se persisten en localStorage bajo
- * una única clave versionada: "aeropedia_prefs".
- *
- * Estructura:
- *   aeropedia_prefs: {
- *     _version: string,
- *     display:  DisplayPrefs,
- *     filters:  FilterPrefs,
- *     favs:     FavsPrefs,
- *     theater:  TheaterPrefs,
- *     pwa:      PwaPrefs,
- *     a11y:     A11yPrefs,
- *   }
+ * Secciones:
+ *   display  → tema, densidad, columnas, animaciones, fontScale
+ *   filters  → restaurar filtros, última cat/vista/sort
+ *   favs     → ordenación, layout, columnas tabla, confirmación
+ *   theater  → último conflicto, era, leyenda
+ *   pwa      → dismissed, visitCount, lastVisit
+ *   a11y     → keyboardHints, focusRingAlways, announceRoutes
  */
 
-const PREFS_KEY     = 'aeropedia_prefs';
-const SCHEMA_VERSION = '1.1.0';
+const PREFS_KEY      = 'aeropedia_prefs';
+const SCHEMA_VERSION = '1.2.0';
 
-// ── Valores por defecto ──────────────────────────────────────────
-const DEFAULTS = Object.freeze({
+// ── Defaults ───────────────────────────────────────────────────
+export const DEFAULTS = Object.freeze({
   _version: SCHEMA_VERSION,
 
-  /** Apariencia y presentación visual */
   display: {
-    theme:            'dark',          // 'dark' | 'light' | 'high-contrast'
-    cardDensity:      'normal',        // 'compact' | 'normal' | 'large'
-    galleryColumns:   'auto',          // 'auto' | 2 | 3 | 4
-    animationsEnabled: true,           // false → reduce-motion override
-    fontScale:        1,               // 0.9 | 1 | 1.1 | 1.2
-    imageQuality:     'auto',          // 'auto' | 'low' | 'high'
-    showStatBars:     true,            // barras de velocidad/techo/alcance en cards
+    theme:             'dark',     // 'dark' | 'light' | 'high-contrast'
+    cardDensity:       'normal',   // 'compact' | 'normal' | 'large'
+    galleryColumns:    'auto',     // 'auto' | 2 | 3 | 4
+    animationsEnabled: true,       // false → override reduce-motion
+    fontScale:         1,          // 0.85 | 0.9 | 1 | 1.1 | 1.2
+    showStatBars:      true,       // barras en cards
   },
 
-  /** Comportamiento de filtros y navegación */
   filters: {
-    rememberFilters:  true,            // restaurar filtros al regresar
-    lastCat:          'all',           // última categoría activa
-    lastView:         'gallery',       // 'gallery' | 'ranking'
-    lastSortStat:     'speed',         // campo de ordenación en ranking
-    lastSortAsc:      false,
-    timelineMin:      1940,
-    timelineMax:      2030,
-    defaultHomepage:  '/',             // ruta que abre al arrancar
+    rememberFilters: true,
+    lastCat:         'all',
+    lastView:        'gallery',
+    lastSortStat:    'speed',
+    lastSortAsc:     false,
+    timelineMin:     1940,
+    timelineMax:     2030,
   },
 
-  /** Preferencias de la vista de favoritos */
   favs: {
-    defaultSortBy:    'addedAt',       // ordenación por defecto en FavoritesView
-    defaultSortAsc:   false,
-    tableColumns:     ['speed','range','ceiling','mtow'], // columnas visibles en tabla
-    cardLayout:       'normal',        // 'normal' | 'compact' | 'table'
-    showCharts:       true,            // mostrar gráficos de composición
-    confirmOnRemove:  false,           // pedir confirmación al quitar un favorito
+    defaultSortBy:   'addedAt',
+    defaultSortAsc:  false,
+    tableColumns:    ['speed', 'range', 'ceiling', 'mtow'],
+    cardLayout:      'normal',   // 'normal' | 'compact' | 'table'
+    showCharts:      true,
+    confirmOnRemove: false,
   },
 
-  /** Teatro de operaciones */
   theater: {
-    lastConflict:     null,            // ID del último conflicto visto
-    lastEra:          'all',           // era seleccionada ('wwii', 'coldwar', etc.)
-    showLegend:       true,
+    lastConflict: null,
+    lastEra:      'all',
+    showLegend:   true,
   },
 
-  /** PWA / instalación */
   pwa: {
-    installDismissed: false,           // no mostrar banner de instalación
-    visitCount:       0,               // número de visitas (para mostrar banner en 2ª)
-    lastVisit:        null,            // timestamp de última visita
+    installDismissed: false,
+    visitCount:       0,
+    lastVisit:        null,
   },
 
-  /** Accesibilidad */
   a11y: {
-    highContrast:     false,           // alias de display.theme === 'high-contrast'
-    keyboardHints:    true,            // mostrar atajos de teclado en tooltips
-    focusRingAlways:  false,           // mostrar focus ring siempre (no solo con teclado)
-    announceRoutes:   true,            // aria-live en cambios de ruta
+    keyboardHints:   true,
+    focusRingAlways: false,
+    announceRoutes:  true,
   },
 });
 
-// ── Migraciones de esquema ───────────────────────────────────────
+// ── Migraciones de esquema ─────────────────────────────────────
 const MIGRATIONS = {
-  // '1.0.0' → '1.1.0': añade display.fontScale y a11y.focusRingAlways
-  '1.0.0': (prefs) => ({
-    ...prefs,
-    display: { fontScale: 1, imageQuality: 'auto', showStatBars: true, ...prefs.display },
-    a11y:    { focusRingAlways: false, announceRoutes: true, ...prefs.a11y },
+  '1.0.0': (p) => ({ ...p,
+    display: { fontScale: 1, showStatBars: true, ...p.display },
+    a11y: { keyboardHints: true, focusRingAlways: false, announceRoutes: true, ...p.a11y },
     _version: '1.1.0',
+  }),
+  '1.1.0': (p) => ({ ...p,
+    filters: { timelineMin: 1940, timelineMax: 2030, ...p.filters },
+    favs: { confirmOnRemove: false, ...p.favs },
+    _version: '1.2.0',
   }),
 };
 
-// ── Utilidades localStorage ──────────────────────────────────────
+// ── Helpers ────────────────────────────────────────────────────
 function loadRaw() {
-  try   { return JSON.parse(localStorage.getItem(PREFS_KEY)); }
-  catch { return null; }
+  try { return JSON.parse(localStorage.getItem(PREFS_KEY)); } catch { return null; }
 }
-
 function saveRaw(data) {
-  try   { localStorage.setItem(PREFS_KEY, JSON.stringify(data)); }
-  catch (e) { console.warn('[Prefs] No se pudo guardar en localStorage:', e.message); }
+  try { localStorage.setItem(PREFS_KEY, JSON.stringify(data)); } catch {}
 }
-
-// Deep merge: los valores guardados sobreescriben los defaults
 function deepMerge(target, source) {
   const result = { ...target };
-  for (const key of Object.keys(source)) {
-    if (source[key] !== null && typeof source[key] === 'object' && !Array.isArray(source[key])) {
-      result[key] = deepMerge(target[key] ?? {}, source[key]);
-    } else {
-      result[key] = source[key];
-    }
+  for (const [k, v] of Object.entries(source ?? {})) {
+    result[k] = (v !== null && typeof v === 'object' && !Array.isArray(v))
+      ? deepMerge(target[k] ?? {}, v)
+      : v;
   }
   return result;
 }
 
-// ── Clase PreferencesManager ─────────────────────────────────────
+// ── PreferencesManager ─────────────────────────────────────────
 class PreferencesManager {
   #prefs;
-  #listeners   = new Map();   // section → Set<callback>
+  #listeners   = new Map();
   #saveTimeout = null;
 
   constructor() {
     this.#prefs = this.#load();
     this.#trackVisit();
-    this.#listenStorageEvents();
+    this.#watchStorage();
   }
 
-  // ── Carga con migración ────────────────────────────────────────
+  // ── Carga con migración ──────────────────────────────────────
   #load() {
     const raw = loadRaw();
-
     if (!raw) return deepMerge(DEFAULTS, {});
 
-    let migrated = raw;
-    let version  = raw._version || '1.0.0';
-
-    // Aplicar migraciones en cadena
+    let data    = raw;
+    let version = data._version || '1.0.0';
     while (MIGRATIONS[version]) {
-      console.info(`[Prefs] Migrando ${version} → ${MIGRATIONS[version]({})._version}`);
-      migrated = MIGRATIONS[version](migrated);
-      version  = migrated._version;
+      data    = MIGRATIONS[version](data);
+      version = data._version;
     }
-
-    // Merge con defaults para añadir claves nuevas sin romper las guardadas
-    return deepMerge(DEFAULTS, migrated);
+    return deepMerge(DEFAULTS, data);
   }
 
-  // ── Guardar con debounce ───────────────────────────────────────
+  // ── Escritura con debounce 300ms ─────────────────────────────
   #scheduleSave() {
     clearTimeout(this.#saveTimeout);
     this.#saveTimeout = setTimeout(() => saveRaw(this.#prefs), 300);
   }
 
-  // ── Visita ────────────────────────────────────────────────────
+  // ── Contador de visitas ──────────────────────────────────────
   #trackVisit() {
-    const pwa = this.#prefs.pwa;
     this.#prefs.pwa = {
-      ...pwa,
-      visitCount: (pwa.visitCount || 0) + 1,
+      ...this.#prefs.pwa,
+      visitCount: (this.#prefs.pwa.visitCount || 0) + 1,
       lastVisit:  Date.now(),
     };
     this.#scheduleSave();
   }
 
-  // ── Sincronización multi-pestaña ───────────────────────────────
-  #listenStorageEvents() {
+  // ── Sincronización multi-pestaña ─────────────────────────────
+  #watchStorage() {
     window.addEventListener('storage', (e) => {
       if (e.key !== PREFS_KEY || !e.newValue) return;
       try {
-        const incoming = JSON.parse(e.newValue);
-        this.#prefs    = deepMerge(DEFAULTS, incoming);
+        this.#prefs = deepMerge(DEFAULTS, JSON.parse(e.newValue));
         this.#notifyAll();
       } catch {}
     });
   }
 
-  // ── API pública ────────────────────────────────────────────────
+  // ── API pública ──────────────────────────────────────────────
+  getSection(section) { return { ...this.#prefs[section] }; }
+  get(section, key)   { return this.#prefs[section]?.[key]; }
 
-  /** Devuelve una sección completa */
-  getSection(section) {
-    return { ...this.#prefs[section] };
-  }
-
-  /** Lee una preferencia puntual */
-  get(section, key) {
-    return this.#prefs[section]?.[key];
-  }
-
-  /**
-   * Actualiza una o varias preferencias de una sección.
-   * @param {string} section - 'display' | 'filters' | 'favs' | etc.
-   * @param {object} patch
-   */
   set(section, patch) {
-    if (!(section in this.#prefs)) {
-      console.warn(`[Prefs] Sección desconocida: "${section}"`);
-      return;
-    }
+    if (!(section in this.#prefs)) return;
     this.#prefs[section] = { ...this.#prefs[section], ...patch };
     this.#scheduleSave();
     this.#notify(section);
   }
 
-  /** Atajo para actualizar una sola clave */
-  setOne(section, key, value) {
-    this.set(section, { [key]: value });
-  }
+  setOne(section, key, value) { this.set(section, { [key]: value }); }
 
-  /** Resetea una sección a sus valores por defecto */
   resetSection(section) {
     if (!(section in DEFAULTS)) return;
     this.#prefs[section] = { ...DEFAULTS[section] };
@@ -216,37 +169,23 @@ class PreferencesManager {
     this.#notify(section);
   }
 
-  /** Resetea TODAS las preferencias a los valores por defecto */
   resetAll() {
-    this.#prefs = deepMerge(DEFAULTS, {});
-    saveRaw(this.#prefs); // guardado inmediato en reset total
+    this.#prefs = deepMerge(DEFAULTS, { _version: SCHEMA_VERSION });
+    saveRaw(this.#prefs);
     this.#notifyAll();
   }
 
-  /**
-   * Exporta todas las preferencias como JSON string.
-   * @returns {string}
-   */
+  // Exportar / importar
   export() {
-    return JSON.stringify({
-      exportedAt: new Date().toISOString(),
-      app:        'AeroPedia',
-      prefs:      this.#prefs,
-    }, null, 2);
+    return JSON.stringify({ exportedAt: new Date().toISOString(), app: 'AeroPedia', prefs: this.#prefs }, null, 2);
   }
 
-  /**
-   * Importa preferencias desde un JSON string.
-   * @param {string} jsonStr
-   * @returns {{ ok: boolean, error?: string }}
-   */
   import(jsonStr) {
     try {
       const parsed = JSON.parse(jsonStr);
-      const data   = parsed.prefs ?? parsed; // soporta el formato exportado o raw
+      const data   = parsed.prefs ?? parsed;
       if (typeof data !== 'object') throw new Error('Formato inválido');
-      this.#prefs = deepMerge(DEFAULTS, data);
-      this.#prefs._version = SCHEMA_VERSION; // normalizar versión
+      this.#prefs = deepMerge(DEFAULTS, { ...data, _version: SCHEMA_VERSION });
       saveRaw(this.#prefs);
       this.#notifyAll();
       return { ok: true };
@@ -255,131 +194,113 @@ class PreferencesManager {
     }
   }
 
-  // ── Suscripciones ──────────────────────────────────────────────
-  /**
-   * Suscribirse a cambios de una sección.
-   * @param {string} section
-   * @param {Function} cb - (newSection) => void
-   * @returns {Function} unsubscribe
-   */
+  // ── Suscripciones ────────────────────────────────────────────
   subscribe(section, cb) {
     if (!this.#listeners.has(section)) this.#listeners.set(section, new Set());
     this.#listeners.get(section).add(cb);
     return () => this.#listeners.get(section)?.delete(cb);
   }
 
-  /** Suscribirse a cualquier cambio */
-  subscribeAll(cb) {
-    return this.subscribe('*', cb);
-  }
-
   #notify(section) {
-    const sectionListeners = this.#listeners.get(section);
-    if (sectionListeners) {
-      const data = this.getSection(section);
-      for (const cb of sectionListeners) cb(data);
-    }
-    const allListeners = this.#listeners.get('*');
-    if (allListeners) {
-      for (const cb of allListeners) cb(section, this.getSection(section));
-    }
+    this.#listeners.get(section)?.forEach(cb => cb(this.getSection(section)));
+    this.#listeners.get('*')?.forEach(cb => cb(section, this.getSection(section)));
   }
 
   #notifyAll() {
-    const sections = Object.keys(DEFAULTS).filter(k => k !== '_version');
-    for (const s of sections) this.#notify(s);
+    for (const s of Object.keys(DEFAULTS).filter(k => k !== '_version')) this.#notify(s);
   }
 
-  // ── Helpers de dominio ─────────────────────────────────────────
-
-  /** ¿Mostrar banner de instalación PWA? */
+  // ── Helpers de dominio ───────────────────────────────────────
   shouldShowInstallBanner() {
     const { installDismissed, visitCount } = this.#prefs.pwa;
     return !installDismissed && visitCount >= 2;
   }
+  dismissInstallBanner() { this.set('pwa', { installDismissed: true }); }
 
-  /** Marcar banner de instalación como descartado */
-  dismissInstallBanner() {
-    this.set('pwa', { installDismissed: true });
-  }
-
-  /** ¿Animaciones activas? (respetando prefers-reduced-motion del OS) */
   animationsEnabled() {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const userOverride   = this.#prefs.display.animationsEnabled;
-    // El usuario puede forzar animaciones incluso si el OS dice reduce-motion
-    return prefersReduced ? userOverride === true : userOverride !== false;
+    const osReduces = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return osReduces ? this.#prefs.display.animationsEnabled === true : this.#prefs.display.animationsEnabled !== false;
   }
 
-  /** Devuelve las clases CSS del tema actual */
-  getThemeClass() {
-    const theme = this.#prefs.display.theme;
-    return theme === 'dark' ? 'dark' : theme === 'high-contrast' ? 'high-contrast' : '';
-  }
-
-  /** Devuelve el atributo data-theme */
-  getThemeAttr() {
-    return this.#prefs.display.theme;
-  }
+  getThemeAttr() { return this.#prefs.display.theme; }
 }
 
-// ── Exportar instancia singleton ─────────────────────────────────
 export const prefs = new PreferencesManager();
 
-// ── Integración con el store global ──────────────────────────────
-// Conecta el tema del PreferencesManager con el store para
-// que el header y otros componentes reaccionen correctamente.
+// ── Sincronización prefs ↔ store ───────────────────────────────
 export function syncPrefsWithStore(store) {
-  // Tema inicial
-  const theme = prefs.get('display', 'theme');
-  store.setState({ theme });
+  // 1. Aplicar tema inicial desde prefs
+  const savedTheme = prefs.get('display', 'theme');
+  if (savedTheme !== store.get('theme')) store.setState({ theme: savedTheme });
 
-  // Cuando el store cambia el tema (toggle del header), actualizar prefs
-  store.subscribe('theme', (newTheme) => {
-    prefs.setOne('display', 'theme', newTheme);
+  // 2. Store → prefs cuando cambia el tema desde el header
+  store.subscribe('theme', (theme) => {
+    if (theme !== prefs.get('display', 'theme')) prefs.setOne('display', 'theme', theme);
+    applyThemeToDom(theme);
   });
 
-  // Cuando las prefs cambian el tema (desde Settings), actualizar store
+  // 3. Prefs → store cuando cambia desde Settings
   prefs.subscribe('display', (display) => {
-    if (display.theme !== store.get('theme')) {
-      store.setState({ theme: display.theme });
-    }
+    if (display.theme !== store.get('theme')) store.setState({ theme: display.theme });
+    applyThemeToDom(display.theme);
+    applyFontScale(display.fontScale);
+    applyAnimations(display.animationsEnabled);
+    applyDensity(display.cardDensity);
   });
 
-  // Restaurar filtros si el usuario lo prefiere
+  // 4. Restaurar filtros si está activo
   if (prefs.get('filters', 'rememberFilters')) {
     const f = prefs.getSection('filters');
     store.setState({
-      cat:      f.lastCat     || 'all',
-      view:     f.lastView    || 'gallery',
-      sortStat: f.lastSortStat|| 'speed',
-      sortAsc:  f.lastSortAsc ?? false,
+      cat:      f.lastCat      || 'all',
+      view:     f.lastView     || 'gallery',
+      sortStat: f.lastSortStat || 'speed',
+      sortAsc:  f.lastSortAsc  ?? false,
     });
   }
 
-  // Guardar filtros cuando cambien en el store
+  // 5. Guardar filtros cuando cambian en store
   store.subscribe(['cat', 'view', 'sortStat', 'sortAsc'], (_, __, state) => {
     if (prefs.get('filters', 'rememberFilters')) {
       prefs.set('filters', {
-        lastCat:     state.cat,
-        lastView:    state.view,
-        lastSortStat:state.sortStat,
-        lastSortAsc: state.sortAsc,
+        lastCat:      state.cat,
+        lastView:     state.view,
+        lastSortStat: state.sortStat,
+        lastSortAsc:  state.sortAsc,
       });
     }
   });
 
-  // Aplicar fontScale al :root
-  const applyFontScale = (scale) => {
-    document.documentElement.style.fontSize = `${scale * 16}px`;
-  };
-  applyFontScale(prefs.get('display', 'fontScale') || 1);
-  prefs.subscribe('display', (d) => applyFontScale(d.fontScale || 1));
+  // 6. Aplicar preferencias de display al DOM
+  applyFontScale(prefs.get('display', 'fontScale'));
+  applyAnimations(prefs.get('display', 'animationsEnabled'));
+  applyDensity(prefs.get('display', 'cardDensity'));
 
-  // Aplicar animaciones
-  const applyAnimations = () => {
-    document.documentElement.classList.toggle('no-animations', !prefs.animationsEnabled());
-  };
-  applyAnimations();
-  prefs.subscribe('display', applyAnimations);
+  // 7. A11y: focus ring siempre visible
+  applyFocusRing(prefs.get('a11y', 'focusRingAlways'));
+  prefs.subscribe('a11y', (a11y) => applyFocusRing(a11y.focusRingAlways));
+}
+
+// ── Aplicadores DOM ────────────────────────────────────────────
+export function applyThemeToDom(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.body.classList.toggle('dark', theme === 'dark' || theme === 'high-contrast');
+  const meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute('content', theme === 'dark' || theme === 'high-contrast' ? '#090d1a' : '#f8fafc');
+}
+
+export function applyFontScale(scale = 1) {
+  document.documentElement.style.fontSize = `${scale * 16}px`;
+}
+
+export function applyAnimations(enabled) {
+  document.documentElement.classList.toggle('no-animations', !enabled);
+}
+
+export function applyDensity(density = 'normal') {
+  document.documentElement.setAttribute('data-density', density);
+}
+
+export function applyFocusRing(always = false) {
+  document.documentElement.classList.toggle('focus-ring-always', always);
 }

@@ -23,11 +23,17 @@
   <link rel="apple-touch-icon" href="icons/icon-192.svg">
 
   <!-- Tema inmediato (evitar FOUC) -->
+  <!-- Tema inmediato desde prefs (anti-FOUC) -->
   <script>
     (function() {
-      const t = localStorage.getItem('aeropedia_theme') || 'dark';
+      try {
+        var raw = JSON.parse(localStorage.getItem('aeropedia_prefs'));
+        var t = raw && raw.display && raw.display.theme
+              ? raw.display.theme
+              : (localStorage.getItem('aeropedia_theme') || 'dark');
+      } catch(e) { var t = 'dark'; }
       document.documentElement.setAttribute('data-theme', t);
-      if (t === 'dark') document.documentElement.classList.add('dark-preload');
+      if (t !== 'light') document.documentElement.classList.add('dark-preload');
     })();
   </script>
 
@@ -50,6 +56,9 @@
 
   <!-- Toast global -->
   <div id="global-toast" class="toast" role="alert" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Announcer para lectores de pantalla -->
+  <div id="route-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
   <!-- Punto de entrada ES Module -->
   <script type="module" src="main.js"></script>

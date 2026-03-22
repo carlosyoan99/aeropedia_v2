@@ -3,6 +3,7 @@
  */
 
 import { store } from '../store/index.js';
+import { prefs } from '../store/preferences.js';
 import { router } from '../router/index.js';
 import { genBadgeHTML, formatStat, FALLBACK_IMG, search, lazyLoad, setPageMeta, debounce } from '../utils/index.js';
 
@@ -93,11 +94,28 @@ export class HomeView {
     this.#renderAll();
     this.#syncView(store.get('view'));
 
+    // Aplicar preferencias de densidad y columnas al montar
+    this.#applyDensityPrefs();
+    prefs.subscribe('display', () => this.#applyDensityPrefs());
+
     return this.#el;
   }
 
   destroy() {
     this.#unsubs.forEach(u => u());
+  }
+
+  #applyDensityPrefs() {
+    const gallery = this.#el?.querySelector('#gallery');
+    if (!gallery) return;
+    const density = prefs.get('display', 'cardDensity') || 'normal';
+    const cols    = prefs.get('display', 'galleryColumns') || 'auto';
+    gallery.setAttribute('data-density', density);
+    document.documentElement.setAttribute('data-density', density);
+    document.documentElement.setAttribute('data-gallery-cols', cols);
+    // stat bars
+    const showBars = prefs.get('display', 'showStatBars') !== false;
+    document.documentElement.classList.toggle('no-stat-bars', !showBars);
   }
 
   // ── Suscripciones al store ─────────────────────────────────
