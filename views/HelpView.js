@@ -21,7 +21,8 @@ const SECTIONS = [
       </div>
 
       <h3 class="help-sub">Navegación principal</h3>
-      <p>La barra superior contiene todos los controles. De izquierda a derecha: logo (volver al inicio), menú de páginas, búsqueda, filtro de categoría, favoritos, vista galería/ranking, densidad de tarjetas, comparador, tema, estadísticas, ayuda y configuración.</p>
+      <p>La barra superior (<strong>fija en la parte de arriba</strong>) contiene solo navegación: logo, enlaces de páginas, badge del comparador, cambio de tema (☀/☽/◑), ayuda y configuración. En móvil, el botón ☰ abre el menú lateral.</p>
+      <p>Los controles de búsqueda, filtros y densidad de tarjetas están dentro de la <strong>página de Archivo</strong>, no en la barra superior.</p>
 
       <h3 class="help-sub">Páginas disponibles</h3>
       <div class="help-pages-grid">
@@ -122,8 +123,11 @@ const SECTIONS = [
       <h3 class="help-sub">Comparador completo</h3>
       <p>Usa el botón <strong>+</strong> en tarjetas para añadir hasta 3 aeronaves al comparador flotante (barra inferior). Al pulsar "Comparar" verás radar chart superpuesto, barras por estadística y tabla con el mejor valor destacado.</p>
 
+      <h3 class="help-sub">Favoritos desde la ficha</h3>
+      <p>El botón <strong>★ Favoritos</strong> en la barra superior de la ficha añade o quita la aeronave de tu colección, sin necesidad de volver a la galería.</p>
+
       <h3 class="help-sub">Compartir</h3>
-      <p>El botón "Compartir" en la ficha copia la URL directa de esa aeronave al portapapeles.</p>
+      <p>El botón <strong>Compartir</strong> usa la API nativa del sistema operativo en móvil (Share Sheet en iOS/Android) para compartir la URL de la ficha. En escritorio, copia el enlace directo al portapapeles automáticamente.</p>
     `,
   },
   {

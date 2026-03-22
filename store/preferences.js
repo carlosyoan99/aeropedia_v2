@@ -284,7 +284,8 @@ export function syncPrefsWithStore(store) {
 // ── Aplicadores DOM ────────────────────────────────────────────
 export function applyThemeToDom(theme) {
   document.documentElement.setAttribute('data-theme', theme);
-  document.body.classList.toggle('dark', theme === 'dark' || theme === 'high-contrast');
+  document.body.classList.toggle('dark', theme === 'dark');
+  document.body.classList.toggle('high-contrast', theme === 'high-contrast');
   const meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute('content', theme === 'dark' || theme === 'high-contrast' ? '#090d1a' : '#f8fafc');
 }

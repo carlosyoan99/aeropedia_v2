@@ -121,10 +121,21 @@ export class AircraftDetailView {
         Volver
       </a>
       <div class="detail-topbar-actions">
+        <!-- Favorito -->
+        <button class="btn-detail-fav ${store.isFav(p.id) ? 'active' : ''}"
+          id="detailFavBtn"
+          aria-label="${store.isFav(p.id) ? 'Quitar de favoritos' : 'Guardar en favoritos'}"
+          aria-pressed="${store.isFav(p.id)}"
+          title="${store.isFav(p.id) ? 'Quitar de favoritos' : 'Guardar en favoritos'}">
+          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          ${store.isFav(p.id) ? 'Favorito' : 'Favoritos'}
+        </button>
+        <!-- Compartir -->
         <button class="btn-share" id="shareBtn" aria-label="Compartir ficha">
           <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/></svg>
           Compartir
         </button>
+        <!-- Comparar -->
         <button class="btn-compare-detail ${inCompare ? 'active' : ''}"
           id="compareDetailBtn"
           aria-label="${inCompare ? 'Quitar de comparación' : 'Añadir a comparación'}"
@@ -464,18 +475,56 @@ export class AircraftDetailView {
 
   // ── Eventos ────────────────────────────────────────────────
   #bindEvents() {
+    const p = this.#plane;
+
+    // ── Favorito ───────────────────────────────────────────
+    const favBtn = this.#el.querySelector('#detailFavBtn');
+    favBtn?.addEventListener('click', () => {
+      store.toggleFav(p.id);
+      const isFav = store.isFav(p.id);
+      if (favBtn) {
+        favBtn.classList.toggle('active', isFav);
+        favBtn.setAttribute('aria-pressed', isFav);
+        favBtn.setAttribute('aria-label', isFav ? 'Quitar de favoritos' : 'Guardar en favoritos');
+        favBtn.setAttribute('title', isFav ? 'Quitar de favoritos' : 'Guardar en favoritos');
+        favBtn.querySelector('svg + text, .fav-label') && null; // no text node
+        // Update inner text without destroying the SVG
+        const label = favBtn.lastChild?.nodeType === 3 ? favBtn.lastChild : null;
+        if (label) label.textContent = isFav ? ' Favorito' : ' Favoritos';
+        showToast(isFav ? '★ Añadido a favoritos' : '☆ Eliminado de favoritos');
+      }
+    });
+    // Also react to external fav changes (e.g. from header)
+    this.#unsubs.push(
+      store.subscribe('favs', () => {
+        const isFav = store.isFav(p.id);
+        favBtn?.classList.toggle('active', isFav);
+        favBtn?.setAttribute('aria-pressed', isFav);
+      })
+    );
+
+    // ── Compartir — Web Share API con fallback clipboard ────
     this.#el.querySelector('#shareBtn')?.addEventListener('click', async () => {
-      const url = `${location.origin}/aircraft/${this.#plane.id}`;
-      await copyToClipboard(url);
-      showToast('✓ Enlace copiado al portapapeles');
+      const url  = `${location.origin}${router.base || ''}/aircraft/${p.id}`;
+      const data = { title: `${p.name} — AeroPedia`, text: p.desc?.slice(0, 100), url };
+      if (navigator.share && navigator.canShare?.(data)) {
+        try { await navigator.share(data); return; } catch { /* fallthrough to clipboard */ }
+      }
+      try {
+        await copyToClipboard(url);
+        showToast('✓ Enlace copiado al portapapeles');
+      } catch {
+        showToast('✗ No se pudo copiar el enlace');
+      }
     });
 
+    // ── Comparar ────────────────────────────────────────────
     this.#el.querySelector('#compareDetailBtn')?.addEventListener('click', () => {
-      store.toggleCompare(this.#plane.id);
-      const inCompare = store.get('compareList').includes(this.#plane.id);
+      store.toggleCompare(p.id);
+      const inCompare = store.get('compareList').includes(p.id);
       const btn = this.#el.querySelector('#compareDetailBtn');
-      btn.classList.toggle('active', inCompare);
-      btn.setAttribute('aria-pressed', inCompare);
+      btn?.classList.toggle('active', inCompare);
+      btn?.setAttribute('aria-pressed', inCompare);
     });
   }
 }

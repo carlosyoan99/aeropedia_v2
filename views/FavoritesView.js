@@ -729,7 +729,7 @@ export class FavoritesView {
     });
 
     // Click delegado general
-    this.#el?.addEventListener('click', e => {
+    this.#el?.addEventListener('click', async e => {
       // Tag filter
       const tagPill = e.target.closest('[data-filter-tag]');
       if (tagPill) { store.setState({favsFilterTag:tagPill.dataset.filterTag}); return; }

@@ -479,12 +479,22 @@
       {
         "conflict": "iraq",
         "missions": null,
-        "notes": ""
+        "notes": "En Iraqi Freedom (2003), los Apache de la 101 Division sufrieron perdidas sorprendentes en una incursion contra la Guardia Republicana Medina: 29 de 30 helicópteros dañados por fuego de armas ligeras. El incidente reviso las tacticas de empleo masivo en entornos urbanos y llevo a cambios doctrinales significativos."
       },
       {
         "conflict": "syria",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "gulf_war",
+        "missions": null,
+        "notes": "El AH-64A inicio Desert Storm el 17 de enero de 1991 destruyendo estaciones de radar iraquies en incursion nocturna — primera accion del conflicto. Empleando Hellfire, los Apache destruyeron mas de 500 blindados en las 100 horas de la campaña terrestre. Su actuacion en el desierto fue extraordinaria."
+      },
+      {
+        "conflict": "afghanistan",
+        "missions": null,
+        "notes": "El AH-64D/E fue el helicoptero de ataque mas efectivo en Afganistan. Operando a mas de 4.000 m de altitud, demostro la fiabilidad del sistema Longbow. Las misiones de CAS nocturnas con NVG contra combatientes talibanes fueron su especialidad durante toda la campaña."
       }
     ],
     "wing_span": 14.63,
@@ -8429,6 +8439,11 @@
         "conflict": "congo_wars",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "yugoslavia",
+        "missions": null,
+        "notes": "Yugoslavia Federal empleo MiG-29 en Kosovo (1999). Seis fueron derribados por F-15C y F-16C de la OTAN en combates que evidenciaron las desventajas del MiG-29 ante misiles AMRAAM de largo alcance. El desequilibrio tecnologico en aviónica y armamento fue determinante."
       }
     ]
   },
@@ -8664,12 +8679,17 @@
       {
         "conflict": "gulf_war",
         "missions": null,
-        "notes": ""
+        "notes": "El Tornado IDS de la RAF lideró los ataques antiaéreos nocturnos en Desert Storm. Empleando bombas JP233 para inutilizar pistas, sufrió 6 pérdidas — la tasa más alta de la RAF desde la WWII. Las misiones de ataque a muy baja cota eran extremadamente peligrosas. El tipo posterior demostró mejor supervivencia usando ataques de media-alta altitud con misiles."
       },
       {
         "conflict": "kosovo",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "yugoslavia",
+        "missions": null,
+        "notes": "La RAF empleo Tornado GR1/GR4 en Allied Force (1999), usando misiles de crucero Storm Shadow en su debut operacional. Ataco instalaciones de mando serbias con alta precisión desde alturas que minimizaban el riesgo para la tripulación."
       }
     ]
   },
@@ -9059,6 +9079,16 @@
         "conflict": "panama",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "gulf_war",
+        "missions": 1271,
+        "notes": "El F-117A realizó el 2.5% de todas las salidas de la USAF pero atacó el 40% de los objetivos estratégicos en Irak. Fue la única aeronave que atacó objetivos en Bagdad la primera noche de la guerra. Zero pérdidas en 1.271 misiones de combate nocturno."
+      },
+      {
+        "conflict": "yugoslavia",
+        "missions": null,
+        "notes": "El 27 de marzo de 1999, un F-117A fue derribado por un SA-3 serbio operado por el coronel Zoltan Dani — la única pérdida del tipo en combate. El piloto fue rescatado ileso. El incidente reveló que el sigilo no es invulnerable ante radares de baja frecuencia y técnicas de triangulación."
       }
     ]
   },
@@ -9164,6 +9194,11 @@
         "conflict": "libya",
         "missions": null,
         "notes": "Primera misión de combate del Gripen en 2011. Suecia contribuyó 8 Gripen C."
+      },
+      {
+        "conflict": "mali",
+        "missions": null,
+        "notes": "El JAS 39C Gripen de la Fuerza Aerea Sueca opero en misiones de reconocimiento estrategico en Mali (2013) en apoyo de la Operacion Serval francesa. Sin empleo de armamento pero demostro la capacidad del Gripen de operar desde bases austeras con soporte logistico minimo — una de sus ventajas de diseño fundamentales."
       }
     ]
   },
@@ -11043,6 +11078,11 @@
         "conflict": "red_sea_crisis",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "gwot",
+        "missions": null,
+        "notes": "Arabia Saudí y los EAU han empleado Typhoon en Yemen desde 2015 (Operación Tormenta Decisiva) con misiones de ataque a tierra usando BROACH y Paveway IV. El RAF Typhoon opera en Siria apoyando operaciones antiterroristas contra el ISIS desde 2015."
       }
     ]
   },
@@ -11346,6 +11386,11 @@
         "conflict": "red_sea_crisis",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "gulf_war",
+        "missions": 13450,
+        "notes": "La USAF empleó más de 250 F-16 en Desert Storm realizando 13.450 misiones — más que cualquier otro tipo. Principal caza-bombardero de la coalición. Los F-16C/D atacaron aeródromos, defensas AA y blindados iraquíes con disponibilidad superior al 85%."
       }
     ]
   },
@@ -11479,6 +11524,11 @@
         "conflict": "kosovo",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "gulf_war",
+        "missions": 5900,
+        "notes": "El F-15C/D logró 34 victorias aéreas en Desert Storm sin sufrir una sola pérdida en combate aéreo. Los F-15E Strike Eagle realizaron misiones nocturnas de caza de Scuds. Ratio acumulado en servicio israelí y estadounidense: 104 victorias sin pérdidas."
       }
     ]
   },
@@ -11834,6 +11884,11 @@
         "conflict": "syria",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "ethiopia_tigray",
+        "missions": null,
+        "notes": "Etiopia empleo el Su-27 en la guerra contra Eritrea (1998-2000), logrando varias victorias aereas confirmadas contra MiG-29 eritreos. Los pilotos etiopies, entrenados por instructores rusos y ucranianos, demostraron superioridad tactica en el mayor combate aereo entre aviaciones similares desde la Guerra Fria."
       }
     ]
   },
@@ -11949,7 +12004,17 @@
       {
         "conflict": "iraq",
         "missions": null,
-        "notes": ""
+        "notes": "Participó en los ataques iniciales de Iraqi Freedom (2003), destruyendo bunkers subterráneos con GBU-28 de 2.270 kg en la primera semana. La combinación de sigilo + precision permite ataques en las primeras horas contra objetivos protegidos imposibles para otros bombarderos."
+      },
+      {
+        "conflict": "yugoslavia",
+        "missions": 49,
+        "notes": "El B-2 Spirit hizo su debut en combate en Allied Force (1999). Operando desde Missouri, realizó vuelos de ida y vuelta de 30+ horas para bombardear Serbia. Destruyó un tercio de los objetivos serbios en las primeras 8 semanas operando solo 49 misiones pero con efectividad desproporcionada."
+      },
+      {
+        "conflict": "afghanistan",
+        "missions": null,
+        "notes": "El B-2 realizó las primeras misiones en Afganistán el 7 de octubre de 2001, atacando aeródromos y posiciones talibanas. Demostró la capacidad de proyectar poder desde EE.UU. continental hacia cualquier punto del globo en menos de 24 horas sin reabastecimiento."
       }
     ]
   },
@@ -12187,6 +12252,16 @@
         "conflict": "iraq",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "gulf_war",
+        "missions": 1741,
+        "notes": "Los B-52G lanzaron misiles de crucero AGM-86 en las primeras horas de Desert Storm desde el Golfo Pérsico. Realizaron misiones de carpet bombing contra la Guardia Republicana iraquí. La presión psicológica de los B-52 provocó rendiciones masivas de soldados iraquíes."
+      },
+      {
+        "conflict": "afghanistan",
+        "missions": null,
+        "notes": "El B-52 operó desde Diego García realizando misiones de largo alcance. La capacidad de permanecer en vuelo hasta 16 horas y responder llamadas de CAS en tiempo real lo convirtió en pieza clave. Utilizó GPS-guided JDAM por primera vez en combate real en 2001."
       }
     ]
   },
@@ -12305,6 +12380,11 @@
         "conflict": "iraq",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "afghanistan",
+        "missions": null,
+        "notes": "El B-1B Lancer fue el bombardero mas activo en Afganistan. Apodado el taxi por las tropas terrestres, permanecia en zona hasta 10 horas y respondia llamadas de apoyo inmediato. Empleo JDAM, SDB y el pod SNIPER para designacion. Actualizado con capacidad de comunicacion por datalink con tropas en contacto."
       }
     ]
   },
@@ -12540,6 +12620,16 @@
         "conflict": "iraq",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "gulf_war",
+        "missions": 8100,
+        "notes": "El A-10 destruyó más del 23% de los vehículos blindados iraquíes en Desert Storm — más de 900 tanques y 1.200 vehículos. Seis A-10 fueron derribados pero el blindaje permitió que muchos regresaran con daños que habrían destruido otros cazas."
+      },
+      {
+        "conflict": "afghanistan",
+        "missions": null,
+        "notes": "En Afganistán el A-10 fue el avión más solicitado por tropas terrestres para CAS. Su bajo nivel de vuelo y comunicación directa con soldados en tierra lo hacían insustituible. El A-10C con pods LITENING mejoró drásticamente la precisión en zonas urbanas."
       }
     ]
   },
@@ -12919,6 +13009,11 @@
         "conflict": "gwot",
         "missions": null,
         "notes": "Operó desde portaaviones y bases expedicionarias en Afganistán e Irak."
+      },
+      {
+        "conflict": "yugoslavia",
+        "missions": null,
+        "notes": "Los AV-8B del USS Kearsarge participaron en Allied Force (1999), apoyando operaciones SAR y misiones de CAS sobre Kosovo desde el Adriático."
       }
     ]
   },
@@ -13144,6 +13239,11 @@
         "conflict": "libya",
         "missions": null,
         "notes": ""
+      },
+      {
+        "conflict": "gulf_war",
+        "missions": 400,
+        "notes": "Los E-3 Sentry coordinaron toda la campaña aérea de Desert Storm. Gestionaron mas de 2.700 salidas diarias de aeronaves aliadas sin colisiones ni incidentes de fuego amigo. Dirigieron intercepciones de MiG iraquies, guiaron cazas hacia objetivos y coordinaron la supresion de defensas AA. Su rol fue indispensable para el éxito de la coalition."
       }
     ]
   },

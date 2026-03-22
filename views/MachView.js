@@ -7,7 +7,8 @@ import { setPageMeta, speedOfSound, FALLBACK_IMG } from '../utils/index.js';
 import { drawSparkline } from '../components/Charts.js';
 
 export class MachView {
-  #el = null;
+  #el   = null;
+  #subs = [];
 
   async render() {
     setPageMeta({
@@ -20,7 +21,13 @@ export class MachView {
     this.#el.innerHTML = this.#template();
     this.#bindEvents();
     this.#populateRecents();
+    // Re-populate when recents change (new aircraft visited)
+    this.#subs.push(store.subscribe('recents', () => this.#populateRecents()));
     return this.#el;
+  }
+
+  destroy() {
+    this.#subs.forEach(u => u());
   }
 
   #populateRecents() {
@@ -33,7 +40,7 @@ export class MachView {
     const planes = recents
       .map(id => db.find(p => p.id === id))
       .filter(p => p && p.speed > 0)
-      .slice(0, 6);
+      .slice(0, 5);
 
     if (!planes.length) return;
 

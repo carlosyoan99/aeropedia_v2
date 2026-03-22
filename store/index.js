@@ -55,9 +55,15 @@ class Store {
 
   setState(patch) {
     const prev = { ...this.#state };
-    this.#state = { ...this.#state, ...patch };
-    this.#persist(patch);
-    this.#notify(patch, prev);
+    // Only include keys that actually changed (primitive equality)
+    const changed = {};
+    for (const [k, v] of Object.entries(patch)) {
+      if (this.#state[k] !== v) changed[k] = v;
+    }
+    if (!Object.keys(changed).length) return;  // nothing changed → skip notify
+    this.#state = { ...this.#state, ...changed };
+    this.#persist(changed);
+    this.#notify(changed, prev);
   }
 
   subscribe(keys, cb) {

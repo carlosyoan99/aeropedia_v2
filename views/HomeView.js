@@ -37,7 +37,17 @@ export class HomeView {
     this.#subscribeStore();
     this.#syncView(store.get('view'));  // renders internally, no extra renderAll needed
     this.#applyDensityPrefs();
-    this.#unsubs.push(prefs.subscribe('display', () => this.#applyDensityPrefs()));
+    // Only react to cardDensity/galleryColumns/showStatBars changes, not all display prefs
+    this.#unsubs.push(prefs.subscribe('display', (d) => {
+      const density  = d.cardDensity || 'normal';
+      const cols     = d.galleryColumns || 'auto';
+      const showBars = d.showStatBars !== false;
+      const gallery  = this.#el?.querySelector('#gallery');
+      if (!gallery) return;
+      const changed = gallery.dataset.density !== density
+        || document.documentElement.getAttribute('data-gallery-cols') !== cols;
+      if (changed) this.#applyDensityPrefs();
+    }));
 
     if (store.get('activeConflict') !== 'all') {
       this.#showConflictBadge(store.get('activeConflict'));
@@ -86,6 +96,10 @@ export class HomeView {
 
           <!-- Acciones secundarias -->
           <div class="archive-actions">
+            <button id="favFilterBtn" class="header-btn archive-btn" title="Ver solo favoritos (F)" aria-expanded="false" aria-label="Favoritos">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+              <span class="archive-btn-label">Favoritos</span>
+            </button>
             <button id="recentsBtn" class="header-btn archive-btn" title="Aeronaves vistas recientemente (H)" aria-expanded="false" aria-controls="recentsPanel" aria-label="Recientes">
               <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V7z" clip-rule="evenodd"/></svg>
               <span class="archive-btn-label">Recientes</span>
@@ -275,7 +289,7 @@ export class HomeView {
 
   // ── Suscripciones ──────────────────────────────────────────────
   #subscribeStore() {
-    const rerender = debounce(() => this.#renderAll(), 50);
+    const rerender = debounce(() => this.#renderAll(), 120);
     this.#unsubs.push(
       store.subscribe(['search','cat','onlyFavs','favs','timelineActive','timelineMin',
         'timelineMax','sortStat','sortAsc','activeConflict'], rerender),
@@ -336,7 +350,8 @@ export class HomeView {
 
   #updateCounter(filtered) {
     const countEl = this.#el?.querySelector('#resultCount');
-    if (countEl) countEl.textContent = filtered.length;
+    if (countEl && countEl.textContent !== String(filtered.length))
+      countEl.textContent = filtered.length;
     const { cat, search: q, onlyFavs, timelineActive, timelineMin, timelineMax, activeConflict } = store.getState();
     const labels = [];
     if (cat !== 'all') labels.push(cat.toUpperCase());
@@ -356,6 +371,27 @@ export class HomeView {
     const gallery = this.#el?.querySelector('#gallery');
     if (!gallery) return;
     if (!planes.length) { gallery.innerHTML = this.#emptyState(); return; }
+
+    // Skip full rebuild if same planes in same order (avoids flicker on minor state changes)
+    const currentIds  = [...gallery.querySelectorAll('[id^="card-"]')].map(e => e.id.replace('card-',''));
+    const newIds      = planes.map(p => p.id);
+    const compareList = store.get('compareList');
+    const favs        = store.get('favs');
+    const sameIds     = currentIds.length === newIds.length && newIds.every((id, i) => id === currentIds[i]);
+
+    if (sameIds) {
+      // Only update fav/compare button states, don't rebuild DOM
+      planes.forEach(p => {
+        const card = gallery.querySelector(`#card-${p.id}`);
+        if (!card) return;
+        const favBtn = card.querySelector('[data-fav]');
+        const cmpBtn = card.querySelector('[data-cmp]');
+        if (favBtn) { favBtn.classList.toggle('active', favs.includes(p.id)); favBtn.setAttribute('aria-pressed', favs.includes(p.id)); }
+        if (cmpBtn) { cmpBtn.classList.toggle('active', compareList.includes(p.id)); card.classList.toggle('selected-for-compare', compareList.includes(p.id)); }
+      });
+      return;
+    }
+
     const frag = document.createDocumentFragment();
     for (const plane of planes) frag.appendChild(this.#createCard(plane));
     gallery.innerHTML = '';
@@ -448,6 +484,14 @@ export class HomeView {
     const sorted = [...planes].sort((a, b) =>
       sortAsc ? a[sortStat] - b[sortStat] : b[sortStat] - a[sortStat]
     );
+
+    // Skip rebuild when only fav/compare status changed, not the list or sort
+    const sortKey = `${sortStat}:${sortAsc}`;
+    const newIds  = sorted.map(p => p.id).join(',');
+    if (body.dataset.sortKey === sortKey && body.dataset.rowIds === newIds) return;
+    body.dataset.sortKey = sortKey;
+    body.dataset.rowIds  = newIds;
+
     const maxVal = sorted.length ? Math.max(...sorted.map(p => p[sortStat])) : 1;
     const color  = STAT_COLORS[sortStat] || '#3b82f6';
     const medals = ['🥇','🥈','🥉'];
@@ -779,7 +823,7 @@ export class HomeView {
     // ── Búsqueda (dentro de la vista) ────────────────────────
     const searchInput = this.#el.querySelector('#mainSearch');
     if (searchInput) {
-      const debouncedSearch = debounce(e => store.setState({ search: e.target.value }), 260);
+      const debouncedSearch = debounce(e => store.setState({ search: e.target.value }), 380);
       searchInput.addEventListener('input', debouncedSearch);
       searchInput.value = store.get('search') || '';
     }
@@ -800,6 +844,17 @@ export class HomeView {
     this.#el.querySelectorAll('.density-btn').forEach(btn => {
       btn.addEventListener('click', () => prefs.setOne('display', 'cardDensity', btn.dataset.density));
     });
+
+    // Favoritos toggle
+    this.#el.querySelector('#favFilterBtn')?.addEventListener('click', () => {
+      const nowFavs = !store.get('onlyFavs');
+      store.setState({ onlyFavs: nowFavs });
+      this.#el.querySelector('#favFilterBtn')?.classList.toggle('active', nowFavs);
+    });
+    // Sync favs btn on external changes
+    this.#unsubs.push(store.subscribe('onlyFavs', v => {
+      this.#el?.querySelector('#favFilterBtn')?.classList.toggle('active', v);
+    }));
 
     // ── Timeline
     this.#el.querySelector('#timelineToggleBtn')?.addEventListener('click', () => this.#toggleTimeline());

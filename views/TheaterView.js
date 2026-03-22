@@ -304,9 +304,10 @@ export class TheaterView {
     this.#selectedId = id;
     prefs.setOne('theater', 'lastConflict', id);
 
-    // Actualizar clases en el mapa
+    // Actualizar clases en el mapa (setAttribute for SVG compat)
     this.#el?.querySelectorAll('.theater-conflict-group').forEach(g => {
-      g.classList.toggle('selected', g.dataset.id === id);
+      const base = 'theater-conflict-group';
+      g.setAttribute('class', g.dataset.id === id ? `${base} selected` : base);
     });
 
     // Actualizar lista
@@ -439,8 +440,9 @@ export class TheaterView {
       btn.addEventListener('click', () => {
         const era = btn.dataset.era;
         prefs.setOne('theater', 'lastEra', era);
-        this.#el?.querySelectorAll('.theater-era-btn').forEach(b =>
-          b.classList.toggle('active', b.dataset.era === era));
+        this.#el?.querySelectorAll('.theater-era-btn').forEach(b => {
+          b.classList.toggle('active', b.dataset.era === era);
+        });
         this.#selectedId = null;
         this.#renderMap(era);
       });

@@ -3,7 +3,7 @@
  */
 
 import { store } from '../store/index.js';
-import { setPageMeta, debounce, FALLBACK_IMG } from '../utils/index.js';
+import { setPageMeta, debounce, FALLBACK_IMG, lazyLoad } from '../utils/index.js';
 import { router } from '../router/index.js';
 
 const ROLE_COLORS = {
@@ -97,7 +97,7 @@ export class FleetsView {
     const gen5Count = fleetsDB.reduce((s, c) =>
       s + c.aircraft.reduce((ss, a) => {
         const p = aircraftDB.find(x => x.id === a.id);
-        return ss + (p?.generation === '5' ? (a.qty || 0) : 0);
+        return ss + (p?.generation === '5ª' ? (a.qty || 0) : 0);
       }, 0), 0);
     const f35Total = fleetsDB.reduce((s, c) =>
       s + c.aircraft.reduce((ss, a) => ss + (a.id === 'f35' ? (a.qty || 0) : 0), 0), 0);
@@ -154,6 +154,14 @@ export class FleetsView {
     }
     grid.innerHTML = '';
     grid.appendChild(frag);
+    // Lazy-load images now visible
+    if (typeof lazyLoad !== 'undefined') lazyLoad(grid);
+    else {
+      grid.querySelectorAll('img[data-src]').forEach(img => {
+        img.src = img.dataset.src;
+        delete img.dataset.src;
+      });
+    }
   }
 
   #buildFleetCard(country, aircraftDB) {
@@ -163,7 +171,7 @@ export class FleetsView {
     }, 0);
     const gen5Count = country.aircraft.reduce((s, a) => {
       const p = aircraftDB.find(x => x.id === a.id);
-      return s + (p?.generation === '5' ? (a.qty || 0) : 0);
+      return s + (p?.generation === '5ª' ? (a.qty || 0) : 0);
     }, 0);
 
     const typeGroups = {};
@@ -189,7 +197,7 @@ export class FleetsView {
             onerror="this.src='${FALLBACK_IMG}'">
         </td>
         <td>
-          <p class="fat-name">${a.name}${p?.generation === '5' ? ' <span style="color:#f472b6;font-size:.55rem">◈5ª</span>' : ''}</p>
+          <p class="fat-name">${a.name}${p?.generation === '5ª' ? ' <span style="color:#f472b6;font-size:.55rem">◈5ª</span>' : ''}</p>
           <p class="fat-role">${a.role || ''}</p>
         </td>
         <td style="text-align:right">
