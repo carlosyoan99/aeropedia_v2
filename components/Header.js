@@ -1,9 +1,6 @@
 /**
  * components/Header.js — Barra de navegación principal
- *
- * Solo contiene: logo, nav links, comparador, tema, ayuda, settings.
- * Los controles de contexto (búsqueda, densidad, vista) se movieron a HomeView.
- * Hamburger menu para mobile (<768px).
+ * Solo navegación + tema + hamburger mobile. Sin controles de contexto.
  */
 
 import { store }  from '../store/index.js';
@@ -11,8 +8,10 @@ import { prefs, applyThemeToDom } from '../store/preferences.js';
 import { router } from '../router/index.js';
 
 export class Header {
-  #el   = null;
-  #subs = [];
+  #el              = null;
+  #subs            = [];
+  #boundOnKey      = null;   // referencia guardada para removeEventListener
+  #boundOutside    = null;
 
   render() {
     this.#el = document.createElement('header');
@@ -23,27 +22,27 @@ export class Header {
     this.#syncAll();
 
     this.#subs.push(
-      store.subscribe('theme',        ()  => this.#syncTheme()),
-      store.subscribe('currentRoute', ()  => this.#syncNav()),
-      store.subscribe('compareList',  ()  => this.#syncCompareBtn()),
-      prefs.subscribe('display',      ()  => this.#syncTheme()),
+      store.subscribe('theme',        () => this.#syncTheme()),
+      store.subscribe('currentRoute', () => this.#syncNav()),
+      store.subscribe('compareList',  () => this.#syncCompareBtn()),
+      prefs.subscribe('display',      () => this.#syncTheme()),
     );
     return this.#el;
   }
 
   destroy() {
     this.#subs.forEach(u => u());
-    document.removeEventListener('keydown', this.#onKey);
-    document.removeEventListener('click', this.#onOutsideClick);
+    if (this.#boundOnKey)   document.removeEventListener('keydown', this.#boundOnKey);
+    if (this.#boundOutside) document.removeEventListener('click',   this.#boundOutside);
   }
 
+  // ── Template ───────────────────────────────────────────────
   #template() {
     const s = store.getState();
     return `
     <div class="header-inner">
       <div class="header-row">
 
-        <!-- Logo -->
         <a class="logo" href="/" data-link aria-label="AeroPedia — Inicio">
           <div class="logo-icon" aria-hidden="true">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20">
@@ -55,7 +54,6 @@ export class Header {
           <span class="logo-text">AERO<span>PEDIA</span></span>
         </a>
 
-        <!-- Desktop nav -->
         <nav class="main-nav" id="mainNav" aria-label="Navegación principal">
           <a href="/" data-link class="nav-link" data-page="home">
             <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M2 11l8-8 8 8v7a1 1 0 01-1 1h-5v-4H6v4H3a1 1 0 01-1-1v-7z"/></svg>
@@ -91,30 +89,32 @@ export class Header {
           </a>
         </nav>
 
-        <!-- Right-side utility controls -->
         <div class="header-controls">
 
-          <!-- Comparador (solo visible cuando hay items) -->
-          <button id="compareNavBtn" class="header-btn icon-btn ${s.compareList.length ? 'has-items' : ''}"
+          <!-- Comparador -->
+          <button id="compareNavBtn"
+            class="header-btn icon-btn ${s.compareList.length ? 'has-items' : ''}"
             title="Ver comparador" aria-label="Comparador de aeronaves">
             <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
               <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
             </svg>
-            ${s.compareList.length ? `<span class="compare-badge" aria-label="${s.compareList.length} aeronaves">${s.compareList.length}</span>` : ''}
+            ${s.compareList.length ? `<span class="compare-badge">${s.compareList.length}</span>` : ''}
           </button>
 
           <!-- Tema -->
           <button id="themeToggle" class="header-btn icon-btn theme-btn"
             aria-label="Cambiar tema" title="Cambiar tema (D)">
-            <span class="theme-icon-sun" aria-hidden="true">☀</span>
+            <span class="theme-icon-sun"  aria-hidden="true">☀</span>
             <span class="theme-icon-moon" aria-hidden="true">☽</span>
-            <span class="theme-icon-hc" aria-hidden="true">◑</span>
+            <span class="theme-icon-hc"   aria-hidden="true">◑</span>
           </button>
 
           <!-- Ayuda -->
           <a href="/help" data-link class="header-btn icon-btn help-btn"
             aria-label="Ayuda" title="Ayuda">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/></svg>
+            <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
+            </svg>
           </a>
 
           <!-- Settings -->
@@ -125,10 +125,10 @@ export class Header {
             </svg>
           </a>
 
-          <!-- Hamburger (mobile only) -->
+          <!-- Hamburger (solo mobile) -->
           <button id="navToggle" class="header-btn icon-btn nav-toggle-btn"
-            aria-label="Abrir menú de navegación" aria-expanded="false" aria-controls="mainNav">
-            <svg id="navHamburgerIcon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+            aria-label="Abrir menú" aria-expanded="false" aria-controls="mainNav">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
               <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>
             </svg>
           </button>
@@ -138,6 +138,7 @@ export class Header {
     </div>`;
   }
 
+  // ── Eventos ────────────────────────────────────────────────
   #bindEvents() {
     // Comparador
     this.#el.querySelector('#compareNavBtn')?.addEventListener('click', () => {
@@ -153,38 +154,37 @@ export class Header {
       store.setState({ theme: next });
     });
 
-    // Hamburger toggle
+    // Hamburger
     this.#el.querySelector('#navToggle')?.addEventListener('click', () => {
       this.#toggleMobileNav();
     });
 
-    // Close mobile nav when a link is clicked
+    // Cerrar nav al hacer clic en un enlace
     this.#el.querySelector('#mainNav')?.addEventListener('click', (e) => {
-      if (e.target.closest('[data-link]')) {
-        this.#closeMobileNav();
-      }
+      if (e.target.closest('[data-link]')) this.#closeMobileNav();
     });
 
-    // Keyboard shortcuts
-    this.#onKey = this.#onKey.bind(this);
-    this.#onOutsideClick = this.#onOutsideClick.bind(this);
-    document.addEventListener('keydown', this.#onKey);
-    document.addEventListener('click', this.#onOutsideClick);
+    // Guardar referencias bound para poder eliminarlas en destroy()
+    this.#boundOnKey   = (e) => this.#handleKey(e);
+    this.#boundOutside = (e) => this.#handleOutside(e);
+    document.addEventListener('keydown', this.#boundOnKey);
+    document.addEventListener('click',   this.#boundOutside);
   }
 
-  #onKey(e) {
+  #handleKey(e) {
     const tag    = document.activeElement?.tagName.toLowerCase();
-    const typing = ['input','select','textarea'].includes(tag);
-    if (!typing) {
-      if (e.key === 'd' || e.key === 'D') this.#el?.querySelector('#themeToggle')?.click();
-      if (e.key === 'Escape') this.#closeMobileNav();
-    }
+    const typing = ['input', 'select', 'textarea'].includes(tag);
+    if (typing) return;
+    if (e.key === 'd' || e.key === 'D') this.#el?.querySelector('#themeToggle')?.click();
+    if (e.key === 'Escape') this.#closeMobileNav();
   }
 
-  #onOutsideClick(e) {
+  #handleOutside(e) {
     const nav    = this.#el?.querySelector('#mainNav');
     const toggle = this.#el?.querySelector('#navToggle');
-    if (nav?.classList.contains('nav-open') && !nav.contains(e.target) && !toggle?.contains(e.target)) {
+    if (nav?.classList.contains('nav-open')
+        && !nav.contains(e.target)
+        && !toggle?.contains(e.target)) {
       this.#closeMobileNav();
     }
   }
@@ -192,16 +192,12 @@ export class Header {
   #toggleMobileNav() {
     const nav    = this.#el?.querySelector('#mainNav');
     const toggle = this.#el?.querySelector('#navToggle');
-    const isOpen = nav?.classList.contains('nav-open');
-    if (isOpen) {
+    if (nav?.classList.contains('nav-open')) {
       this.#closeMobileNav();
     } else {
       nav?.classList.add('nav-open');
       toggle?.setAttribute('aria-expanded', 'true');
-      toggle?.setAttribute('aria-label', 'Cerrar menú de navegación');
-      // Change icon to X
-      const icon = this.#el?.querySelector('#navHamburgerIcon');
-      if (icon) icon.innerHTML = '<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>';
+      toggle?.setAttribute('aria-label', 'Cerrar menú');
     }
   }
 
@@ -210,12 +206,10 @@ export class Header {
     const toggle = this.#el?.querySelector('#navToggle');
     nav?.classList.remove('nav-open');
     toggle?.setAttribute('aria-expanded', 'false');
-    toggle?.setAttribute('aria-label', 'Abrir menú de navegación');
-    const icon = this.#el?.querySelector('#navHamburgerIcon');
-    if (icon) icon.innerHTML = '<path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/>';
+    toggle?.setAttribute('aria-label', 'Abrir menú');
   }
 
-  // ── Sync ────────────────────────────────────────────────────
+  // ── Sincronizadores ────────────────────────────────────────
   #syncAll() {
     this.#syncTheme();
     this.#syncNav();
@@ -227,11 +221,10 @@ export class Header {
   }
 
   #syncNav() {
-    const route = store.get('currentRoute');
+    const route = store.get('currentRoute') || '/';
     this.#el?.querySelectorAll('[data-page]').forEach(link => {
-      const page   = link.dataset.page;
       const href   = link.getAttribute('href');
-      const active = href === '/' ? route === '/' : route?.startsWith(href);
+      const active = href === '/' ? route === '/' : route.startsWith(href);
       link.classList.toggle('active', !!active);
       link.setAttribute('aria-current', active ? 'page' : 'false');
     });
@@ -244,10 +237,9 @@ export class Header {
     const btn   = this.#el?.querySelector('#compareNavBtn');
     if (!btn) return;
     btn.classList.toggle('has-items', count > 0);
-    btn.style.display = '';   // always visible (hidden when count=0 via CSS opacity)
     const badge = btn.querySelector('.compare-badge');
     if (count > 0) {
-      if (badge) { badge.textContent = count; }
+      if (badge) badge.textContent = count;
       else btn.insertAdjacentHTML('beforeend', `<span class="compare-badge">${count}</span>`);
     } else {
       badge?.remove();

@@ -16,6 +16,7 @@ export class FavoritesView {
   #subs          = [];
   #dragSrcId     = null;
   #focusedIdx    = -1;   // para atajos de teclado
+  #boundKey      = null; // referencia para removeEventListener
 
   async render() {
     setPageMeta({ title: 'Mis Favoritos — AeroPedia', description: 'Tu colección personal de aeronaves.' });
@@ -40,7 +41,10 @@ export class FavoritesView {
     return this.#el;
   }
 
-  destroy() { this.#subs.forEach(u => u()); }
+  destroy() {
+    this.#subs.forEach(u => u());
+    if (this.#boundKey) document.removeEventListener('keydown', this.#boundKey);
+  }
 
   // ── Scaffold ─────────────────────────────────────────────────
   #scaffold() {
@@ -643,7 +647,8 @@ export class FavoritesView {
 
   // ── Atajos de teclado ─────────────────────────────────────────
   #bindKeyboard() {
-    document.addEventListener('keydown', this.#onKey.bind(this));
+    this.#boundKey = (e) => this.#onKey(e);
+    document.addEventListener('keydown', this.#boundKey);
   }
 
   #onKey(e) {
