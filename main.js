@@ -72,6 +72,14 @@ function registerRoutes() {
       title: 'Calculadora Mach — AeroPedia',
     })
 
+    .route('/favorites', async () => {
+      const { FavoritesView } = await import('./views/FavoritesView.js');
+      return new FavoritesView();
+    }, {
+      title: 'Mis Favoritos — AeroPedia',
+    })
+
+
     .notFound(async () => ({
       render: () => {
         const el = document.createElement('div');
