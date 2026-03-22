@@ -6,6 +6,7 @@ import { store }                               from './store/index.js';
 import { prefs, syncPrefsWithStore }           from './store/preferences.js';
 import { router }                              from './router/index.js';
 import { Header }                              from './components/Header.js';
+import { Footer }                              from './components/Footer.js';
 import { PWAInstallBanner, registerSW }        from './components/PWAInstallBanner.js';
 
 // ── Anti-FOUC ─────────────────────────────────────────────────
@@ -200,6 +201,10 @@ async function init() {
 
   // 8. Init router
   await router.init();
+
+  // 8.5 Footer
+  const footerEl = document.getElementById('app-footer');
+  if (footerEl) footerEl.appendChild(new Footer().render());
 
   // 9. PWA
   await registerSW();

@@ -5,7 +5,7 @@
 
 import { router }      from '../router/index.js';
 import { store }       from '../store/index.js';
-import { setPageMeta } from '../utils/index.js';
+import { setPageMeta , buildBreadcrumb } from '../utils/index.js';
 
 // ── Secciones de ayuda ─────────────────────────────────────────
 const SECTIONS = [

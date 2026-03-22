@@ -6,7 +6,7 @@
 
 import { store }  from '../store/index.js';
 import { router } from '../router/index.js';
-import { setPageMeta, FALLBACK_IMG, genBadgeHTML } from '../utils/index.js';
+import { setPageMeta, FALLBACK_IMG, genBadgeHTML , buildBreadcrumb } from '../utils/index.js';
 import { drawBarChart, drawPieChart } from '../components/Charts.js';
 
 export class StatsView {

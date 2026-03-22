@@ -4,7 +4,7 @@
 
 import { store } from '../store/index.js';
 import { router } from '../router/index.js';
-import { genBadgeHTML, formatNumber, val, FALLBACK_IMG, setPageMeta, copyToClipboard, showToast } from '../utils/index.js';
+import { genBadgeHTML, formatNumber, val, FALLBACK_IMG, setPageMeta, copyToClipboard, showToast , buildBreadcrumb } from '../utils/index.js';
 import { drawGauge, drawRadarChart } from '../components/Charts.js';
 
 const wikiCache = new Map();
@@ -115,6 +115,7 @@ export class AircraftDetailView {
     const inCompare = store.get('compareList').includes(p.id);
 
     return `
+    ${buildBreadcrumb('/aircraft/', { label: p.name })}
     <div class="detail-topbar">
       <a href="/" data-link class="btn-back" aria-label="Volver al archivo">
         <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>

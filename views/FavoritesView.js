@@ -5,7 +5,7 @@
 import { store, COLLECTION_COLORS, COLLECTION_ICONS } from '../store/index.js';
 import { prefs }   from '../store/preferences.js';
 import { router }  from '../router/index.js';
-import { setPageMeta, FALLBACK_IMG, genBadgeHTML, debounce, copyToClipboard, showToast, renderMarkdown } from '../utils/index.js';
+import { setPageMeta, FALLBACK_IMG, genBadgeHTML, debounce, copyToClipboard, showToast, renderMarkdown , buildBreadcrumb } from '../utils/index.js';
 import { drawPieChart, drawBarChart } from '../components/Charts.js';
 import { exportFavsAsImage } from '../utils/exportImage.js';
 

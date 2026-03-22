@@ -4,7 +4,7 @@
 
 import { store } from '../store/index.js';
 import { router } from '../router/index.js';
-import { formatNumber, formatStat, FALLBACK_IMG, setPageMeta, STAT_META, genBadgeHTML } from '../utils/index.js';
+import { formatNumber, formatStat, FALLBACK_IMG, setPageMeta, STAT_META, genBadgeHTML , buildBreadcrumb } from '../utils/index.js';
 import { drawRadarChart, drawBarChart } from '../components/Charts.js';
 
 const COMPARE_COLORS = ['#3b82f6', '#f59e0b', '#10b981'];

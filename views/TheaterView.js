@@ -7,7 +7,7 @@
 import { store }   from '../store/index.js';
 import { router }  from '../router/index.js';
 import { prefs }   from '../store/preferences.js';
-import { setPageMeta, FALLBACK_IMG, debounce } from '../utils/index.js';
+import { setPageMeta, FALLBACK_IMG, debounce , buildBreadcrumb } from '../utils/index.js';
 
 // Coordenadas aproximadas por conflicto [cx%, cy%] sobre un mapa Mercator simple
 const CONFLICT_COORDS = {

@@ -3,7 +3,7 @@
  */
 
 import { store } from '../store/index.js';
-import { setPageMeta, speedOfSound, FALLBACK_IMG } from '../utils/index.js';
+import { setPageMeta, speedOfSound, FALLBACK_IMG , buildBreadcrumb } from '../utils/index.js';
 import { drawSparkline } from '../components/Charts.js';
 
 export class MachView {

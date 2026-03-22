@@ -35,8 +35,12 @@ export class HomeView {
 
     this.#bindEvents();
     this.#subscribeStore();
-    this.#syncView(store.get('view'));  // renders internally, no extra renderAll needed
     this.#applyDensityPrefs();
+    // If data is already loaded (e.g. navigating back), render immediately.
+    // Otherwise wait for store.subscribe('aircraftDB') which fires after load.
+    if (store.get('aircraftDB')?.length) {
+      this.#syncView(store.get('view'));
+    }
     // Only react to cardDensity/galleryColumns/showStatBars changes, not all display prefs
     this.#unsubs.push(prefs.subscribe('display', (d) => {
       const density  = d.cardDensity || 'normal';
@@ -295,7 +299,7 @@ export class HomeView {
         'timelineMax','sortStat','sortAsc','activeConflict'], rerender),
       store.subscribe('view',        v => this.#syncView(v)),
       store.subscribe('compareList', () => this.#updateCompareBar()),
-      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#renderAll(); }),
+      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#syncView(store.get('view')); }),
       store.subscribe('activeConflict', v => this.#showConflictBadge(v)),
       store.subscribe('recents',     () => this.#renderRecentsList()),
     );
