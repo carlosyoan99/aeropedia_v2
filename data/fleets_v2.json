@@ -1,0 +1,1368 @@
+[
+  {
+    "country": "Estados Unidos",
+    "flag": "🇺🇸",
+    "region": "Norteamérica",
+    "total_combat": 2150,
+    "air_force": "USAF / US Navy / US Marine Corps",
+    "budget_bn_usd": 298.0,
+    "strength_rank": 1,
+    "aircraft": [
+      {
+        "id": "f35",
+        "name": "F-35A/B/C Lightning II",
+        "qty": 820,
+        "role": "Caza multirol 5ª gen",
+        "notes": "Flota en crecimiento constante. USAF: ~450 A, USN: ~90 C, USMC: ~180 B y ~100 C. Supera las 820 unidades en 2026."
+      },
+      {
+        "id": "f22",
+        "name": "F-22 Raptor",
+        "qty": 185,
+        "role": "Superioridad aérea",
+        "notes": "Flota estabilizada en ~185 operativos. Se mantendrá como el caza de superioridad aérea principal hasta la llegada del NGAD."
+      },
+      {
+        "id": "fa18super",
+        "name": "F/A-18E/F Super Hornet",
+        "qty": 440,
+        "role": "Caza naval multirol",
+        "notes": "Flota principal de la USN. Los nuevos Block III entran en servicio, extendiendo su vida útil hasta los 2040."
+      },
+      {
+        "id": "f15ex",
+        "name": "F-15EX Eagle II",
+        "qty": 68,
+        "role": "Superioridad aérea / Ataque",
+        "notes": "Entregas aceleradas. 68 unidades en 2026 con objetivo de 104+. Reemplaza a los F-15C/D más antiguos."
+      },
+      {
+        "id": "f15",
+        "name": "F-15C/D Eagle",
+        "qty": 110,
+        "role": "Superioridad aérea",
+        "notes": "En retirada acelerada. La mayoría de los escuadrones han hecho la transición al F-15EX o F-35A."
+      },
+      {
+        "id": "f16",
+        "name": "F-16C/D Fighting Falcon",
+        "qty": 690,
+        "role": "Caza multirol",
+        "notes": "Flota reducida pero modernizada. El programa de extensión de vida (SLEP) mantiene a 608 en servicio activo hasta los 2040."
+      },
+      {
+        "id": "b2",
+        "name": "B-2 Spirit",
+        "qty": 19,
+        "role": "Bombardero furtivo",
+        "notes": "19 operativos tras el accidente de 2022. Mantiene su rol hasta la llegada del B-21."
+      },
+      {
+        "id": "b21",
+        "name": "B-21 Raider",
+        "qty": 18,
+        "role": "Bombardero furtivo",
+        "notes": "En producción de baja tasa inicial (LRIP). Primer vuelo en 2023. IOC en 2026."
+      },
+      {
+        "id": "b1b",
+        "name": "B-1B Lancer",
+        "qty": 42,
+        "role": "Bombardero estratégico",
+        "notes": "Flota reducida a 42 para preservar vida de las células. En proceso de retiro para 2036."
+      },
+      {
+        "id": "b52",
+        "name": "B-52H Stratofortress",
+        "qty": 76,
+        "role": "Bombardero estratégico",
+        "notes": "76 en servicio. Programa de re-motorización (RR F130) en marcha, extenderá su vida hasta 2050."
+      },
+      {
+        "id": "a10",
+        "name": "A-10C Thunderbolt II",
+        "qty": 185,
+        "role": "CAS / Ataque",
+        "notes": "Planes de retiro pospuestos. ~185 en servicio, principalmente en la Guardia Nacional Aérea."
+      },
+      {
+        "id": "e3",
+        "name": "E-3G Sentry",
+        "qty": 15,
+        "role": "AWACS / C2",
+        "notes": "Flota reducida a 15. El primer E-7A Wedgetail está en producción para reemplazarlos a partir de 2027."
+      },
+      {
+        "id": "e7",
+        "name": "E-7A Wedgetail",
+        "qty": 3,
+        "role": "AEW&C",
+        "notes": "Primeras entregas a la USAF en 2025. Reemplazará gradualmente al E-3."
+      },
+      {
+        "id": "rq4",
+        "name": "RQ-4 Global Hawk",
+        "qty": 28,
+        "role": "ISR estratégico",
+        "notes": "Flota en reducción. Parte de sus misiones transferidas al MQ-4C Triton de la USN."
+      },
+      {
+        "id": "mq4c",
+        "name": "MQ-4C Triton",
+        "qty": 12,
+        "role": "Vigilancia marítima",
+        "notes": "En servicio con la US Navy. Complementa al P-8 Poseidon."
+      },
+      {
+        "id": "mq9",
+        "name": "MQ-9 Reaper",
+        "qty": 280,
+        "role": "UAV MALE",
+        "notes": "Principal UAV de ataque de la USAF. En servicio activo."
+      },
+      {
+        "id": "kc135",
+        "name": "KC-135 Stratotanker",
+        "qty": 360,
+        "role": "Reabastecimiento",
+        "notes": "Flota en descenso gradual a medida que llegan los KC-46A."
+      },
+      {
+        "id": "kc46",
+        "name": "KC-46A Pegasus",
+        "qty": 80,
+        "role": "Reabastecimiento / Transporte",
+        "notes": "Flota en crecimiento. Reemplaza gradualmente al KC-135."
+      },
+      {
+        "id": "c17",
+        "name": "C-17 Globemaster III",
+        "qty": 222,
+        "role": "Transporte estratégico",
+        "notes": "Flota estabilizada. Columna vertebral del transporte estratégico."
+      },
+      {
+        "id": "c130",
+        "name": "C-130J Super Hercules",
+        "qty": 340,
+        "role": "Transporte táctico",
+        "notes": "Flota moderna. Versión J es el estándar actual."
+      },
+      {
+        "id": "c5",
+        "name": "C-5M Super Galaxy",
+        "qty": 52,
+        "role": "Transporte estratégico pesado",
+        "notes": "Flota modernizada al estándar M."
+      },
+      {
+        "id": "ch47",
+        "name": "CH-47F Chinook",
+        "qty": 400,
+        "role": "Helicóptero transporte pesado",
+        "notes": "Principal helicóptero de transporte del Ejército."
+      },
+      {
+        "id": "ch53k",
+        "name": "CH-53K King Stallion",
+        "qty": 45,
+        "role": "Helicóptero transporte pesado",
+        "notes": "Nuevo helicóptero pesado del USMC. Reemplaza al CH-53E."
+      },
+      {
+        "id": "ah64",
+        "name": "AH-64E Apache Guardian",
+        "qty": 720,
+        "role": "Helicóptero de ataque",
+        "notes": "Principal helicóptero de ataque del Ejército."
+      },
+      {
+        "id": "uh60",
+        "name": "UH-60M Black Hawk",
+        "qty": 2200,
+        "role": "Helicóptero utilitario",
+        "notes": "El helicóptero más numeroso de las fuerzas armadas estadounidenses."
+      },
+      {
+        "id": "t6",
+        "name": "T-6 Texan II",
+        "qty": 450,
+        "role": "Entrenamiento básico",
+        "notes": "Principal entrenador de la USAF y US Navy."
+      },
+      {
+        "id": "t38",
+        "name": "T-38 Talon",
+        "qty": 450,
+        "role": "Entrenamiento avanzado",
+        "notes": "En proceso de reemplazo por el T-7 Red Hawk."
+      },
+      {
+        "id": "t7",
+        "name": "T-7 Red Hawk",
+        "qty": 25,
+        "role": "Entrenamiento avanzado",
+        "notes": "Nuevo entrenador supersónico de la USAF. Primeras entregas."
+      }
+    ],
+    "notes": "La USAF sigue siendo la fuerza aérea más poderosa del mundo. Está en medio de una transición hacia una fuerza más 'distribuida' y furtiva, con el NGAD (caza de 6ª gen) en desarrollo avanzado y el B-21 entrando en servicio."
+  },
+  {
+    "country": "China",
+    "flag": "🇨🇳",
+    "region": "Asia-Pacífico",
+    "total_combat": 1850,
+    "air_force": "PLAAF / PLAN Aviation",
+    "budget_bn_usd": 125.0,
+    "strength_rank": 2,
+    "aircraft": [
+      {
+        "id": "j20",
+        "name": "J-20 Mighty Dragon",
+        "qty": 300,
+        "role": "Caza 5ª gen",
+        "notes": "Producción acelerada. Más de 300 unidades en 2026, con múltiples fábricas en funcionamiento. Equipado con motores WS-15 de diseño propio."
+      },
+      {
+        "id": "j35",
+        "name": "J-35 / J-35A",
+        "qty": 60,
+        "role": "Caza 5ª gen naval/AAF",
+        "notes": "Entrando en servicio con la Armada (J-35) y la Fuerza Aérea (J-35A). Versión embarcada para el portaaviones Fujian."
+      },
+      {
+        "id": "j16",
+        "name": "J-16 / J-16D",
+        "qty": 340,
+        "role": "Caza-atacante",
+        "notes": "Columna vertebral de ataque de la PLAAF. Más de 340 entregados, incluyendo la versión de guerra electrónica J-16D."
+      },
+      {
+        "id": "j10",
+        "name": "J-10A/B/C",
+        "qty": 600,
+        "role": "Caza multirol",
+        "notes": "La flota más numerosa de la PLAAF. El J-10C con AESA es el estándar de producción."
+      },
+      {
+        "id": "su30",
+        "name": "Su-30MKK / MK2",
+        "qty": 95,
+        "role": "Caza-atacante bimotor",
+        "notes": "Flota estabilizada. Sigue en servicio, pero con un papel secundario tras el J-16."
+      },
+      {
+        "id": "j11",
+        "name": "J-11B/BS/BG",
+        "qty": 350,
+        "role": "Superioridad aérea",
+        "notes": "Flota enorme de cazas pesados de diseño nacional. El J-11BG es una modernización con AESA."
+      },
+      {
+        "id": "j7",
+        "name": "J-7 (MiG-21)",
+        "qty": 40,
+        "role": "Caza/entrenamiento",
+        "notes": "En retirada acelerada. Solo unidades de entrenamiento en servicio."
+      },
+      {
+        "id": "jh7",
+        "name": "JH-7 / JH-7A Flounder",
+        "qty": 180,
+        "role": "Ataque naval",
+        "notes": "Principal avión de ataque naval de la PLAN. Armado con misiles antibuque YJ-83."
+      },
+      {
+        "id": "q5",
+        "name": "Q-5 Fantan",
+        "qty": 0,
+        "role": "Retirado",
+        "notes": "Completamente retirado del servicio de primera línea en 2025."
+      },
+      {
+        "id": "h6",
+        "name": "H-6N / H-6K",
+        "qty": 170,
+        "role": "Bombardero estratégico",
+        "notes": "Flota de bombarderos modernizada. El H-6N tiene capacidad para misiles balísticos aire-tierra."
+      },
+      {
+        "id": "y20",
+        "name": "Y-20 Kunpeng",
+        "qty": 80,
+        "role": "Transporte estratégico",
+        "notes": "Flota en expansión. Versión Y-20B con motores WS-20 en producción."
+      },
+      {
+        "id": "y8",
+        "name": "Y-8 / Y-9",
+        "qty": 120,
+        "role": "Transporte táctico",
+        "notes": "Principal transporte táctico de la PLAAF. Múltiples variantes especializadas."
+      },
+      {
+        "id": "kj2000",
+        "name": "KJ-2000",
+        "qty": 5,
+        "role": "AEW&C",
+        "notes": "AWACS de la PLAAF basado en Il-76. En servicio activo."
+      },
+      {
+        "id": "kj500",
+        "name": "KJ-500",
+        "qty": 25,
+        "role": "AEW&C",
+        "notes": "Nuevo AWACS de la PLAAF basado en Y-9. En servicio activo."
+      },
+      {
+        "id": "ch4",
+        "name": "CH-4 Rainbow",
+        "qty": 50,
+        "role": "UAV MALE",
+        "notes": "UAV de ataque chino ampliamente exportado. En servicio con la PLAAF."
+      },
+      {
+        "id": "ch5",
+        "name": "CH-5 Rainbow",
+        "qty": 30,
+        "role": "UAV MALE pesado",
+        "notes": "UAV de ataque pesado, comparable al MQ-9 Reaper."
+      },
+      {
+        "id": "gj11",
+        "name": "GJ-11 Sharp Sword",
+        "qty": 10,
+        "role": "UCAV furtivo",
+        "notes": "UAV de combate furtivo de ala volante. En servicio limitado."
+      }
+    ],
+    "notes": "China ha consolidado su posición como la segunda fuerza aérea más poderosa del mundo, con una producción industrial masiva y la rápida maduración de sus diseños nacionales. El J-20A con motores WS-15 ha alcanzado plena capacidad operativa. El desarrollo del bombardero furtivo H-20 continúa."
+  },
+  {
+    "country": "Rusia",
+    "flag": "🇷🇺",
+    "region": "Europa del Este / Asia",
+    "total_combat": 1050,
+    "air_force": "Воздушно-космические силы (VKS)",
+    "budget_bn_usd": 32.0,
+    "strength_rank": 3,
+    "aircraft": [
+      {
+        "id": "su57",
+        "name": "Su-57 Felon",
+        "qty": 35,
+        "role": "Caza 5ª gen",
+        "notes": "Producción lenta por sanciones. ~35 operativos en 2026, usados con moderación sobre Ucrania."
+      },
+      {
+        "id": "su35",
+        "name": "Su-35S",
+        "qty": 100,
+        "role": "Superioridad aérea",
+        "notes": "Pérdidas en Ucrania (~15-20 derribados). Sigue siendo el caza ruso más avanzado en número."
+      },
+      {
+        "id": "su30",
+        "name": "Su-30SM/SM2",
+        "qty": 100,
+        "role": "Caza-atacante bimotor",
+        "notes": "Flota reducida por pérdidas en combate. Nuevas entregas del SM2 limitadas."
+      },
+      {
+        "id": "su27",
+        "name": "Su-27S/P",
+        "qty": 80,
+        "role": "Superioridad aérea",
+        "notes": "En rápida retirada. Muchos canibalizados para mantener Su-30/Su-35."
+      },
+      {
+        "id": "mig31",
+        "name": "MiG-31BM/K",
+        "qty": 110,
+        "role": "Interceptor / Kinzhal",
+        "notes": "Flota clave. Los MiG-31K lanzan misiles Kinzhal. Bajas operacionales moderadas."
+      },
+      {
+        "id": "mig29",
+        "name": "MiG-29S/SMT",
+        "qty": 70,
+        "role": "Caza ligero",
+        "notes": "Flota reducida. Las pérdidas en Ucrania han acelerado su retiro."
+      },
+      {
+        "id": "su34",
+        "name": "Su-34 Fullback",
+        "qty": 100,
+        "role": "Bombardero táctico",
+        "notes": "Ha sufrido las pérdidas más altas de cualquier tipo ruso en Ucrania (~30-35)."
+      },
+      {
+        "id": "su24",
+        "name": "Su-24M/M2",
+        "qty": 60,
+        "role": "Ataque",
+        "notes": "Flota envejecida con bajas significativas. Su retiro está en curso."
+      },
+      {
+        "id": "su25",
+        "name": "Su-25SM3",
+        "qty": 130,
+        "role": "CAS",
+        "notes": "Pérdidas muy elevadas en Ucrania (50+). Sigue siendo el principal avión de apoyo cercano."
+      },
+      {
+        "id": "tu160",
+        "name": "Tu-160M/M2",
+        "qty": 18,
+        "role": "Bombardero estratégico",
+        "notes": "Producción del Tu-160M reiniciada. Flota de ~18, incluyendo nuevos M2."
+      },
+      {
+        "id": "tu95",
+        "name": "Tu-95MSM",
+        "qty": 55,
+        "role": "Bombardero estratégico",
+        "notes": "Flota estable. Principal lanzador de misiles Kh-101/555 en ataques a Ucrania."
+      },
+      {
+        "id": "tu22m3",
+        "name": "Tu-22M3",
+        "qty": 50,
+        "role": "Bombardero supersónico",
+        "notes": "Pérdidas en Ucrania (al menos 3-4 derribados). Sigue en servicio activo."
+      },
+      {
+        "id": "a50",
+        "name": "A-50U Mainstay",
+        "qty": 6,
+        "role": "AWACS",
+        "notes": "Flota reducida por pérdidas (un A-50 derribado en 2024). Capacidad limitada."
+      },
+      {
+        "id": "il76",
+        "name": "Il-76MD",
+        "qty": 100,
+        "role": "Transporte estratégico",
+        "notes": "Flota envejecida pero operativa. Varios perdidos en Ucrania."
+      },
+      {
+        "id": "an124",
+        "name": "An-124 Ruslan",
+        "qty": 10,
+        "role": "Transporte pesado",
+        "notes": "Flota limitada operada por la VKS."
+      },
+      {
+        "id": "mi26",
+        "name": "Mi-26 Halo",
+        "qty": 30,
+        "role": "Helicóptero transporte pesado",
+        "notes": "Flota limitada. Utilizado para transporte de cargas pesadas."
+      },
+      {
+        "id": "mi28",
+        "name": "Mi-28N Havoc",
+        "qty": 80,
+        "role": "Helicóptero de ataque",
+        "notes": "Flota en servicio. Pérdidas moderadas en Ucrania."
+      },
+      {
+        "id": "ka52",
+        "name": "Ka-52 Alligator",
+        "qty": 90,
+        "role": "Helicóptero de ataque",
+        "notes": "Pérdidas elevadas en Ucrania (40+). Sigue siendo el helicóptero de ataque principal."
+      },
+      {
+        "id": "mi24",
+        "name": "Mi-24P/35",
+        "qty": 200,
+        "role": "Helicóptero de ataque",
+        "notes": "Flota envejecida pero numerosa. Pérdidas significativas en Ucrania."
+      },
+      {
+        "id": "orlan10",
+        "name": "Orlan-10",
+        "qty": 500,
+        "role": "UAV táctico",
+        "notes": "Ampliamente utilizado en Ucrania para reconocimiento y corrección de artillería."
+      },
+      {
+        "id": "lancet",
+        "name": "ZALA Lancet",
+        "qty": 800,
+        "role": "Loitering munition",
+        "notes": "Munición merodeadora muy efectiva en Ucrania. Producción en masa."
+      },
+      {
+        "id": "s70",
+        "name": "S-70 Okhotnik",
+        "qty": 3,
+        "role": "UCAV furtivo",
+        "notes": "En pruebas operativas. Uno perdido en Ucrania en 2024."
+      }
+    ],
+    "notes": "La guerra en Ucrania ha tenido un impacto severo en la VKS. Las pérdidas estimadas superan los 120 aviones de combate táctico, y la producción no ha podido igualar el ritmo de bajas. La falta de munición de precisión, la pobre integración de sistemas y la degradación de la flota han puesto de manifiesto limitaciones estructurales. Su rango de poder aéreo ha caído al tercer lugar, detrás de China."
+  },
+  {
+    "country": "India",
+    "flag": "🇮🇳",
+    "region": "Asia del Sur",
+    "total_combat": 740,
+    "air_force": "Indian Air Force (IAF)",
+    "budget_bn_usd": 23.0,
+    "strength_rank": 4,
+    "aircraft": [
+      {
+        "id": "rafale",
+        "name": "Rafale F3-R",
+        "qty": 36,
+        "role": "Caza multirol",
+        "notes": "36 en servicio. Contrato para 26 Rafale-M para la armada en negociación final."
+      },
+      {
+        "id": "su30",
+        "name": "Su-30MKI",
+        "qty": 260,
+        "role": "Caza-atacante pesado",
+        "notes": "Columna vertebral de la IAF. En proceso de actualización super-Sukhoi con aviónica y radares indios."
+      },
+      {
+        "id": "mirage2000",
+        "name": "Mirage 2000H/TH",
+        "qty": 46,
+        "role": "Ataque de precisión",
+        "notes": "Flota modernizada. Sigue siendo un vector clave para misiones de ataque de precisión."
+      },
+      {
+        "id": "mig29",
+        "name": "MiG-29UPG",
+        "qty": 65,
+        "role": "Caza superioridad aérea",
+        "notes": "Flota modernizada con aviónica israelí."
+      },
+      {
+        "id": "mig21",
+        "name": "MiG-21 Bison (UPG)",
+        "qty": 20,
+        "role": "Caza interceptor",
+        "notes": "En retirada acelerada. Los últimos escuadrones se retirarán en 2026."
+      },
+      {
+        "id": "hal_tejas",
+        "name": "Tejas Mk1A",
+        "qty": 60,
+        "role": "Caza ligero",
+        "notes": "Entregas del Mk1A en curso. Orden total de 83 confirmada."
+      },
+      {
+        "id": "tejas_mk2",
+        "name": "Tejas Mk2 (MWF)",
+        "qty": 0,
+        "role": "Caza (en desarrollo)",
+        "notes": "Prototipo en pruebas. Primeras entregas previstas para 2028."
+      },
+      {
+        "id": "jaguar",
+        "name": "SEPECAT Jaguar",
+        "qty": 80,
+        "role": "Ataque a tierra",
+        "notes": "Flota modernizada. Su retiro se ha retrasado hasta 2030."
+      },
+      {
+        "id": "c17",
+        "name": "C-17 Globemaster III",
+        "qty": 11,
+        "role": "Transporte estratégico",
+        "notes": "Flota clave para operaciones en el Himalaya."
+      },
+      {
+        "id": "il76",
+        "name": "Il-76MD",
+        "qty": 15,
+        "role": "Transporte estratégico",
+        "notes": "Flota envejecida. En proceso de reemplazo."
+      },
+      {
+        "id": "c130",
+        "name": "C-130J Super Hercules",
+        "qty": 12,
+        "role": "Transporte táctico",
+        "notes": "Utilizado para operaciones especiales y logística."
+      },
+      {
+        "id": "dhruv",
+        "name": "HAL Dhruv",
+        "qty": 200,
+        "role": "Helicóptero utilitario",
+        "notes": "Principal helicóptero utilitario de las fuerzas armadas indias."
+      },
+      {
+        "id": "rudra",
+        "name": "HAL Rudra",
+        "qty": 75,
+        "role": "Helicóptero de ataque ligero",
+        "notes": "Versión armada del Dhruv. En servicio activo."
+      },
+      {
+        "id": "ah64",
+        "name": "AH-64E Apache",
+        "qty": 22,
+        "role": "Helicóptero de ataque",
+        "notes": "Flota en servicio. Pedido adicional en negociación."
+      },
+      {
+        "id": "ch47",
+        "name": "CH-47F Chinook",
+        "qty": 15,
+        "role": "Helicóptero transporte pesado",
+        "notes": "Utilizado para operaciones en alta montaña."
+      }
+    ],
+    "notes": "La IAF enfrenta una escasez crítica de escuadrones (32 vs los 42 autorizados). El retraso en los programas Tejas y la adquisición de un nuevo caza multirol (MRFA) son sus mayores desafíos. El desarrollo del caza de quinta generación AMCA (Advanced Medium Combat Aircraft) avanza lentamente."
+  },
+  {
+    "country": "Reino Unido",
+    "flag": "🇬🇧",
+    "region": "Europa Occidental",
+    "total_combat": 235,
+    "air_force": "Royal Air Force (RAF) / Fleet Air Arm",
+    "budget_bn_usd": 35.0,
+    "strength_rank": 6,
+    "aircraft": [
+      {
+        "id": "f35",
+        "name": "F-35B Lightning II",
+        "qty": 48,
+        "role": "Caza furtivo STOVL",
+        "notes": "48 entregados a RAF y RN. Objetivo de 138 se ha retrasado. Flota operativa desde los portaviones clase Queen Elizabeth."
+      },
+      {
+        "id": "ef2000",
+        "name": "Typhoon FGR4",
+        "qty": 130,
+        "role": "Caza multirol",
+        "notes": "Flota en modernización a estándar Tranche 4. Sigue siendo el núcleo de la defensa aérea británica."
+      },
+      {
+        "id": "c17",
+        "name": "C-17A Globemaster III",
+        "qty": 8,
+        "role": "Transporte estratégico",
+        "notes": "Flota estable, altamente utilizada."
+      },
+      {
+        "id": "e7",
+        "name": "E-7A Wedgetail",
+        "qty": 5,
+        "role": "AEW&C",
+        "notes": "Primeras entregas en 2025. Reemplazará al E-3D."
+      },
+      {
+        "id": "rq4",
+        "name": "Protector RG Mk1 (MQ-9B)",
+        "qty": 16,
+        "role": "ISR / CAS",
+        "notes": "En servicio. Reemplaza al Reaper."
+      },
+      {
+        "id": "a400m",
+        "name": "A400M Atlas",
+        "qty": 22,
+        "role": "Transporte estratégico-táctico",
+        "notes": "Flota en expansión. Principal transporte de la RAF."
+      },
+      {
+        "id": "c130",
+        "name": "C-130J Hercules",
+        "qty": 14,
+        "role": "Transporte táctico",
+        "notes": "Flota reducida. En proceso de retiro."
+      },
+      {
+        "id": "aw101",
+        "name": "Merlin HM.2 / HC.4",
+        "qty": 50,
+        "role": "Helicóptero ASW / transporte",
+        "notes": "Principal helicóptero naval de la Royal Navy."
+      }
+    ],
+    "notes": "La RAF es una fuerza pequeña pero altamente tecnológica. El programa F-35 continúa, aunque con entregas más lentas. El Reino Unido es socio líder en el programa GCAP (Global Combat Air Programme) con Italia y Japón para desarrollar un caza de sexta generación para 2035."
+  },
+  {
+    "country": "Francia",
+    "flag": "🇫🇷",
+    "region": "Europa Occidental",
+    "total_combat": 270,
+    "air_force": "Armée de l'Air et de l'Espace / Marine Nationale",
+    "budget_bn_usd": 38.0,
+    "strength_rank": 5,
+    "aircraft": [
+      {
+        "id": "rafale",
+        "name": "Rafale C/B/M F4",
+        "qty": 190,
+        "role": "Caza omnirrol",
+        "notes": "Flota en expansión con nuevos pedidos. 190 en servicio con la FAL y la Aeronavale. El estándar F4 está en servicio."
+      },
+      {
+        "id": "mirage2000",
+        "name": "Mirage 2000-5/-D",
+        "qty": 45,
+        "role": "Caza / Ataque",
+        "notes": "45 en servicio, principalmente el Mirage 2000D modernizado. En retirada progresiva."
+      },
+      {
+        "id": "e3",
+        "name": "E-3F Sentry",
+        "qty": 4,
+        "role": "AWACS",
+        "notes": "4 unidades, en proceso de modernización."
+      },
+      {
+        "id": "a330mrtt",
+        "name": "A330 MRTT Phénix",
+        "qty": 15,
+        "role": "Reabastecimiento / Transporte",
+        "notes": "15 entregados, reemplazando a los KC-135FR."
+      },
+      {
+        "id": "a400m",
+        "name": "A400M Atlas",
+        "qty": 18,
+        "role": "Transporte estratégico-táctico",
+        "notes": "Flota en expansión."
+      },
+      {
+        "id": "c130",
+        "name": "C-130J Super Hercules",
+        "qty": 10,
+        "role": "Transporte táctico",
+        "notes": "Flota para operaciones especiales."
+      },
+      {
+        "id": "nh90",
+        "name": "NH90 Caiman",
+        "qty": 50,
+        "role": "Helicóptero de transporte / naval",
+        "notes": "Principal helicóptero naval y de transporte."
+      }
+    ],
+    "notes": "Francia mantiene una fuerza aérea independiente y autosuficiente, con capacidad de disuasión nuclear aérea. Es líder del programa FCAS (Future Combat Air System) con Alemania y España para un caza de sexta generación."
+  },
+  {
+    "country": "Israel",
+    "flag": "🇮🇱",
+    "region": "Oriente Medio",
+    "total_combat": 360,
+    "air_force": "Israeli Air Force (IAF / Chel Ha-Avir)",
+    "budget_bn_usd": 14.5,
+    "strength_rank": 7,
+    "aircraft": [
+      {
+        "id": "f35",
+        "name": "F-35I Adir",
+        "qty": 55,
+        "role": "Caza furtivo 5ª gen",
+        "notes": "55 en servicio. Objetivo de 75. Han participado en múltiples operaciones, incluyendo la defensa antimisiles contra Irán."
+      },
+      {
+        "id": "f15",
+        "name": "F-15I Ra'am / F-15D Baz",
+        "qty": 84,
+        "role": "Superioridad aérea / Ataque",
+        "notes": "Flota modernizada. La IAF es el operador más experimentado del F-15."
+      },
+      {
+        "id": "f16",
+        "name": "F-16I Sufa / F-16C/D",
+        "qty": 175,
+        "role": "Caza multirol",
+        "notes": "La columna vertebral de la IAF. Flota envejecida pero altamente efectiva."
+      },
+      {
+        "id": "f15ex",
+        "name": "F-15IA (en pedido)",
+        "qty": 25,
+        "role": "Caza multirol avanzado",
+        "notes": "Pedido confirmado de 25 F-15IA (versión israelí del F-15EX). Primeras entregas esperadas para 2027."
+      },
+      {
+        "id": "kfir",
+        "name": "Kfir C.10",
+        "qty": 10,
+        "role": "Caza / entrenamiento",
+        "notes": "Unidades de reserva y entrenamiento. En proceso de retiro."
+      },
+      {
+        "id": "ah64",
+        "name": "AH-64D/I Saraph",
+        "qty": 48,
+        "role": "Helicóptero de ataque",
+        "notes": "Principal helicóptero de ataque de la IAF."
+      },
+      {
+        "id": "heron",
+        "name": "Heron TP (Eitan)",
+        "qty": 20,
+        "role": "UAV MALE",
+        "notes": "UAV de gran altitud para misiones ISR."
+      },
+      {
+        "id": "harop",
+        "name": "Harop / Harpy",
+        "qty": 100,
+        "role": "Loitering munition",
+        "notes": "Munición merodeadora para supresión de defensas."
+      }
+    ],
+    "notes": "La IAF sigue siendo la fuerza aérea más experimentada en combate real de la región. El conflicto con Hamás en Gaza y las tensiones con Irán han demostrado su capacidad de planificación y ejecución. Posee capacidades no declaradas de disuasión nuclear."
+  },
+  {
+    "country": "Corea del Sur",
+    "flag": "🇰🇷",
+    "region": "Asia-Pacífico",
+    "total_combat": 430,
+    "air_force": "Republic of Korea Air Force (ROKAF)",
+    "budget_bn_usd": 15.0,
+    "strength_rank": 8,
+    "aircraft": [
+      {
+        "id": "f35",
+        "name": "F-35A Lightning II",
+        "qty": 60,
+        "role": "Caza furtivo",
+        "notes": "60 en servicio. Pedido adicional de 20 en proceso."
+      },
+      {
+        "id": "f15",
+        "name": "F-15K Slam Eagle",
+        "qty": 59,
+        "role": "Caza-atacante pesado",
+        "notes": "Flota altamente capaz, modernizada con sistemas de misiles locales."
+      },
+      {
+        "id": "f16",
+        "name": "KF-16C/D",
+        "qty": 165,
+        "role": "Caza multirol",
+        "notes": "Flota modernizada con radar AESA y armamento local."
+      },
+      {
+        "id": "kf21",
+        "name": "KF-21 Boramae",
+        "qty": 30,
+        "role": "Caza 4.5ª gen",
+        "notes": "En servicio desde 2026. Producción inicial de 40 unidades para 2028."
+      },
+      {
+        "id": "fa50",
+        "name": "FA-50 Golden Eagle",
+        "qty": 80,
+        "role": "Caza ligero / entrenamiento avanzado",
+        "notes": "Flota en crecimiento. Se ha convertido en un avión de combate ligero muy exitoso."
+      },
+      {
+        "id": "f4phantom",
+        "name": "F-4E Phantom II",
+        "qty": 0,
+        "role": "Retirado",
+        "notes": "Completamente retirado en 2024."
+      },
+      {
+        "id": "f5",
+        "name": "F-5E/F Tiger II",
+        "qty": 30,
+        "role": "Caza ligero / entrenamiento",
+        "notes": "En retirada progresiva. Reemplazados por FA-50 y KF-21."
+      }
+    ],
+    "notes": "La ROKAF es una de las fuerzas aéreas más modernas de Asia. El KF-21 Boramae ha alcanzado capacidad operativa inicial (IOC) en 2026, marcando un hito histórico para la industria de defensa coreana. Corea del Sur es también un creciente exportador de aviones de combate (FA-50 a Polonia, Malasia, etc.)."
+  },
+  {
+    "country": "Japón",
+    "flag": "🇯🇵",
+    "region": "Asia-Pacífico",
+    "total_combat": 350,
+    "air_force": "Japan Air Self-Defense Force (JASDF)",
+    "budget_bn_usd": 52.0,
+    "strength_rank": 9,
+    "aircraft": [
+      {
+        "id": "f35",
+        "name": "F-35A/B Lightning II",
+        "qty": 90,
+        "role": "Caza furtivo",
+        "notes": "90 entregados (75A + 15B). Pedido total de 147 (105A + 42B)."
+      },
+      {
+        "id": "f15",
+        "name": "F-15J/DJ",
+        "qty": 145,
+        "role": "Superioridad aérea",
+        "notes": "Flota envejecida. Programa de modernización a F-15JSI continúa."
+      },
+      {
+        "id": "f2",
+        "name": "Mitsubishi F-2A/B",
+        "qty": 85,
+        "role": "Caza-atacante antinaval",
+        "notes": "Flota estable. Se retirarán a partir de 2035."
+      },
+      {
+        "id": "e2",
+        "name": "E-2D Advanced Hawkeye",
+        "qty": 18,
+        "role": "AEW&C",
+        "notes": "Adquiridos para complementar a los E-767."
+      },
+      {
+        "id": "kc46",
+        "name": "KC-46A Pegasus",
+        "qty": 12,
+        "role": "Reabastecimiento / Transporte",
+        "notes": "Flota en crecimiento. Clave para extender el alcance de los F-35."
+      },
+      {
+        "id": "c130",
+        "name": "C-130H Hercules",
+        "qty": 12,
+        "role": "Transporte táctico",
+        "notes": "Flota envejecida. En proceso de reemplazo."
+      },
+      {
+        "id": "ch47",
+        "name": "CH-47J Chinook",
+        "qty": 30,
+        "role": "Helicóptero transporte pesado",
+        "notes": "Principal helicóptero de transporte de la JASDF."
+      }
+    ],
+    "notes": "Japón está llevando a cabo una expansión militar sin precedentes, duplicando su presupuesto de defensa al 2% del PIB. El desarrollo del F-X (en colaboración con UK e Italia en el GCAP) es su proyecto estrella para un caza de sexta generación para 2035."
+  },
+  {
+    "country": "Alemania",
+    "flag": "🇩🇪",
+    "region": "Europa Occidental",
+    "total_combat": 205,
+    "air_force": "Deutsche Luftwaffe",
+    "budget_bn_usd": 28.0,
+    "strength_rank": 11,
+    "aircraft": [
+      {
+        "id": "ef2000",
+        "name": "Typhoon Tranche 2/3/4",
+        "qty": 140,
+        "role": "Caza multirol",
+        "notes": "140 activos. Modernización a Tranche 4 con radar AESA (CAPTOR-E) en curso."
+      },
+      {
+        "id": "f35",
+        "name": "F-35A Lightning II",
+        "qty": 20,
+        "role": "Caza furtivo",
+        "notes": "20 entregados en 2026. 35 F-35A pedidos para reemplazar el Tornado en el rol de disuasión nuclear."
+      },
+      {
+        "id": "tornado",
+        "name": "Tornado IDS/ECR",
+        "qty": 30,
+        "role": "Ataque / SEAD",
+        "notes": "Flota reducida a 30 mientras llegan el F-35 y el Eurofighter ECR. Retiro completo planeado para 2027."
+      },
+      {
+        "id": "a330mrtt",
+        "name": "A330 MRTT",
+        "qty": 12,
+        "role": "Reabastecimiento / Transporte",
+        "notes": "Operados conjuntamente en la OTAN (MMF)."
+      },
+      {
+        "id": "a400m",
+        "name": "A400M Atlas",
+        "qty": 40,
+        "role": "Transporte estratégico-táctico",
+        "notes": "Principal transporte de la Luftwaffe."
+      },
+      {
+        "id": "nh90",
+        "name": "NH90",
+        "qty": 70,
+        "role": "Helicóptero de transporte",
+        "notes": "Principal helicóptero de transporte del Ejército alemán."
+      }
+    ],
+    "notes": "La Luftwaffe está experimentando su mayor modernización desde la Guerra Fría, impulsada por el cambio de política (Zeitenwende) tras la invasión rusa de Ucrania. La compra del F-35A ha sido un cambio histórico."
+  },
+  {
+    "country": "Turquía",
+    "flag": "🇹🇷",
+    "region": "Europa del Sur / Asia Menor",
+    "total_combat": 280,
+    "air_force": "Türk Hava Kuvvetleri",
+    "budget_bn_usd": 14.0,
+    "strength_rank": 12,
+    "aircraft": [
+      {
+        "id": "f16",
+        "name": "F-16C/D Block 50+ / 70",
+        "qty": 240,
+        "role": "Caza multirol",
+        "notes": "Flota de ~240 F-16. 40 nuevos F-16 Block 70 entregados en 2025-2026."
+      },
+      {
+        "id": "f4phantom",
+        "name": "F-4E Terminator 2020",
+        "qty": 15,
+        "role": "Ataque a tierra",
+        "notes": "En retirada acelerada. Solo un escuadrón mantiene el F-4E en servicio."
+      },
+      {
+        "id": "kaan",
+        "name": "KAAN (TF-X)",
+        "qty": 8,
+        "role": "Caza 5ª gen",
+        "notes": "Primer vuelo en febrero 2024. Pruebas de vuelo avanzadas. IOC previsto para 2028."
+      },
+      {
+        "id": "akinci",
+        "name": "Bayraktar Akıncı",
+        "qty": 40,
+        "role": "UAV MALE pesado",
+        "notes": "UAV de combate pesado. En servicio activo."
+      },
+      {
+        "id": "tb2",
+        "name": "Bayraktar TB2",
+        "qty": 150,
+        "role": "UAV MALE",
+        "notes": "Ampliamente utilizado en operaciones de la Fuerza Aérea Turca."
+      },
+      {
+        "id": "anka",
+        "name": "TAI Anka",
+        "qty": 50,
+        "role": "UAV MALE",
+        "notes": "UAV de combate de diseño nacional."
+      }
+    ],
+    "notes": "Turquía fue excluida del programa F-35 en 2019 por la compra del sistema S-400 ruso. Esto ha acelerado el desarrollo del caza nacional KAAN (TF-X), que realizó su primer vuelo con éxito en 2024. La llegada de los F-16 Block 70 estabiliza su flota de combate a corto plazo."
+  },
+  {
+    "country": "Pakistán",
+    "flag": "🇵🇰",
+    "region": "Asia del Sur",
+    "total_combat": 380,
+    "air_force": "Pakistan Air Force (PAF)",
+    "budget_bn_usd": 5.0,
+    "strength_rank": 10,
+    "aircraft": [
+      {
+        "id": "f16",
+        "name": "F-16A/B/C/D Fighting Falcon",
+        "qty": 75,
+        "role": "Caza multirol",
+        "notes": "Flota de 75 unidades, incluyendo 18 del lote más nuevo (Block 52)."
+      },
+      {
+        "id": "j10",
+        "name": "J-10C Vigorous Dragon",
+        "qty": 50,
+        "role": "Caza multirol",
+        "notes": "50 entregados en 2022-2025. Equipado con radar AESA y misiles PL-15."
+      },
+      {
+        "id": "jf17",
+        "name": "JF-17 Thunder (Bloque I/II/III)",
+        "qty": 200,
+        "role": "Caza multirol",
+        "notes": "Columna vertebral de la PAF. El Bloque III con radar AESA KLJ-7A es el estándar actual."
+      },
+      {
+        "id": "mirage3",
+        "name": "Mirage III/V Rose",
+        "qty": 40,
+        "role": "Ataque / reconocimiento",
+        "notes": "Flota envejecida pero modernizada localmente. En proceso de retiro."
+      },
+      {
+        "id": "q5",
+        "name": "Q-5 Fantan",
+        "qty": 0,
+        "role": "Retirado",
+        "notes": "Completamente retirado en 2024."
+      }
+    ],
+    "notes": "La PAF es una fuerza aérea bien entrenada y experimentada. Ha equilibrado su dependencia de EE.UU. con una estrecha colaboración con China. El JF-17 es un pilar de su estrategia de autosuficiencia."
+  },
+  {
+    "country": "Italia",
+    "flag": "🇮🇹",
+    "region": "Europa Occidental",
+    "total_combat": 210,
+    "air_force": "Aeronautica Militare",
+    "budget_bn_usd": 12.0,
+    "strength_rank": 13,
+    "aircraft": [
+      {
+        "id": "f35",
+        "name": "F-35A/B Lightning II",
+        "qty": 65,
+        "role": "Caza furtivo",
+        "notes": "65 entregados (50A + 15B). Pedido total de 90 (60A + 30B)."
+      },
+      {
+        "id": "ef2000",
+        "name": "Typhoon Tranche 1/2/3",
+        "qty": 95,
+        "role": "Caza multirol",
+        "notes": "95 activos. Modernización con radar AESA (CAPTOR-E) en marcha."
+      },
+      {
+        "id": "tornado",
+        "name": "Tornado IDS/ECR",
+        "qty": 25,
+        "role": "Ataque / SEAD",
+        "notes": "Flota reducida. En proceso de retiro, reemplazada por F-35A."
+      },
+      {
+        "id": "amx",
+        "name": "AMX International AMX",
+        "qty": 30,
+        "role": "Ataque / reconocimiento",
+        "notes": "Flota en proceso de retiro. Reemplazados por F-35A."
+      },
+      {
+        "id": "m346",
+        "name": "M-346 Master",
+        "qty": 18,
+        "role": "Entrenamiento avanzado",
+        "notes": "Entrenador avanzado de la Aeronautica Militare."
+      },
+      {
+        "id": "c27j",
+        "name": "C-27J Spartan",
+        "qty": 12,
+        "role": "Transporte táctico",
+        "notes": "Transporte táctico de diseño italiano."
+      }
+    ],
+    "notes": "Italia es un socio clave en el F-35 y el GCAP (caza de 6ª generación con UK y Japón). Su participación en el programa F-35 le ha otorgado una capacidad de mantenimiento y producción de primer nivel en Europa."
+  },
+  {
+    "country": "España",
+    "flag": "🇪🇸",
+    "region": "Europa Occidental",
+    "total_combat": 175,
+    "air_force": "Ejército del Aire y del Espacio",
+    "budget_bn_usd": 9.5,
+    "strength_rank": 14,
+    "aircraft": [
+      {
+        "id": "ef2000",
+        "name": "Typhoon Tranche 1/2/3",
+        "qty": 75,
+        "role": "Caza multirol",
+        "notes": "75 activos. Participa en misiones de policía aérea báltica."
+      },
+      {
+        "id": "fa18hornet",
+        "name": "EF-18A/B Hornet",
+        "qty": 60,
+        "role": "Caza multirol",
+        "notes": "Flota en retirada. Serán reemplazados por F-35A (aprobado en 2025)."
+      },
+      {
+        "id": "av8b",
+        "name": "AV-8B+ Harrier II",
+        "qty": 12,
+        "role": "CAS naval",
+        "notes": "Operados por la Armada. En espera del F-35B para su reemplazo."
+      },
+      {
+        "id": "c130",
+        "name": "C-130H Hercules",
+        "qty": 10,
+        "role": "Transporte táctico",
+        "notes": "Flota envejecida."
+      },
+      {
+        "id": "a400m",
+        "name": "A400M Atlas",
+        "qty": 14,
+        "role": "Transporte estratégico-táctico",
+        "notes": "Principal transporte del Ejército del Aire."
+      }
+    ],
+    "notes": "España participa activamente en el programa FCAS (Future Combat Air System) como socio de Francia y Alemania. La decisión de adquirir el F-35A para reemplazar los Hornet se concretó en 2025."
+  },
+  {
+    "country": "Australia",
+    "flag": "🇦🇺",
+    "region": "Oceanía",
+    "total_combat": 145,
+    "air_force": "Royal Australian Air Force (RAAF)",
+    "budget_bn_usd": 13.5,
+    "strength_rank": 15,
+    "aircraft": [
+      {
+        "id": "f35",
+        "name": "F-35A Lightning II",
+        "qty": 78,
+        "role": "Caza furtivo",
+        "notes": "78 entregados. Flota completa de F-35A operativa."
+      },
+      {
+        "id": "fa18super",
+        "name": "F/A-18F Super Hornet / EA-18G",
+        "qty": 36,
+        "role": "Caza multirol / Guerra electrónica",
+        "notes": "24 F/A-18F y 12 EA-18G Growler. Servirán hasta mediados de 2030."
+      },
+      {
+        "id": "e7",
+        "name": "E-7A Wedgetail",
+        "qty": 6,
+        "role": "AEW&C",
+        "notes": "Flota de 6 E-7A. Han sido elegidos por UK, Turquía y EE.UU."
+      },
+      {
+        "id": "p8",
+        "name": "P-8A Poseidon",
+        "qty": 12,
+        "role": "Patrulla marítima",
+        "notes": "Principal avión ASW de la RAAF."
+      },
+      {
+        "id": "c130",
+        "name": "C-130J Super Hercules",
+        "qty": 12,
+        "role": "Transporte táctico",
+        "notes": "Flota modernizada."
+      },
+      {
+        "id": "c17",
+        "name": "C-17A Globemaster III",
+        "qty": 8,
+        "role": "Transporte estratégico",
+        "notes": "Flota estable."
+      },
+      {
+        "id": "mq9",
+        "name": "MQ-9B SkyGuardian",
+        "qty": 12,
+        "role": "UAV MALE",
+        "notes": "UAV de nueva generación para misiones ISR."
+      }
+    ],
+    "notes": "La RAAF ha completado su transición al F-35A, formando una de las flotas furtivas más grandes fuera de EE.UU. Es un socio clave en el marco AUKUS y mantiene una capacidad de proyección de fuerza significativa en el Indo-Pacífico."
+  },
+  {
+    "country": "Ucrania",
+    "flag": "🇺🇦",
+    "region": "Europa del Este",
+    "total_combat": 110,
+    "air_force": "Повітряні Сили України (PSU)",
+    "budget_bn_usd": null,
+    "strength_rank": 18,
+    "aircraft": [
+      {
+        "id": "f16",
+        "name": "F-16AM/BM Fighting Falcon",
+        "qty": 45,
+        "role": "Caza multirol",
+        "notes": "45 entregados en 2024-2026 por Dinamarca, Países Bajos, Noruega y Bélgica. Primeros en combate en agosto 2024."
+      },
+      {
+        "id": "mig29",
+        "name": "MiG-29 (+ donados)",
+        "qty": 40,
+        "role": "Caza superioridad aérea",
+        "notes": "Flota reconstituida con donaciones de Polonia, Eslovaquia, etc."
+      },
+      {
+        "id": "su27",
+        "name": "Su-27 Flanker",
+        "qty": 15,
+        "role": "Superioridad aérea",
+        "notes": "Flota reducida por pérdidas. Su papel ha disminuido con la llegada de F-16."
+      },
+      {
+        "id": "su24",
+        "name": "Su-24M",
+        "qty": 10,
+        "role": "Ataque",
+        "notes": "Flota reducida. Utilizado con misiles Storm Shadow y SCALP-EG."
+      },
+      {
+        "id": "su25",
+        "name": "Su-25",
+        "qty": 15,
+        "role": "CAS",
+        "notes": "Flota reducida por pérdidas. Sigue en servicio activo."
+      },
+      {
+        "id": "tb2",
+        "name": "Bayraktar TB2",
+        "qty": 50,
+        "role": "UAV MALE",
+        "notes": "Ampliamente utilizado para reconocimiento y ataques."
+      }
+    ],
+    "notes": "La fuerza aérea ucraniana ha demostrado una resiliencia excepcional. La llegada de los F-16 en 2024 marcó un punto de inflexión, proporcionando capacidad de combate moderno. Su principal desafío sigue siendo la densa defensa aérea rusa y la superioridad numérica de la VKS."
+  },
+  {
+    "country": "Brasil",
+    "flag": "🇧🇷",
+    "region": "Latinoamérica",
+    "total_combat": 185,
+    "air_force": "Força Aérea Brasileira (FAB)",
+    "budget_bn_usd": 7.0,
+    "strength_rank": 16,
+    "aircraft": [
+      {
+        "id": "gripen",
+        "name": "JAS 39E/F Gripen",
+        "qty": 48,
+        "role": "Caza multirol",
+        "notes": "48 entregados de un pedido total de 36? (Corrección: 48 entregados en 2026, pedido total de 48)."
+      },
+      {
+        "id": "f5",
+        "name": "F-5EM/FM Tiger III",
+        "qty": 30,
+        "role": "Caza ligero",
+        "notes": "Flota en retirada acelerada. Reemplazados por Gripen."
+      },
+      {
+        "id": "emb314",
+        "name": "A-29 Super Tucano",
+        "qty": 99,
+        "role": "COIN / ataque ligero / entrenamiento",
+        "notes": "Columna vertebral para operaciones de contrainsurgencia y vigilancia de la Amazonía."
+      },
+      {
+        "id": "amx",
+        "name": "AMX A-1M",
+        "qty": 40,
+        "role": "Ataque / reconocimiento",
+        "notes": "Flota modernizada. En servicio activo."
+      },
+      {
+        "id": "c130",
+        "name": "C-130M Hercules",
+        "qty": 15,
+        "role": "Transporte táctico",
+        "notes": "Flota modernizada."
+      },
+      {
+        "id": "kc390",
+        "name": "Embraer KC-390 Millennium",
+        "qty": 10,
+        "role": "Transporte / cisterna",
+        "notes": "Nuevo transporte táctico de diseño brasileño. En expansión."
+      }
+    ],
+    "notes": "La FAB es la fuerza aérea más poderosa de Latinoamérica. El programa Gripen, cofabricado con Embraer, es un pilar de su estrategia de soberanía tecnológica. El KC-390 Millennium se ha convertido en un éxito de exportación."
+  }
+]

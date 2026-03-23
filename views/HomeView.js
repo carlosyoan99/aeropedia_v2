@@ -21,7 +21,6 @@ export class HomeView {
   #el      = null;
   #unsubs  = [];
   #tl      = { open: false };
-  #quickCompareId = null;   // ID del avión en comparación rápida
 
   async render() {
     setPageMeta({
@@ -39,8 +38,9 @@ export class HomeView {
     // If data is already loaded (e.g. navigating back), render immediately.
     // Otherwise wait for store.subscribe('aircraftDB') which fires after load.
     if (store.get('aircraftDB')?.length) {
-      this.#syncView(store.get('view'));
+      this.#renderAll();
     }
+    this.#updateCompareBar();
     // Only react to cardDensity/galleryColumns/showStatBars changes, not all display prefs
     this.#unsubs.push(prefs.subscribe('display', (d) => {
       const density  = d.cardDensity || 'normal';
@@ -62,7 +62,6 @@ export class HomeView {
 
   destroy() {
     this.#unsubs.forEach(u => u());
-    this.#closeQuickCompare();
   }
 
   // ── Scaffold ──────────────────────────────────────────────────
@@ -272,23 +271,7 @@ export class HomeView {
           </div>
         </div>
       </div>
-
-      <!-- Quick Compare overlay (aparece debajo de la card seleccionada) -->
-      <div id="quickCompareOverlay" class="qc-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="qcTitle" aria-hidden="true">
-        <div class="qc-inner">
-          <div class="qc-header">
-            <h2 id="qcTitle" class="qc-title">Comparación rápida</h2>
-            <button id="qcClose" class="qc-close" aria-label="Cerrar comparación rápida">×</button>
-          </div>
-          <div id="qcContent" class="qc-content"></div>
-          <div class="qc-footer">
-            <button id="qcGoFull" class="btn-compare">
-              <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
-              Ver comparación completa
-            </button>
-          </div>
-        </div>
-      </div>`;
+    </div>`;
   }
 
   // ── Suscripciones ──────────────────────────────────────────────
@@ -299,7 +282,7 @@ export class HomeView {
         'timelineMax','sortStat','sortAsc','activeConflict'], rerender),
       store.subscribe('view',        v => this.#syncView(v)),
       store.subscribe('compareList', () => this.#updateCompareBar()),
-      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#syncView(store.get('view')); }),
+      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#renderAll(); }),
       store.subscribe('activeConflict', v => this.#showConflictBadge(v)),
       store.subscribe('recents',     () => this.#renderRecentsList()),
     );
@@ -384,14 +367,33 @@ export class HomeView {
     const sameIds     = currentIds.length === newIds.length && newIds.every((id, i) => id === currentIds[i]);
 
     if (sameIds) {
-      // Only update fav/compare button states, don't rebuild DOM
+      // Only update fav/compare button states without rebuilding DOM
       planes.forEach(p => {
-        const card = gallery.querySelector(`#card-${p.id}`);
+        const card   = gallery.querySelector(`#card-${p.id}`);
         if (!card) return;
+        const isFav  = favs.includes(p.id);
+        const isCmp  = compareList.includes(p.id);
+
         const favBtn = card.querySelector('[data-fav]');
+        if (favBtn) {
+          favBtn.classList.toggle('active', isFav);
+          favBtn.setAttribute('aria-pressed', isFav);
+        }
+
         const cmpBtn = card.querySelector('[data-cmp]');
-        if (favBtn) { favBtn.classList.toggle('active', favs.includes(p.id)); favBtn.setAttribute('aria-pressed', favs.includes(p.id)); }
-        if (cmpBtn) { cmpBtn.classList.toggle('active', compareList.includes(p.id)); card.classList.toggle('selected-for-compare', compareList.includes(p.id)); }
+        if (cmpBtn) {
+          cmpBtn.classList.toggle('active', isCmp);
+          cmpBtn.setAttribute('aria-pressed', isCmp);
+          card.classList.toggle('selected-for-compare', isCmp);
+          // Update SVG icon path: checkmark when active, plus when not
+          const svgPath = cmpBtn.querySelector('path');
+          if (svgPath) {
+            svgPath.setAttribute('d', isCmp
+              ? 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+              : 'M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z'
+            );
+          }
+        }
       });
       return;
     }
@@ -468,12 +470,6 @@ export class HomeView {
             </svg>
           </button>
           <!-- Quick compare button -->
-          <button class="btn-icon qc-btn" data-qc="${plane.id}"
-            aria-label="Comparación rápida de ${plane.name}" title="Comparación rápida (vista previa)">
-            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true">
-              <path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"/>
-            </svg>
-          </button>
         </div>
       </div>`;
     return card;
@@ -561,91 +557,6 @@ export class HomeView {
   }
 
   // ── Quick Compare ──────────────────────────────────────────────
-  #openQuickCompare(id, anchorCard) {
-    const db   = store.get('aircraftDB');
-    const p    = db.find(x => x.id === id);
-    if (!p) return;
-
-    this.#quickCompareId = id;
-    const overlay = this.#el?.querySelector('#quickCompareOverlay');
-    if (!overlay) return;
-
-    const compareList = store.get('compareList');
-    const STATS = [
-      ['Velocidad',  p => `${p.speed.toLocaleString('es-ES')} km/h`, 'speed',   '#3b82f6'],
-      ['Alcance',    p => `${p.range.toLocaleString('es-ES')} km`,   'range',   '#8b5cf6'],
-      ['Techo',      p => `${p.ceiling.toLocaleString('es-ES')} m`,  'ceiling', '#06b6d4'],
-      ['MTOW',       p => `${(p.mtow/1000).toFixed(1)} T`,           'mtow',    '#f59e0b'],
-      ['T/Peso',     p => p.thrust_to_weight ? p.thrust_to_weight.toFixed(2) : '—', 'thrust_to_weight', '#10b981'],
-      ['Año',        p => String(p.year),                             'year',    '#94a3b8'],
-    ];
-
-    // Si hay aviones en compareList, mostrar comparación contra ellos
-    const compareAgainst = compareList.slice(0, 2).map(cid => db.find(x => x.id === cid)).filter(Boolean);
-    const allPlanes = [p, ...compareAgainst];
-
-    overlay.querySelector('#qcTitle').textContent =
-      compareAgainst.length ? `${p.name} vs ${compareAgainst.map(x => x.name).join(' vs ')}` : `Vista rápida: ${p.name}`;
-
-    overlay.querySelector('#qcContent').innerHTML = `
-      <div class="qc-planes-row">
-        ${allPlanes.map((plane, i) => `
-          <div class="qc-plane" style="${i === 0 ? '' : 'opacity:.85'}">
-            <img src="./public/min/${plane.img}.webp" alt="${plane.name}" width="100" height="56"
-              style="width:100%;height:56px;object-fit:cover;border-radius:6px"
-              onerror="this.style.display='none'">
-            <p class="qc-plane-name">${plane.name}</p>
-            <p class="qc-plane-sub mono">${plane.country} · ${plane.year}</p>
-          </div>`).join('<div class="qc-vs" aria-hidden="true">vs</div>')}
-      </div>
-      <div class="qc-stats">
-        ${STATS.map(([label, fn, key, color]) => {
-          const vals = allPlanes.map(pl => ({ raw: pl[key] || 0, display: fn(pl) }));
-          const maxV = Math.max(...vals.map(v => parseFloat(v.raw) || 0), 1);
-          return `<div class="qc-stat-row">
-            <span class="qc-stat-label" style="color:${color}">${label}</span>
-            ${vals.map(v => {
-              const pct = (parseFloat(v.raw) / maxV) * 100;
-              return `<div class="qc-stat-val-wrap">
-                <span class="qc-stat-val mono">${v.display}</span>
-                <div class="qc-stat-bar-track"><div class="qc-stat-bar-fill" style="width:${pct}%;background:${color}"></div></div>
-              </div>`;
-            }).join('')}
-          </div>`;
-        }).join('')}
-      </div>
-      <div class="qc-actions-row">
-        <button class="btn-detail" data-id="${id}" style="flex:1">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
-          Ver ficha completa
-        </button>
-        <button class="btn-icon cmp-btn${compareList.includes(id)?' active':''}" data-cmp="${id}" aria-label="Añadir al comparador" style="width:34px">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="${compareList.includes(id) ? 'M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z' : 'M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z'}" clip-rule="evenodd"/></svg>
-        </button>
-      </div>`;
-
-    // Posicionar cerca de la card si cabe, sino centrar
-    overlay.classList.remove('hidden');
-    overlay.setAttribute('aria-hidden', 'false');
-    if (anchorCard) {
-      const rect = anchorCard.getBoundingClientRect();
-      const outletRect = this.#el.getBoundingClientRect();
-      overlay.style.setProperty('--qc-top', `${anchorCard.offsetTop + anchorCard.offsetHeight + 8}px`);
-      overlay.style.setProperty('--qc-left', `${Math.max(0, Math.min(anchorCard.offsetLeft, outletRect.width - 420))}px`);
-      overlay.classList.add('qc-overlay--anchored');
-    } else {
-      overlay.classList.remove('qc-overlay--anchored');
-    }
-    overlay.querySelector('#qcClose')?.focus();
-  }
-
-  #closeQuickCompare() {
-    const overlay = this.#el?.querySelector('#quickCompareOverlay');
-    overlay?.classList.add('hidden');
-    overlay?.setAttribute('aria-hidden', 'true');
-    overlay?.classList.remove('qc-overlay--anchored');
-    this.#quickCompareId = null;
-  }
 
   // ── Recientes ──────────────────────────────────────────────────
   #toggleRecents() {
@@ -804,7 +715,9 @@ export class HomeView {
     const densityToggle = this.#el?.querySelector('#densityToggle');
     if (densityToggle) densityToggle.style.display = nowGallery ? '' : 'none';
     // Only re-render if view type changed
-    if (wasGallery !== nowGallery || (gv.children.length === 0 && rv.querySelector('#rankingBody')?.children.length === 0)) {
+    const galleryEmpty = gv.querySelector('#gallery')?.children.length === 0;
+    const rankingEmpty  = rv.querySelector('#rankingBody')?.children.length === 0;
+    if (wasGallery !== nowGallery || (galleryEmpty && rankingEmpty)) {
       this.#renderAll();
     }
   }
@@ -883,26 +796,10 @@ export class HomeView {
     });
 
     // Quick compare overlay
-    this.#el.querySelector('#quickCompareOverlay')?.addEventListener('click', e => {
-      if (e.target.closest('#qcClose')) { this.#closeQuickCompare(); return; }
-      if (e.target.closest('#qcGoFull')) {
-        const list = store.get('compareList');
-        if (this.#quickCompareId && !list.includes(this.#quickCompareId)) store.toggleCompare(this.#quickCompareId);
-        sessionStorage.setItem('aeropedia_compare', JSON.stringify(store.get('compareList')));
-        router.navigate('/compare');
-        return;
-      }
-      // Botones dentro del overlay
-      const detailBtn = e.target.closest('[data-id]');
-      if (detailBtn?.classList.contains('btn-detail')) { router.navigate(`/aircraft/${detailBtn.dataset.id}`); return; }
-      const cmpBtn = e.target.closest('[data-cmp]');
-      if (cmpBtn) { store.toggleCompare(cmpBtn.dataset.cmp); this.#closeQuickCompare(); return; }
-    });
 
     // ESC cierra overlay
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
-        if (this.#quickCompareId) { this.#closeQuickCompare(); return; }
       }
       const tag    = document.activeElement?.tagName.toLowerCase();
       const typing = ['input','select','textarea'].includes(tag);
@@ -928,14 +825,6 @@ export class HomeView {
       const cmpBtn = e.target.closest('.cmp-btn[data-cmp]');
       if (cmpBtn) { store.toggleCompare(cmpBtn.dataset.cmp); return; }
       // Quick compare
-      const qcBtn = e.target.closest('[data-qc]');
-      if (qcBtn) {
-        const id   = qcBtn.dataset.qc;
-        const card = qcBtn.closest('.card');
-        if (this.#quickCompareId === id) { this.#closeQuickCompare(); return; }
-        this.#openQuickCompare(id, card);
-        return;
-      }
       // Rank row
       const rankRow = e.target.closest('.rank-row');
       if (rankRow?.dataset.id) { router.navigate(`/aircraft/${rankRow.dataset.id}`); return; }
@@ -972,9 +861,6 @@ export class HomeView {
       const recentItem = e.target.closest('.recents-item[data-id]');
       if (recentItem) { this.#toggleRecents(); router.navigate(`/aircraft/${recentItem.dataset.id}`); return; }
       // Click fuera del overlay lo cierra
-      if (this.#quickCompareId && !e.target.closest('#quickCompareOverlay') && !e.target.closest('[data-qc]')) {
-        this.#closeQuickCompare();
-      }
     });
 
     // Teclado en ranking rows

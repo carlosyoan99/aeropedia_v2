@@ -67,10 +67,11 @@ export class MachView {
   #template() {
     return `
     <div class="mach-header">
-      <a href="/" data-link class="btn-back">
+      <button class="btn-back" onclick="history.back()" aria-label="Volver atrás">
         <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
         Volver
-      </a>
+      </button>
+        ${buildBreadcrumb('/mach')}
       <h1 class="mach-title">Calculadora Mach</h1>
     </div>
 

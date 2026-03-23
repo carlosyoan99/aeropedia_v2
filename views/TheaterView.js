@@ -23,6 +23,7 @@ const CONFLICT_COORDS = {
   chechnya:         [60, 36], somalia:          [58, 57], mozambique:     [56, 65],
   nagorno_karabakh: [60, 40], ethiopia_tigray:  [56, 54],
   coldwar_patrols:  [50, 25],
+  panama:           [28, 50],  // Panamá: 8.9°N 79.5°O → posición corregida
 };
 
 const ERA_MAP = {
@@ -73,10 +74,11 @@ export class TheaterView {
   #template(era = 'all') {
     return `
     <div class="theater-header">
-      <a href="/" data-link class="btn-back" aria-label="Volver al archivo">
+      <button class="btn-back" onclick="history.back()" aria-label="Volver atrás">
         <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
         Volver
-      </a>
+      </button>
+        ${buildBreadcrumb('/theater')}
       <div>
         <h1 class="theater-title">
           <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>

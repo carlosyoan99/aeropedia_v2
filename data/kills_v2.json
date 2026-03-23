@@ -1,0 +1,2484 @@
+[
+  {
+    "id": "p51d",
+    "kills_total": 4950,
+    "losses_combat": 2520,
+    "losses_ground": 1500,
+    "losses_total": 4950,
+    "kill_ratio": 1.96,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 4750,
+        "losses_aa": 2400,
+        "losses_other": 1400,
+        "notes": "Principal escolta de bombarderos del 8.º Ejército Aéreo. 4.950 victorias aéreas confirmadas solo en el TO europeo. Mayor asesino de la USAAF."
+      },
+      {
+        "id": "korea",
+        "kills": 200,
+        "losses_aa": 120,
+        "losses_other": 100,
+        "notes": "Usado en interdicción y CAS antes de ser relevado por el F-86."
+      }
+    ],
+    "notes": "Con 4.950 victorias aéreas es el caza aliado con más derribos confirmados de la guerra. El AS de ases fue George Preddy con 26.83 victorias.",
+    "source_note": "Datos del USAAF Historical Study. Cifras de pérdidas totales incluyen todos los teatros."
+  },
+  {
+    "id": "spitfire",
+    "kills_total": 5000,
+    "losses_combat": 3690,
+    "losses_ground": 1500,
+    "losses_total": 5190,
+    "kill_ratio": 1.35,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 4500,
+        "losses_aa": 3300,
+        "losses_other": 1200,
+        "notes": "Protagonizó la Batalla de Inglaterra (1940). El as Johnnie Johnson logró 38 victorias con Spitfire."
+      },
+      {
+        "id": "wwii_africa",
+        "kills": 300,
+        "losses_aa": 200,
+        "losses_other": 150,
+        "notes": "Operaciones en el Norte de África contra la Luftwaffe italiana y alemana."
+      },
+      {
+        "id": "wwii_pacific",
+        "kills": 200,
+        "losses_aa": 190,
+        "losses_other": 150,
+        "notes": "Versiones Seafire operadas desde portaaviones británicos contra Japón."
+      }
+    ],
+    "notes": "El avión símbolo de la RAF. Sus 20+ variantes volaron en todos los teatros aliados. Mayor número de victorias británicas de toda la guerra.",
+    "source_note": "RAF Historical Branch. Cifras aproximadas por dispersión de registros entre variantes."
+  },
+  {
+    "id": "bf109g",
+    "kills_total": 15000,
+    "losses_combat": 13900,
+    "losses_ground": 6000,
+    "losses_total": 19000,
+    "kill_ratio": 1.08,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 12000,
+        "losses_aa": 11000,
+        "losses_other": 4000,
+        "notes": "Hauptmajor Erich Hartmann logró 352 victorias con el Bf 109, el récord absoluto de la historia. En total los pilotos alemanes acumularon más de 15.000 victorias con este modelo."
+      },
+      {
+        "id": "wwii_east",
+        "kills": 3000,
+        "losses_aa": 2900,
+        "losses_other": 2000,
+        "notes": "Frente Oriental: teatro con mayor número de misiones. Pilots como Barkhorn (301 v.) y Rall (275 v.) establecieron sus récords aquí."
+      }
+    ],
+    "notes": "El modelo con MÁS victorias aéreas de toda la historia de la aviación, gracias a sus 33.984 unidades y los ases de la Luftwaffe.",
+    "source_note": "Luftwaffe-Datenbank y registros USAAF/RAF. Cifras de victorias totales estimadas; documentación de ases muy precisa."
+  },
+  {
+    "id": "fw190a",
+    "kills_total": 6000,
+    "losses_combat": 8000,
+    "losses_ground": 3500,
+    "losses_total": 11500,
+    "kill_ratio": 0.75,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 5500,
+        "losses_aa": 7500,
+        "losses_other": 3000,
+        "notes": "Dominó sobre el Canal (1941-42) antes de que el Spitfire Mk IX igualara sus capacidades. Muy eficaz como cazabombardero en el Frente Occidental."
+      },
+      {
+        "id": "wwii_east",
+        "kills": 500,
+        "losses_aa": 500,
+        "losses_other": 500,
+        "notes": "Usado principalmente en el Este como apoyo a tierra (Fw 190F/G)."
+      }
+    ],
+    "notes": "Considerado más robusto y versátil que el Bf 109. Su ratio negativo refleja que fue usado intensamente en roles de ataque con gran riesgo de AAA.",
+    "source_note": "Estimaciones del USAAF y RAF. Datos de pérdidas incluyen todas las variantes A/D/F/G."
+  },
+  {
+    "id": "a6m_zero",
+    "kills_total": 1550,
+    "losses_combat": 1550,
+    "losses_ground": 7000,
+    "losses_total": 8550,
+    "kill_ratio": 1.0,
+    "conflicts": [
+      {
+        "id": "wwii_pacific",
+        "kills": 1550,
+        "losses_aa": 1550,
+        "losses_other": 7000,
+        "notes": "Dominó el Pacífico en 1941-42 con un ratio altísimo. A partir de 1943, los F6F Hellcat y F4U Corsair invirtieron la situación. Muchos de los ~8.000 perdidos fueron en misiones kamikaze (1944-45)."
+      }
+    ],
+    "notes": "Excelente al inicio de la guerra, pero sin mejoras ni reemplazo. Sus pilotos veteranos murieron sin poder ser reemplazados, degradando rápidamente la efectividad.",
+    "source_note": "US Navy records y Japanese Navy archives. Pérdidas kamikaze (~3.800) incluidas en losses_other."
+  },
+  {
+    "id": "me262",
+    "kills_total": 542,
+    "losses_combat": 100,
+    "losses_ground": 1200,
+    "losses_total": 1300,
+    "kill_ratio": 5.42,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 542,
+        "losses_aa": 100,
+        "losses_other": 1200,
+        "notes": "El primer caza a reacción operativo. Pese a ser muy superior en velocidad, fue vulnerable durante el despegue/aterrizaje. Ratio de 5:1 en combate aéreo puro."
+      }
+    ],
+    "notes": "Solo 1.430 unidades fabricadas, ~300 operativas simultáneamente. Las enormes pérdidas en tierra son por bombardeos aliados sobre sus aeródromos.",
+    "source_note": "Luftwaffe records y USAAF post-war analysis. Cifra de kills bien documentada: Rall, Schall y otros ases confirmaron individualmente."
+  },
+  {
+    "id": "p47d",
+    "kills_total": 3752,
+    "losses_combat": 684,
+    "losses_ground": 1917,
+    "losses_total": 2601,
+    "kill_ratio": 5.49,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 3500,
+        "losses_aa": 650,
+        "losses_other": 1700,
+        "notes": "8.º Ejército Aéreo USAAF. Su robustez le permitió sobrevivir a golpes que destruirían cualquier otro caza. Excepcional en ataque a tierra."
+      },
+      {
+        "id": "wwii_pacific",
+        "kills": 252,
+        "losses_aa": 34,
+        "losses_other": 217,
+        "notes": "Usado en el Pacífico Sur y China-Burma-India."
+      }
+    ],
+    "notes": "El ratio 5.49:1 es excepcional para un caza tan usado en misiones de apoyo a tierra, que conllevan más riesgo de AAA que el combate aéreo.",
+    "source_note": "USAAF Historical Study No. 85. Una de las fuentes más completas y fiables de la IIGM."
+  },
+  {
+    "id": "f86sabre",
+    "kills_total": 792,
+    "losses_combat": 78,
+    "losses_ground": 108,
+    "losses_total": 186,
+    "kill_ratio": 10.16,
+    "conflicts": [
+      {
+        "id": "korea",
+        "kills": 792,
+        "losses_aa": 78,
+        "losses_other": 108,
+        "notes": "Ratio oficial USAF de 10:1 (192 F-86 perdidos vs 792 MiG-15 derribados). Investigaciones posteriores sugieren ratios más cercanos a 2:1 al incluir pérdidas reales. Pilotos soviéticos volaron bajo bandera norcoreana."
+      }
+    ],
+    "notes": "El ratio oficial 10:1 es uno de los más controvertidos de la historia. Análisis rusos post-1991 indican ~650 MiG-15 derribados vs ~230 F-86. La verdad está en algún punto intermedio.",
+    "source_note": "USAF oficial: 10:1. Investigación RAND Corp 1993: ~2:1 al incluir todas las pérdidas. Ambas cifras son válidas según metodología."
+  },
+  {
+    "id": "mig15",
+    "kills_total": 650,
+    "losses_combat": 335,
+    "losses_ground": 200,
+    "losses_total": 535,
+    "kill_ratio": 1.94,
+    "conflicts": [
+      {
+        "id": "korea",
+        "kills": 650,
+        "losses_aa": 335,
+        "losses_other": 200,
+        "notes": "Datos soviéticos post-1991. Pilotado por soviéticos, chinos y norcoreanos. Derribó F-86, F-80, F-84 y B-29."
+      },
+      {
+        "id": "suez",
+        "kills": 2,
+        "losses_aa": 4,
+        "losses_other": 0,
+        "notes": "MiG-15 egipcios interceptaron bombarderos británicos, perdiendo varios frente a Meteor y Venom."
+      }
+    ],
+    "notes": "El caza a reacción más producido de la historia (~18,000 unidades). Demostró que la URSS podía igualar a Occidente.",
+    "source_note": "Archivos soviéticos desclasificados (1993-2000). Xiaoming Zhang, 'Red Wings over the Yalu'."
+  },
+  {
+    "id": "mig21",
+    "kills_total": 160,
+    "losses_combat": 250,
+    "losses_ground": 200,
+    "losses_total": 450,
+    "kill_ratio": 0.64,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 100,
+        "losses_aa": 200,
+        "losses_other": 150,
+        "notes": "Los MiG-21 derribaron ~100 aviones estadounidenses (principalmente F-105 y F-4) pero perdieron ~200 en combate [citation:8]. Ratio 2:1 a favor del MiG según fuentes soviéticas."
+      },
+      {
+        "id": "sixday",
+        "kills": 20,
+        "losses_aa": 35,
+        "losses_other": 50,
+        "notes": "Operación Moked (1967): Israel destruyó ~286 MiG-21 egipcios en tierra. Los que despegaron fueron derribados."
+      },
+      {
+        "id": "yom_kippur",
+        "kills": 40,
+        "losses_aa": 15,
+        "losses_other": 0,
+        "notes": "MiG-21 egipcios y sirios lograron derribos de A-4, F-4 y Mirage antes de ser dominados por los F-15 israelíes."
+      }
+    ],
+    "notes": "El caza más combatido de la historia de la Guerra Fría. Más de 11,000 unidades producidas, participó en más conflictos que cualquier otro avión. El ratio negativo se explica por la calidad de entrenamiento inferior de sus operadores en la mayoría de conflictos.",
+    "source_note": "USAF Southeast Asia Monographs. RT: 'MiG-21 vs Phantom'."
+  },
+  {
+    "id": "f4phantom",
+    "kills_total": 280,
+    "losses_combat": 107,
+    "losses_ground": 320,
+    "losses_total": 427,
+    "kill_ratio": 2.62,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 164.5,
+        "losses_aa": 68,
+        "losses_other": 280,
+        "notes": "164.5 victorias confirmadas en Vietnam según registros oficiales. La falta de cañón interno costó numerosas bajas."
+      },
+      {
+        "id": "sixday",
+        "kills": 30,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "F-4E israelíes dominaron los cielos en la Guerra de los Seis Días."
+      },
+      {
+        "id": "yom_kippur",
+        "kills": 47,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "F-4 israelíes en la Guerra de Yom Kipur. Enfrentaron con éxito SAM egipcios y MiG-21."
+      },
+      {
+        "id": "iran_iraq",
+        "kills": 38,
+        "losses_aa": 39,
+        "losses_other": 40,
+        "notes": "Variante F-4G Wild Weasel usada en supresión de defensas aéreas. 38 misiles antirradar AGM-88 lanzados con éxito."
+      }
+    ],
+    "notes": "Diseñado sin cañón — la doctrina de los 60s asumía que el combate sería solo con misiles BVR. Vietnam demostró lo contrario. La lección más cara de la aviación táctica del siglo XX.",
+    "source_note": "USAF Project RED BARON, Israeli Air Force records."
+  },
+  {
+    "id": "f15",
+    "kills_total": 106,
+    "losses_combat": 0,
+    "losses_ground": 2,
+    "losses_total": 2,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "lebanon",
+        "kills": 40,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "F-15A/B israelíes derribaron decenas de MiG-21 y MiG-23 sirios en la campaña del Líbano."
+      },
+      {
+        "id": "desert_storm",
+        "kills": 36,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "36 victorias aéreas de la coalición (USAF + RSAF). Cero pérdidas en combate aéreo."
+      },
+      {
+        "id": "yugoslavia",
+        "kills": 4,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Derribo de 4 MiG-29 serbios por F-15C durante la Operación Allied Force."
+      },
+      {
+        "id": "syria",
+        "kills": 26,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "Derribos israelíes desde 2006 hasta 2019: Su-22, Su-24, MiG-29, drones y helicópteros."
+      },
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "Un F-15 de Arabia Saudita derribado por fuego amigo en Yemen (2022)."
+      }
+    ],
+    "notes": "El único caza de la historia con más de 100 victorias aéreas confirmadas y CERO derribos en combate aéreo. Récord absoluto de la aviación moderna.",
+    "source_note": "USAF y Israeli Air Force official records."
+  },
+  {
+    "id": "f14tomcat",
+    "kills_total": 6,
+    "losses_combat": 4,
+    "losses_ground": 36,
+    "losses_total": 40,
+    "kill_ratio": 1.5,
+    "conflicts": [
+      {
+        "id": "iran_iraq",
+        "kills": 80,
+        "losses_aa": 10,
+        "losses_other": 20,
+        "notes": "Irán: el F-14 con el misil AIM-54 Phoenix destruyó entre 40 y 80 aviones iraquíes (cifra muy disputada). EE.UU. confirmó que Irán usó el Phoenix en combate real, el único uso bélico de este misil."
+      },
+      {
+        "id": "gulf_war",
+        "kills": 1,
+        "losses_aa": 0,
+        "losses_other": 4,
+        "notes": "Solo 1 derribo confirmado (Mi-8 helicóptero). Principalmente misiones CAP y reconocimiento TARPS."
+      }
+    ],
+    "notes": "EE.UU.: solo 2 victorias en combate (1981 y 1989 sobre el Mediterráneo) + 1 en el Golfo. Irán afirma hasta 80 victorias con el F-14/AIM-54, aunque solo ~40 están documentadas.",
+    "source_note": "US Navy: 6 victorias confirmadas. Datos iraníes: ~35-80 victorias (muy disputado)."
+  },
+  {
+    "id": "mig29",
+    "kills_total": 3,
+    "losses_combat": 15,
+    "losses_ground": 55,
+    "losses_total": 70,
+    "kill_ratio": 0.2,
+    "conflicts": [
+      {
+        "id": "gulf_war",
+        "kills": 0,
+        "losses_aa": 6,
+        "losses_other": 15,
+        "notes": "Los MiG-29 iraquíes fueron destruidos casi todos en tierra o en los primeros días. Varios intentaron interceptar aviones aliados pero fueron derribados por F-15C antes de disparar."
+      },
+      {
+        "id": "yugoslavia",
+        "kills": 0,
+        "losses_aa": 5,
+        "losses_other": 2,
+        "notes": "La Fuerza Aérea de Yugoslavia (JRViPVO) perdió 5 MiG-29 ante F-15C y F-16C de la USAF. Ningún derribo a su favor."
+      },
+      {
+        "id": "ukraine",
+        "kills": 3,
+        "losses_aa": 4,
+        "losses_other": 38,
+        "notes": "Ucrania usa MiG-29 (propios + donados) con 3 victorias confirmadas contra aviones rusos. Rusia ha destruido al menos 42 MiG-29 (aéreo + tierra)."
+      }
+    ],
+    "notes": "El historial de combate del MiG-29 es decepcionante para sus capacidades en papel. La formación inferior de sus pilotos en Irak y Yugoslavia fue determinante.",
+    "source_note": "USAF and NATO records. Ukraine conflict data: Oryx open-source intelligence."
+  },
+  {
+    "id": "su27",
+    "kills_total": 2,
+    "losses_combat": 4,
+    "losses_ground": 18,
+    "losses_total": 22,
+    "kill_ratio": 0.5,
+    "conflicts": [
+      {
+        "id": "chechnya",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 3,
+        "notes": "Rusia perdió 1 Su-27 derribado por un MANPADS checheno. Sin victorias aéreas."
+      },
+      {
+        "id": "ukraine",
+        "kills": 2,
+        "losses_aa": 3,
+        "losses_other": 15,
+        "notes": "Rusia usa el Su-27 (más los Su-30, Su-35) en Ucrania. 2 victorias confirmadas A-A. Ha sufrido pérdidas significativas por S-300 y NASAMS ucranianos."
+      }
+    ],
+    "notes": "Junto a sus variantes (Su-30, Su-35), el Flanker es la familia de cazas más numerosa en Ucrania por ambos lados.",
+    "source_note": "Oryx open-source intelligence."
+  },
+  {
+    "id": "su35",
+    "kills_total": 5,
+    "losses_combat": 12,
+    "losses_ground": 10,
+    "losses_total": 22,
+    "kill_ratio": 0.42,
+    "conflicts": [
+      {
+        "id": "ukraine",
+        "kills": 5,
+        "losses_aa": 12,
+        "losses_other": 10,
+        "notes": "Rusia ha perdido al menos 22 Su-35S documentados en Ucrania (Oryx, a oct 2024). Ha logrado ~5 victorias A-A confirmadas. El F-16 ucraniano ha derribado al menos 1 Su-35."
+      }
+    ],
+    "notes": "El Su-35S es el caza más avanzado de Rusia desplegado en Ucrania en gran número. Sus pérdidas elevadas reflejan las dificultades para operar dentro del rango de defensas aéreas ucranianas.",
+    "source_note": "Oryx intelligence (imágenes verificadas). Russian MoD no confirma pérdidas individuales."
+  },
+  {
+    "id": "il2",
+    "kills_total": 200,
+    "losses_combat": 1800,
+    "losses_ground": 23000,
+    "losses_total": 24800,
+    "kill_ratio": 0.11,
+    "conflicts": [
+      {
+        "id": "wwii_east",
+        "kills": 200,
+        "losses_aa": 1800,
+        "losses_other": 23000,
+        "notes": "El Il-2 no era un caza; su misión era destruir blindados, no aviones. Las ~200 victorias aéreas son principalmente bombarderos y transportes atacados en tierra. Sus pérdidas son masivas (36.183 construidos) pero reflejan el uso intensivo como avión de primera línea en el frente más sangriento de la historia."
+      }
+    ],
+    "notes": "El avión más producido de la historia no se mide en victorias A-A sino en tanques destruidos. Su valor estratégico fue incomparable.",
+    "source_note": "Soviet Air Force records."
+  },
+  {
+    "id": "a10",
+    "kills_total": 10,
+    "losses_combat": 7,
+    "losses_ground": 14,
+    "losses_total": 21,
+    "kill_ratio": 1.43,
+    "conflicts": [
+      {
+        "id": "gulf_war",
+        "kills": 2,
+        "losses_aa": 5,
+        "losses_other": 6,
+        "notes": "El A-10 destruyó 987 tanques, 926 piezas de artillería y 1.355 vehículos militares. También logró 2 victorias aéreas: un helicóptero Bo-105 y un helicóptero Alouette III iraquíes derribados con el GAU-8."
+      },
+      {
+        "id": "gwot",
+        "kills": 8,
+        "losses_aa": 2,
+        "losses_other": 8,
+        "notes": "En Afganistán e Iraq el A-10 logró 8 victorias sobre helicópteros y aeronaves ligeras, principalmente con el GAU-8 y misiles AIM-9."
+      }
+    ],
+    "notes": "El A-10 no es un caza pero su GAU-8 y misiles AIM-9 le dan capacidad real A-A contra helicópteros y aviones lentos.",
+    "source_note": "USAF Gulf War Air Power Survey (1993). GWOT data: CENTCOM records."
+  },
+  {
+    "id": "av8b",
+    "kills_total": 22,
+    "losses_combat": 4,
+    "losses_ground": 5,
+    "losses_total": 9,
+    "kill_ratio": 5.5,
+    "conflicts": [
+      {
+        "id": "falklands",
+        "kills": 20,
+        "losses_aa": 0,
+        "losses_other": 2,
+        "notes": "El Sea Harrier FRS.1 (variante naval) logró 20 victorias en combate aéreo con cero pérdidas propias en dogfight, usando el misil AIM-9L Sidewinder de nueva generación. Derribó Mirage III, Dagger (Mirage 5) y A-4 Skyhawk argentinos."
+      },
+      {
+        "id": "gulf_war",
+        "kills": 2,
+        "losses_aa": 4,
+        "losses_other": 3,
+        "notes": "El AV-8B del USMC realizó 3.380 salidas con 2 victorias A-A menores (helicópteros). Perdió 4 en combate, principalmente por AAA al operar a baja altitud."
+      }
+    ],
+    "notes": "El récord de Malvinas (20-0 en combate aéreo) es uno de los más impresionantes de la historia moderna. El AIM-9L y la técnica Viffing cambiaron las reglas del dogfight.",
+    "source_note": "British Ministry of Defence. Official Argentine Air Force records."
+  },
+  {
+    "id": "mirage3",
+    "kills_total": 120,
+    "losses_combat": 50,
+    "losses_ground": 80,
+    "losses_total": 130,
+    "kill_ratio": 2.4,
+    "conflicts": [
+      {
+        "id": "sixday",
+        "kills": 50,
+        "losses_aa": 10,
+        "losses_other": 20,
+        "notes": "Fuerza Aérea Israelí. Dominó los cielos árabes con el Mirage III y el Nesher."
+      },
+      {
+        "id": "yom_kippur",
+        "kills": 40,
+        "losses_aa": 20,
+        "losses_other": 30,
+        "notes": "Enfrentó con éxito misiles SAM y cazas MiG-21. Varios ases israelíes en Mirage."
+      },
+      {
+        "id": "india_pakistan",
+        "kills": 10,
+        "losses_aa": 5,
+        "losses_other": 10,
+        "notes": "Usado por Pakistán contra India. Eficaz en combate aéreo contra Hunters y Su-7."
+      }
+    ],
+    "notes": "El caza francés más exitoso en combate real. Exportado a más de 20 países.",
+    "source_note": "Israeli Air Force records. 'Mirage III: The Combat Record'."
+  },
+  {
+    "id": "f6f_hellcat",
+    "kills_total": 5163,
+    "losses_combat": 270,
+    "losses_ground": 500,
+    "losses_total": 770,
+    "kill_ratio": 19.1,
+    "conflicts": [
+      {
+        "id": "wwii_pacific",
+        "kills": 5163,
+        "losses_aa": 270,
+        "losses_other": 500,
+        "notes": "El caza naval con más derribos de la historia. Ratio 19:1 contra aviones japoneses. David McCampbell logró 34 victorias."
+      }
+    ],
+    "notes": "Responsable del 75% de todas las victorias aéreas de la US Navy en el Pacífico. Su ratio es el mejor de cualquier caza aliado.",
+    "source_note": "US Navy records. 'Hellcat: The F6F in World War II'."
+  },
+  {
+    "id": "f4u_corsair",
+    "kills_total": 2140,
+    "losses_combat": 400,
+    "losses_ground": 900,
+    "losses_total": 1300,
+    "kill_ratio": 5.35,
+    "conflicts": [
+      {
+        "id": "wwii_pacific",
+        "kills": 2140,
+        "losses_aa": 400,
+        "losses_other": 900,
+        "notes": "Ratio 11:1 contra aviones japoneses según US Navy. Usado también por Marines británicos y neozelandeses."
+      },
+      {
+        "id": "korea",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 200,
+        "notes": "Usado como cazabombardero en Corea. Sin victorias aéreas significativas, pero excelente en CAS."
+      }
+    ],
+    "notes": "El 'Whistling Death'. Excelente caza embarcado que sirvió hasta los años 60 en algunas fuerzas aéreas.",
+    "source_note": "US Navy and USMC records."
+  },
+  {
+    "id": "p38",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Interceptor de la RAF durante toda la Guerra Fría. Nunca entró en combate real, pero interceptó cientos de bombarderos soviéticos."
+      }
+    ],
+    "notes": "Único caza supersónico totalmente británico. Capacidad de ascenso vertical de 20,000 m/min, récord en su época.",
+    "source_note": "RAF Historical Branch."
+  },
+  {
+    "id": "su24",
+    "kills_total": 0,
+    "losses_combat": 18,
+    "losses_ground": 12,
+    "losses_total": 30,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "afghanistan",
+        "kills": 0,
+        "losses_aa": 3,
+        "losses_other": 5,
+        "notes": "El Su-24 soviético en Afganistán fue vulnerables a los Stinger americanos. 3 derribados en combate."
+      },
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 7,
+        "notes": "Un Su-24M2 ruso derribado por un F-16C turco el 24/11/2015, el primer derribo de un avión ruso por la OTAN desde 1952."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 14,
+        "losses_other": 0,
+        "notes": "El Su-24 ucraniano ha sufrido las mayores pérdidas proporcionales de toda la flota ucraniana. 14 confirmados derribados (Oryx) por S-400 y misiles R-77 rusos."
+      }
+    ],
+    "notes": "Bombardero táctico puro sin capacidad de combate A-A real. Sus pérdidas reflejan las dificultades de operar un avión de baja altitud en entornos con SAM de alto nivel como el S-400.",
+    "source_note": "Russian MoD (parcial). Oryx open-source (Ucrania)."
+  },
+  {
+    "id": "su25",
+    "kills_total": 4,
+    "losses_combat": 47,
+    "losses_ground": 18,
+    "losses_total": 65,
+    "kill_ratio": 0.09,
+    "conflicts": [
+      {
+        "id": "afghanistan",
+        "kills": 1,
+        "losses_aa": 9,
+        "losses_other": 12,
+        "notes": "En Afganistán el Su-25 perdió 9 en combate, principalmente ante Stinger FIM-92 suministrados por EE.UU. a los muyahidines."
+      },
+      {
+        "id": "chechnya",
+        "kills": 1,
+        "losses_aa": 6,
+        "losses_other": 4,
+        "notes": "Chechenia demostró que incluso los MANPADS portátiles Igla eran letales contra el Su-25 a altitud de combate."
+      },
+      {
+        "id": "ukraine",
+        "kills": 2,
+        "losses_aa": 32,
+        "losses_other": 2,
+        "notes": "El Su-25 es el avión más derribado de la guerra de Ucrania por ambos bandos. Rusia perdió al menos 32 Su-25 confirmados (Oryx)."
+      }
+    ],
+    "notes": "El más derribado de Ucrania. Su baja altitud de operación (600-2.000 m) lo convierte en presa perfecta para MANPADS.",
+    "source_note": "Soviet records Afganistán. Oryx (Ucrania)."
+  },
+  {
+    "id": "su34",
+    "kills_total": 3,
+    "losses_combat": 28,
+    "losses_ground": 7,
+    "losses_total": 35,
+    "kill_ratio": 0.11,
+    "conflicts": [
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 3,
+        "notes": "El Su-34 en Siria operó principalmente en bombardeo a tierra. 2 perdidos: uno por SA-6 rebelde, otro por accidente."
+      },
+      {
+        "id": "ukraine",
+        "kills": 3,
+        "losses_aa": 26,
+        "losses_other": 4,
+        "notes": "El Su-34 es el avión ruso más derribado en Ucrania después del Su-25. 26 confirmados destruidos (Oryx oct 2024)."
+      }
+    ],
+    "notes": "El bombardero táctico más avanzado de Rusia sufre pérdidas desproporcionadas en Ucrania porque su doctrina de baja altitud choca frontalmente con las defensas aéreas occidentales suministradas a Ucrania.",
+    "source_note": "Oryx (imágenes verificadas oct 2024)."
+  },
+  {
+    "id": "su57",
+    "kills_total": 2,
+    "losses_combat": 0,
+    "losses_ground": 2,
+    "losses_total": 2,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "Despliegue evaluativo (2018). Sin combate aéreo. Un Su-57 regresó a Rusia con daños por fuego amigo (un misil Buk activado por error)."
+      },
+      {
+        "id": "ukraine",
+        "kills": 2,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "El Su-57 opera desde territorio ruso a distancias de 200-300 km usando misiles Kh-59MK2 de largo alcance. 1 Su-57 destruido en tierra en la base de Akhtubinsk por un dron ucraniano (2024), primera pérdida confirmada."
+      }
+    ],
+    "notes": "El caza de 5ª generación ruso evita deliberadamente penetrar el espacio aéreo ucraniano. Opera como plataforma de misiles de largo alcance, no como caza convencional.",
+    "source_note": "Oryx. Ukrainian MoD."
+  },
+  {
+    "id": "emb314",
+    "kills_total": 6,
+    "losses_combat": 0,
+    "losses_ground": 3,
+    "losses_total": 3,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "mali",
+        "kills": 4,
+        "losses_aa": 0,
+        "losses_other": 2,
+        "notes": "El A-29 Super Tucano de Mali (FAM) logró 4 victorias contra aeronaves ligeras y drones yihadistas usando el cañón .50 y misiles."
+      },
+      {
+        "id": "gwot",
+        "kills": 2,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "La Afghan Air Force con el A-29 logró 2 destrucciones de helicópteros talibanes en 2020-21. Confirmadas por EE.UU."
+      }
+    ],
+    "notes": "El Super Tucano es el avión de contrainsurgencia más efectivo de su clase. Sus victorias aéreas son anecdóticas frente a los miles de ataques a tierra.",
+    "source_note": "Embraer Defesa official. USAF Afghan Air Force Training Command."
+  },
+  {
+    "id": "mig31",
+    "kills_total": 1,
+    "losses_combat": 0,
+    "losses_ground": 8,
+    "losses_total": 8,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "ukraine",
+        "kills": 1,
+        "losses_aa": 0,
+        "losses_other": 8,
+        "notes": "El MiG-31K lanza misiles hipersónicos Kh-47M2 Kinzhal desde el espacio aéreo ruso. 8 MiG-31 destruidos en tierra por misiles ATACMS y drones de largo alcance ucranianos en sus bases."
+      }
+    ],
+    "notes": "El MiG-31 en Ucrania actúa como lanzador hipersónico, no como caza convencional. Su vulnerabilidad en tierra a ataques de largo alcance ha sorprendido a los analistas militares.",
+    "source_note": "Oryx. Ukrainian MoD. ATACMS strikes confirmados por imágenes de satélite."
+  },
+  {
+    "id": "f111",
+    "kills_total": 0,
+    "losses_combat": 7,
+    "losses_ground": 0,
+    "losses_total": 7,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 6,
+        "losses_other": 0,
+        "notes": "Operación Linebacker II. Demostró capacidad de penetración nocturna todo tiempo. 6 pérdidas por SAM y AAA."
+      },
+      {
+        "id": "libya",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 0,
+        "notes": "Operación El Dorado Canyon (1986): 1 F-111F derribado sobre Trípoli."
+      }
+    ],
+    "notes": "Primer avión de geometría variable operativo. Revolucionario para su época, nunca diseñado para combate aéreo.",
+    "source_note": "USAF Historical Division."
+  },
+  {
+    "id": "tornado",
+    "kills_total": 1,
+    "losses_combat": 9,
+    "losses_ground": 0,
+    "losses_total": 9,
+    "kill_ratio": 0.11,
+    "conflicts": [
+      {
+        "id": "desert_storm",
+        "kills": 1,
+        "losses_aa": 6,
+        "losses_other": 0,
+        "notes": "Un Tornado de la RAF logró 1 derribo confirmado (un helicóptero Mi-8 iraquí, destruido con un misil AIM-9). 6 Tornados derribados por SAM Roland y otros sistemas."
+      },
+      {
+        "id": "iraq",
+        "kills": 0,
+        "losses_aa": 3,
+        "losses_other": 0,
+        "notes": "3 Tornados (RAF y Luftwaffe) perdidos en Iraq 2003 por AAA y accidentes."
+      }
+    ],
+    "notes": "El Tornado fue diseñado para volar bajo el radar, no para dogfights. Su ratio negativo refleja el alto precio de las misiones de penetración a baja altitud contra defensas aéreas integradas.",
+    "source_note": "RAF Historical Records. GWAPS."
+  },
+  {
+    "id": "a1",
+    "kills_total": 0,
+    "losses_combat": 150,
+    "losses_ground": 100,
+    "losses_total": 250,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 150,
+        "losses_other": 100,
+        "notes": "El A-1 Skyraider fue el principal avión de rescate (Sandy) en Vietnam. Perdió más de 250 unidades, principalmente por AAA y SAM, pero su resistencia y capacidad de supervivencia eran legendarias. Sin victorias aéreas confirmadas."
+      }
+    ],
+    "notes": "Avión de ataque a hélice que operó en la era de los jets. Su resistencia y capacidad de carga lo hicieron legendario en Vietnam.",
+    "source_note": "US Navy and USAF records. 'A-1 Skyraider in Vietnam'."
+  },
+  {
+    "id": "ov10",
+    "kills_total": 0,
+    "losses_combat": 64,
+    "losses_ground": 30,
+    "losses_total": 94,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 64,
+        "losses_other": 30,
+        "notes": "El OV-10 Bronco fue el principal avión FAC (Forward Air Controller) en Vietnam. Sufrió 94 pérdidas, la mayoría por AAA, pero su efectividad en marcación de objetivos era insustituible. Sin victorias aéreas."
+      },
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 2,
+        "notes": "Los OV-10G+ reactivados por el USMC en 2015 operaron contra ISIS sin pérdidas en combate aéreo."
+      }
+    ],
+    "notes": "Avión COIN y FAC de gran efectividad. Su capacidad STOL lo hacía ideal para operaciones en jungla.",
+    "source_note": "USAF and USMC records. 'OV-10 Bronco in Vietnam'."
+  },
+  {
+    "id": "pucara",
+    "kills_total": 0,
+    "losses_combat": 8,
+    "losses_ground": 0,
+    "losses_total": 8,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "falklands",
+        "kills": 0,
+        "losses_aa": 8,
+        "losses_other": 0,
+        "notes": "Los IA 58 Pucará argentinos operaron desde Puerto Argentino. 8 fueron destruidos en combate por Sea Harriers (4 en tierra, 4 en vuelo). Sin victorias aéreas confirmadas."
+      }
+    ],
+    "notes": "Avión de COIN argentino que combatió en Malvinas. Fue el principal avión de ataque terrestre argentino en el conflicto.",
+    "source_note": "Argentine Air Force records. 'Pucará: The Argentine COIN Aircraft'."
+  },
+  {
+    "id": "su33",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 1,
+    "losses_total": 1,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "Un Su-33 ruso se perdió en un accidente de apontaje en el Admiral Kuznetsov en 2016 durante la campaña en Siria. No hubo pérdidas en combate."
+      }
+    ],
+    "notes": "Caza naval ruso, única pérdida registrada es un accidente operacional. Sin combate aéreo real.",
+    "source_note": "Russian MoD. Oryx."
+  },
+  {
+    "id": "f89",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Interceptor del NORAD armado con misiles nucleares AIR-2 Genie. Nunca entró en combate real."
+      }
+    ],
+    "notes": "Primer interceptor con capacidad nuclear. Nunca disparó en combate.",
+    "source_note": "USAF records."
+  },
+  {
+    "id": "f3h",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Caza naval precursor del F-4 Phantom. Sin historial de combate real."
+      }
+    ],
+    "notes": "Precursor del F-4 Phantom. No entró en combate significativo.",
+    "source_note": "US Navy records."
+  },
+  {
+    "id": "f2h",
+    "kills_total": 3,
+    "losses_combat": 10,
+    "losses_ground": 20,
+    "losses_total": 30,
+    "kill_ratio": 0.3,
+    "conflicts": [
+      {
+        "id": "korea",
+        "kills": 3,
+        "losses_aa": 10,
+        "losses_other": 20,
+        "notes": "El F2H Banshee fue utilizado en misiones de ataque a tierra y reconocimiento en Corea. Se le atribuyen 3 derribos de aviones norcoreanos (Po-2). Sufrió pérdidas por AAA."
+      }
+    ],
+    "notes": "Caza naval de la Armada de EE.UU. en Corea. Obtuvo algunas victorias contra aviones de hélice.",
+    "source_note": "US Navy records. Korean War Air Combat."
+  },
+  {
+    "id": "rf101",
+    "kills_total": 0,
+    "losses_combat": 31,
+    "losses_ground": 0,
+    "losses_total": 31,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 31,
+        "losses_other": 0,
+        "notes": "El RF-101 Voodoo fue el principal avión de reconocimiento de la USAF en los primeros años de Vietnam. Perdió 31 unidades, la mayoría por fuego antiaéreo y SAM. Sin victorias aéreas."
+      },
+      {
+        "id": "cuba_missile",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Realizó misiones de reconocimiento sobre Cuba durante la Crisis de los Misiles sin pérdidas."
+      }
+    ],
+    "notes": "Avión de reconocimiento supersónico, pionero en misiones de bajo nivel en Vietnam.",
+    "source_note": "USAF records. 'RF-101 Voodoo in Vietnam'."
+  },
+  {
+    "id": "a3",
+    "kills_total": 0,
+    "losses_combat": 2,
+    "losses_ground": 5,
+    "losses_total": 7,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 5,
+        "notes": "El A-3 Skywarrior fue utilizado en misiones de bombardeo, guerra electrónica y reconocimiento. Perdió 7 unidades en Vietnam, la mayoría por accidentes y AAA. Sin victorias aéreas."
+      }
+    ],
+    "notes": "Bombardero estratégico embarcado, el avión más pesado en operar desde portaaviones en su época.",
+    "source_note": "US Navy records. 'A-3 Skywarrior in Vietnam'."
+  },
+  {
+    "id": "q5",
+    "kills_total": 0,
+    "losses_combat": 2,
+    "losses_ground": 5,
+    "losses_total": 7,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 5,
+        "notes": "El Q-5 Fantan chino fue utilizado en la guerra sino-vietnamita de 1979. Se reportan pérdidas por AAA, pero sin victorias aéreas confirmadas."
+      }
+    ],
+    "notes": "Avión de ataque chino derivado del MiG-19. Utilizado en el conflicto con Vietnam.",
+    "source_note": "PLA Air Force records."
+  },
+  {
+    "id": "hf24",
+    "kills_total": 0,
+    "losses_combat": 1,
+    "losses_ground": 2,
+    "losses_total": 3,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "india_pakistan",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 2,
+        "notes": "El HF-24 Marut indio participó en la guerra de 1971. Se le atribuyen misiones de ataque exitosas, pero sin victorias aéreas. Perdió 3 unidades por AAA y un derribo por un F-104 paquistaní."
+      }
+    ],
+    "notes": "Primer caza diseñado en India. Demostró ser un excelente avión de ataque a tierra.",
+    "source_note": "Indian Air Force records. 'HF-24 Marut: India's First Fighter'."
+  },
+  {
+    "id": "p2",
+    "kills_total": 0,
+    "losses_combat": 1,
+    "losses_ground": 0,
+    "losses_total": 1,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "korea",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 0,
+        "notes": "Un P-2 Neptune de la Armada de EE.UU. fue derribado por un MiG-15 norcoreano en 1952. Sin victorias aéreas."
+      },
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Misiones de espionaje de la CIA sobre la URSS. Un RB-69 fue derribado sobre Ucrania en 1960."
+      }
+    ],
+    "notes": "Avión de patrulla marítima también utilizado por la CIA para misiones de espionaje.",
+    "source_note": "US Navy and CIA records."
+  },
+  {
+    "id": "s2",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "El S-2 Tracker realizó misiones ASW en el Golfo de Tonkín. Sin pérdidas en combate ni victorias aéreas."
+      }
+    ],
+    "notes": "Principal avión ASW embarcado de la Armada de EE.UU. en los años 60.",
+    "source_note": "US Navy records."
+  },
+  {
+    "id": "e1",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "El E-1 Tracer proporcionó cobertura de alerta temprana a la flota en el Golfo de Tonkín. Sin pérdidas ni victorias."
+      }
+    ],
+    "notes": "Precursor del E-2 Hawkeye, primer AEW embarcado de la Armada.",
+    "source_note": "US Navy records."
+  },
+  {
+    "id": "g91",
+    "kills_total": 0,
+    "losses_combat": 10,
+    "losses_ground": 15,
+    "losses_total": 25,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "portuguese_colonial",
+        "kills": 0,
+        "losses_aa": 10,
+        "losses_other": 15,
+        "notes": "Los G.91 portugueses fueron utilizados en Angola, Mozambique y Guinea-Bisáu. Sufrieron pérdidas por fuego antiaéreo ligero, pero demostraron gran efectividad en COIN. Sin victorias aéreas."
+      }
+    ],
+    "notes": "Cazabombardero ligero italiano, muy efectivo en misiones de contrainsurgencia.",
+    "source_note": "Portuguese Air Force records."
+  },
+  {
+    "id": "mi6",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "afghanistan",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "El Mi-6 Hook fue utilizado para transporte pesado en Afganistán. Sin pérdidas en combate registradas."
+      }
+    ],
+    "notes": "Helicóptero de transporte pesado soviético, el más grande de su época.",
+    "source_note": "Soviet Air Force records."
+  },
+  {
+    "id": "scout",
+    "kills_total": 0,
+    "losses_combat": 2,
+    "losses_ground": 1,
+    "losses_total": 3,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "falklands",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 1,
+        "notes": "Los Westland Wasp de la Royal Navy realizaron misiones ASW en Malvinas. Dos fueron destruidos por AAA argentina y uno por accidente. Sin victorias aéreas."
+      }
+    ],
+    "notes": "Helicóptero ligero británico utilizado en Malvinas y Borneo.",
+    "source_note": "Royal Navy records."
+  },
+  {
+    "id": "tu142",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Avión de patrulla antisubmarina soviético. Realizó misiones de vigilancia sin combate."
+      }
+    ],
+    "notes": "Versión ASW del Tu-95, el avión de patrulla marítima más grande del mundo.",
+    "source_note": "Soviet Navy records."
+  },
+  {
+    "id": "yak28",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Cazabombardero soviético utilizado en Europa Oriental. Sin combate real."
+      }
+    ],
+    "notes": "Cazabombardero soviético de la era de la Guerra Fría.",
+    "source_note": "Soviet Air Force records."
+  },
+  {
+    "id": "su15",
+    "kills_total": 1,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 1,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "El 1 de septiembre de 1983, un Su-15 derribó el vuelo 007 de Korean Air Lines, causando 269 muertes. Fue la única victoria aérea registrada del Su-15."
+      }
+    ],
+    "notes": "Interceptor soviético famoso por derribar el vuelo 007 de Korean Air Lines.",
+    "source_note": "Soviet PVO records. ICAO investigation."
+  },
+  {
+    "id": "tu128",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Interceptor pesado soviético, el caza más grande en servicio. Nunca entró en combate real."
+      }
+    ],
+    "notes": "El caza más grande jamás construido, diseñado para interceptar bombarderos estratégicos.",
+    "source_note": "Soviet PVO records."
+  },
+  {
+    "id": "be12",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Avión anfibio de patrulla marítima soviético. Realizó misiones ASW sin combate."
+      }
+    ],
+    "notes": "Avión anfibio ASW soviético, el más grande en servicio militar.",
+    "source_note": "Soviet Navy records."
+  },
+  {
+    "id": "jh7",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Cazabombardero naval chino. Sin historial de combate real documentado.",
+    "source_note": "PLA Navy records."
+  },
+  {
+    "id": "y20",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Transporte estratégico chino. Sin historial de combate.",
+    "source_note": "PLA Air Force records."
+  },
+  {
+    "id": "kj2000",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "AWACS chino basado en Il-76. Sin historial de combate.",
+    "source_note": "PLA Air Force records."
+  },
+  {
+    "id": "dhruv",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 2,
+    "losses_total": 2,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Helicóptero utilitario indio. Varios accidentes operacionales, sin combate real.",
+    "source_note": "Indian Air Force records."
+  },
+  {
+    "id": "rudra",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Helicóptero de ataque indio derivado del Dhruv. Sin historial de combate documentado.",
+    "source_note": "Indian Air Force records."
+  },
+  {
+    "id": "saab32",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Cazabombardero sueco utilizado para defensa aérea. Sin combate real."
+      }
+    ],
+    "notes": "Cazabombardero sueco de la era de la Guerra Fría.",
+    "source_note": "Swedish Air Force records."
+  },
+  {
+    "id": "f7u",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Caza naval experimental. Sin historial de combate.",
+    "source_note": "US Navy records."
+  },
+  {
+    "id": "f11f",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Caza naval supersónico. Sin combate real, utilizado por el Blue Angels.",
+    "source_note": "US Navy records."
+  },
+  {
+    "id": "a4",
+    "kills_total": 0,
+    "losses_combat": 350,
+    "losses_ground": 150,
+    "losses_total": 500,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 270,
+        "losses_other": 100,
+        "notes": "Principal bombardero ligero de la US Navy en Vietnam. Realizó más de 200.000 salidas. Sin victorias aéreas confirmadas, pero fue víctima frecuente de MiG-17 y AAA."
+      },
+      {
+        "id": "yom_kippur",
+        "kills": 0,
+        "losses_aa": 50,
+        "losses_other": 30,
+        "notes": "La Fuerza Aérea Israelí usó A-4 en ataques contra fuerzas egipcias y sirias, sufriendo pérdidas por misiles SA-6."
+      },
+      {
+        "id": "falklands",
+        "kills": 0,
+        "losses_aa": 10,
+        "losses_other": 20,
+        "notes": "La Armada Argentina usó A-4Q Skyhawk para atacar la flota británica. Hundieron la fragata HMS Ardent. Perdieron 10 en combate aéreo y 20 por AAA y accidentes."
+      }
+    ],
+    "notes": "Avión de ataque ligero sin capacidad A-A significativa. Las pérdidas reflejan la intensidad de su uso en misiones de ataque a baja altitud.",
+    "source_note": "US Navy, Israeli Air Force, Argentine Air Force records."
+  },
+  {
+    "id": "a6",
+    "kills_total": 0,
+    "losses_combat": 10,
+    "losses_ground": 20,
+    "losses_total": 30,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 8,
+        "losses_other": 15,
+        "notes": "Avión de ataque todo tiempo. Sufrió pérdidas por SAM y AAA. Sin victorias aéreas."
+      },
+      {
+        "id": "gulf_war",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 5,
+        "notes": "Realizó misiones de ataque de precisión. 2 pérdidas en combate."
+      }
+    ],
+    "notes": "Avión de ataque embarcado sin capacidad A-A. Especializado en penetración a baja altitud.",
+    "source_note": "US Navy records."
+  },
+  {
+    "id": "ah1",
+    "kills_total": 0,
+    "losses_combat": 300,
+    "losses_ground": 100,
+    "losses_total": 400,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 200,
+        "losses_other": 50,
+        "notes": "Primer helicóptero de ataque dedicado. Sufrió pérdidas por AAA y MANPADS."
+      },
+      {
+        "id": "iran_iraq",
+        "kills": 0,
+        "losses_aa": 50,
+        "losses_other": 30,
+        "notes": "Irán usó AH-1J SeaCobra en combate contra helicópteros Mi-24. Pérdidas significativas."
+      },
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 20,
+        "losses_other": 50,
+        "notes": "USMC utilizó AH-1W en Irak y Afganistán. Pérdidas por fuego terrestre."
+      }
+    ],
+    "notes": "Helicóptero de ataque. Sin victorias aéreas A-A confirmadas, aunque enfrentó otros helicópteros en Irán-Irak.",
+    "source_note": "USMC, Iranian Air Force records."
+  },
+  {
+    "id": "ah64",
+    "kills_total": 0,
+    "losses_combat": 50,
+    "losses_ground": 50,
+    "losses_total": 100,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gulf_war",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Destruyó numerosos tanques iraquíes. Sin pérdidas en combate aéreo."
+      },
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 20,
+        "losses_other": 30,
+        "notes": "Muy efectivo en CAS. Pérdidas por MANPADS y fuego terrestre."
+      },
+      {
+        "id": "iraq",
+        "kills": 0,
+        "losses_aa": 5,
+        "losses_other": 10,
+        "notes": "En Iraqi Freedom, 29 de 30 Apache dañados por fuego de armas ligeras en una incursión."
+      }
+    ],
+    "notes": "Helicóptero de ataque avanzado. Sin victorias A-A documentadas.",
+    "source_note": "US Army, USMC records."
+  },
+  {
+    "id": "an225",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 1,
+    "losses_total": 1,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 1,
+        "notes": "El único An-225 Mriya fue destruido en el aeropuerto de Hostomel en febrero de 2022 durante la invasión rusa."
+      }
+    ],
+    "notes": "Avión de transporte ultragrande, sin capacidad de combate. Destruido en tierra.",
+    "source_note": "Antonov, Ukrainian MoD."
+  },
+  {
+    "id": "buccaneer",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gulf_war",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Los Buccaneer de la RAF participaron en la Tormenta del Desierto designando objetivos con láser. Sin pérdidas en combate."
+      }
+    ],
+    "notes": "Avión de ataque naval británico. Sin historial de combate A-A.",
+    "source_note": "RAF records."
+  },
+  {
+    "id": "c2",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Misiones de reabastecimiento a portaaviones. Sin pérdidas en combate."
+      }
+    ],
+    "notes": "Avión de transporte embarcado COD. Sin capacidad de combate.",
+    "source_note": "US Navy."
+  },
+  {
+    "id": "c5",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Transporte masivo de material y tropas."
+      }
+    ],
+    "notes": "Transporte estratégico sin capacidad de combate.",
+    "source_note": "USAF."
+  },
+  {
+    "id": "c202",
+    "kills_total": 10,
+    "losses_combat": 50,
+    "losses_ground": 30,
+    "losses_total": 80,
+    "kill_ratio": 0.2,
+    "conflicts": [
+      {
+        "id": "wwii_africa",
+        "kills": 8,
+        "losses_aa": 40,
+        "losses_other": 20,
+        "notes": "Operó en el norte de África enfrentándose a P-40 y Spitfire. Muy apreciado por su maniobrabilidad."
+      },
+      {
+        "id": "wwii_europe",
+        "kills": 2,
+        "losses_aa": 10,
+        "losses_other": 10,
+        "notes": "Defendió Italia de los bombardeos aliados después de 1943."
+      }
+    ],
+    "notes": "Considerado el mejor caza italiano de la SGM. Superado por la superioridad numérica aliada.",
+    "source_note": "Italian Air Force records."
+  },
+  {
+    "id": "c205",
+    "kills_total": 15,
+    "losses_combat": 40,
+    "losses_ground": 20,
+    "losses_total": 60,
+    "kill_ratio": 0.38,
+    "conflicts": [
+      {
+        "id": "wwii_africa",
+        "kills": 5,
+        "losses_aa": 20,
+        "losses_other": 10,
+        "notes": "Entró en servicio en el norte de África en 1943."
+      },
+      {
+        "id": "wwii_europe",
+        "kills": 10,
+        "losses_aa": 20,
+        "losses_other": 10,
+        "notes": "Participó en la defensa de Italia hasta el final de la guerra."
+      }
+    ],
+    "notes": "Último caza italiano de pistón, comparable al Bf 109G. Pilotos aliados lo consideraban peligroso.",
+    "source_note": "Italian Air Force records."
+  },
+  {
+    "id": "canberra",
+    "kills_total": 0,
+    "losses_combat": 20,
+    "losses_ground": 10,
+    "losses_total": 30,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "suez",
+        "kills": 0,
+        "losses_aa": 5,
+        "losses_other": 0,
+        "notes": "Canberras de la RAF bombardearon bases egipcias. Pérdidas por AAA."
+      },
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 10,
+        "losses_other": 5,
+        "notes": "B-57 Canberras de la USAF realizaron bombardeos nocturnos. Pérdidas por AAA y SAM."
+      },
+      {
+        "id": "falklands",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Canberras PR.9 de la RAF realizaron misiones de reconocimiento sin pérdidas."
+      }
+    ],
+    "notes": "Bombardero ligero a reacción. Sin victorias aéreas.",
+    "source_note": "RAF, USAF records."
+  },
+  {
+    "id": "ch47",
+    "kills_total": 0,
+    "losses_combat": 150,
+    "losses_ground": 100,
+    "losses_total": 250,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 100,
+        "losses_other": 50,
+        "notes": "Principal helicóptero de carga del Ejército. Pérdidas por AAA y MANPADS."
+      },
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 30,
+        "losses_other": 50,
+        "notes": "Operaciones extensivas en Afganistán e Irak. Pérdidas por fuego terrestre."
+      }
+    ],
+    "notes": "Helicóptero de transporte pesado. Sin capacidad de combate A-A.",
+    "source_note": "US Army records."
+  },
+  {
+    "id": "ch53",
+    "kills_total": 0,
+    "losses_combat": 20,
+    "losses_ground": 10,
+    "losses_total": 30,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 10,
+        "losses_other": 5,
+        "notes": "Utilizado para recuperar aviones derribados. Pérdidas por AAA."
+      },
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 5,
+        "losses_other": 10,
+        "notes": "Transporte de suministros en Irak y Afganistán."
+      }
+    ],
+    "notes": "Helicóptero de transporte pesado naval. Sin victorias A-A.",
+    "source_note": "US Navy, USMC."
+  },
+  {
+    "id": "e2",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Proporcionó control aéreo sobre el Golfo de Tonkín."
+      }
+    ],
+    "notes": "Avión AEW sin capacidad de combate ofensivo.",
+    "source_note": "US Navy."
+  },
+  {
+    "id": "f105",
+    "kills_total": 27.5,
+    "losses_combat": 334,
+    "losses_ground": 48,
+    "losses_total": 382,
+    "kill_ratio": 0.08,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 27.5,
+        "losses_aa": 334,
+        "losses_other": 48,
+        "notes": "Fue el avión más activo en Rolling Thunder. De los 833 construidos, 382 se perdieron en combate. Realizó misiones Wild Weasel contra radares SAM."
+      }
+    ],
+    "notes": "El 'Thud' sufrió la tasa de pérdidas más alta de la USAF en Vietnam.",
+    "source_note": "USAF Southeast Asia Monographs."
+  },
+  {
+    "id": "f8",
+    "kills_total": 19,
+    "losses_combat": 10,
+    "losses_ground": 20,
+    "losses_total": 30,
+    "kill_ratio": 1.9,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 19,
+        "losses_aa": 10,
+        "losses_other": 20,
+        "notes": "Obtuvo la mayoría de las victorias aéreas de la Armada en Vietnam (más de 15 derribos de MiG-17 y MiG-21)."
+      }
+    ],
+    "notes": "Apodado 'The Last Gunfighter', fue el último caza naval con cañones como armamento principal.",
+    "source_note": "US Navy records."
+  },
+  {
+    "id": "f9f",
+    "kills_total": 8,
+    "losses_combat": 20,
+    "losses_ground": 50,
+    "losses_total": 70,
+    "kill_ratio": 0.4,
+    "conflicts": [
+      {
+        "id": "korea",
+        "kills": 8,
+        "losses_aa": 20,
+        "losses_other": 50,
+        "notes": "Fue el primer avión de la Armada en derribar un MiG-15 (3 de julio de 1951). Realizó miles de misiones de ataque a tierra."
+      }
+    ],
+    "notes": "Primer caza a reacción embarcado de la US Navy en entrar en combate.",
+    "source_note": "US Navy records."
+  },
+  {
+    "id": "g4m",
+    "kills_total": 0,
+    "losses_combat": 1000,
+    "losses_ground": 500,
+    "losses_total": 1500,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "wwii_pacific",
+        "kills": 0,
+        "losses_aa": 1000,
+        "losses_other": 500,
+        "notes": "Conocido como 'el cigarro volador' por su vulnerabilidad al fuego. Participó en el ataque que hundió el HMS Prince of Wales y el HMS Repulse."
+      }
+    ],
+    "notes": "Bombardero japonés de largo alcance. Sufrió enormes pérdidas por su falta de blindaje.",
+    "source_note": "Japanese Navy records."
+  },
+  {
+    "id": "hawk",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Utilizado por Canadá y otros países en misiones de apoyo aéreo en Afganistán. Sin combate A-A."
+      }
+    ],
+    "notes": "Entrenador avanzado y ataque ligero. Sin historial de combate A-A.",
+    "source_note": "Various air forces."
+  },
+  {
+    "id": "he111",
+    "kills_total": 0,
+    "losses_combat": 1000,
+    "losses_ground": 500,
+    "losses_total": 1500,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 0,
+        "losses_aa": 1000,
+        "losses_other": 500,
+        "notes": "Protagonista de la Batalla de Inglaterra, donde sufrió grandes pérdidas."
+      }
+    ],
+    "notes": "Bombardero medio alemán. Sin capacidad de combate A-A.",
+    "source_note": "Luftwaffe records."
+  },
+  {
+    "id": "he162",
+    "kills_total": 0,
+    "losses_combat": 10,
+    "losses_ground": 50,
+    "losses_total": 60,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 0,
+        "losses_aa": 10,
+        "losses_other": 50,
+        "notes": "Entró en servicio en abril de 1945. Solo se registraron algunos combates, con resultados limitados."
+      }
+    ],
+    "notes": "Caza a reacción ligero alemán. Tuvo poco impacto debido a la situación de la guerra.",
+    "source_note": "Luftwaffe records."
+  },
+  {
+    "id": "heron",
+    "kills_total": 0,
+    "losses_combat": 20,
+    "losses_ground": 10,
+    "losses_total": 30,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 10,
+        "losses_other": 5,
+        "notes": "Utilizado por la OTAN en Afganistán para misiones ISR."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 10,
+        "losses_other": 5,
+        "notes": "Ucrania ha recibido Heron para misiones de reconocimiento. Pérdidas por fuego ruso."
+      }
+    ],
+    "notes": "Drone MALE israelí. Sin capacidad de combate A-A.",
+    "source_note": "IAI, Ukrainian MoD."
+  },
+  {
+    "id": "il76",
+    "kills_total": 0,
+    "losses_combat": 5,
+    "losses_ground": 10,
+    "losses_total": 15,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "afghanistan",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 3,
+        "notes": "Realizó miles de misiones de transporte. Pérdidas por Stinger."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 3,
+        "losses_other": 7,
+        "notes": "Ampliamente utilizado por ambos bandos. Varios derribados o destruidos en tierra."
+      }
+    ],
+    "notes": "Transporte estratégico soviético/ruso. Sin capacidad de combate.",
+    "source_note": "Soviet Air Force, Oryx."
+  },
+  {
+    "id": "j36",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Proyecto de caza de sexta generación chino. Sin historial de combate.",
+    "source_note": "PLA Air Force (concept)."
+  },
+  {
+    "id": "jf17",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "india_pakistan",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Participó en la crisis de 2019, sin derribos confirmados."
+      }
+    ],
+    "notes": "Caza ligero pakistaní-chino. Sin victorias A-A confirmadas.",
+    "source_note": "PAF records."
+  },
+  {
+    "id": "ju88",
+    "kills_total": 0,
+    "losses_combat": 2000,
+    "losses_ground": 1000,
+    "losses_total": 3000,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 0,
+        "losses_aa": 2000,
+        "losses_other": 1000,
+        "notes": "Uno de los aviones más versátiles de la Luftwaffe. Sufrió grandes pérdidas."
+      }
+    ],
+    "notes": "Bombardero medio alemán. Sin capacidad de combate A-A significativa.",
+    "source_note": "Luftwaffe records."
+  },
+  {
+    "id": "ka50",
+    "kills_total": 0,
+    "losses_combat": 2,
+    "losses_ground": 3,
+    "losses_total": 5,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "chechnya",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 1,
+        "notes": "Usado en Chechenia en 2000-2001."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 1,
+        "losses_other": 2,
+        "notes": "Utilizado en la invasión rusa, sufriendo pérdidas por MANPADS."
+      }
+    ],
+    "notes": "Helicóptero de ataque con rotores coaxiales. Sin victorias A-A confirmadas.",
+    "source_note": "Russian MoD, Oryx."
+  },
+  {
+    "id": "ka52",
+    "kills_total": 0,
+    "losses_combat": 40,
+    "losses_ground": 20,
+    "losses_total": 60,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 2,
+        "notes": "Desplegado en Siria desde 2015. Pérdidas por accidentes."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 40,
+        "losses_other": 18,
+        "notes": "Ampliamente utilizado en la invasión, con pérdidas importantes debido a MANPADS y fuego antiaéreo. Es el helicóptero ruso más derribado en Ucrania."
+      }
+    ],
+    "notes": "Helicóptero de ataque con radar mástil. Pérdidas elevadas en Ucrania.",
+    "source_note": "Russian MoD, Oryx."
+  },
+  {
+    "id": "kfir",
+    "kills_total": 5,
+    "losses_combat": 3,
+    "losses_ground": 10,
+    "losses_total": 13,
+    "kill_ratio": 1.67,
+    "conflicts": [
+      {
+        "id": "lebanon",
+        "kills": 5,
+        "losses_aa": 3,
+        "losses_other": 10,
+        "notes": "Utilizado en la invasión de Líbano en 1982, derribó MiG-21 y MiG-23."
+      }
+    ],
+    "notes": "Caza israelí derivado del Mirage 5. Exitoso en combate aéreo.",
+    "source_note": "Israeli Air Force records."
+  },
+  {
+    "id": "ki84",
+    "kills_total": 0,
+    "losses_combat": 100,
+    "losses_ground": 200,
+    "losses_total": 300,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "wwii_pacific",
+        "kills": 0,
+        "losses_aa": 100,
+        "losses_other": 200,
+        "notes": "Participó en la defensa de Filipinas, Okinawa y Japón. Demostró superioridad sobre P-51 en combate cerrado, pero los problemas de fiabilidad limitaron su efectividad."
+      }
+    ],
+    "notes": "Considerado el mejor caza japonés de la SGM. Problemas de calidad por escasez de materiales.",
+    "source_note": "Japanese Air Force records."
+  },
+  {
+    "id": "kikka",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "wwii_pacific",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "El prototipo voló el 7 de agosto de 1945. Nunca entró en combate."
+      }
+    ],
+    "notes": "Primer avión a reacción japonés. No alcanzó estado operativo.",
+    "source_note": "Japanese Navy records."
+  },
+  {
+    "id": "lavi",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Caza israelí cancelado en 1987. Solo 3 prototipos volaron. Sin historial de combate.",
+    "source_note": "IAI records."
+  },
+  {
+    "id": "lynx",
+    "kills_total": 0,
+    "losses_combat": 2,
+    "losses_ground": 3,
+    "losses_total": 5,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "falklands",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 1,
+        "notes": "Lynx de la Royal Navy hundieron el ARA Río Carcarañá con misiles Sea Skua. Pérdidas por AAA."
+      }
+    ],
+    "notes": "Helicóptero naval británico. Sin victorias A-A.",
+    "source_note": "Royal Navy records."
+  },
+  {
+    "id": "m346",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Entrenador avanzado italiano. Sin historial de combate.",
+    "source_note": "Leonardo."
+  },
+  {
+    "id": "mi8",
+    "kills_total": 0,
+    "losses_combat": 300,
+    "losses_ground": 200,
+    "losses_total": 500,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "afghanistan",
+        "kills": 0,
+        "losses_aa": 100,
+        "losses_other": 50,
+        "notes": "Principal helicóptero de transporte soviético, sufrió pérdidas por Stingers."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 100,
+        "losses_other": 50,
+        "notes": "Utilizado por ambos bandos; numerosos derribos por MANPADS."
+      }
+    ],
+    "notes": "Helicóptero de transporte más producido de la historia. Sin capacidad de combate A-A.",
+    "source_note": "Soviet Air Force, Oryx."
+  },
+  {
+    "id": "mi17",
+    "kills_total": 0,
+    "losses_combat": 150,
+    "losses_ground": 100,
+    "losses_total": 250,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 100,
+        "losses_other": 50,
+        "notes": "Ampliamente utilizado por ambas partes, con pérdidas significativas."
+      }
+    ],
+    "notes": "Versión de exportación del Mi-8. Sin capacidad de combate A-A.",
+    "source_note": "Oryx."
+  },
+  {
+    "id": "mi24",
+    "kills_total": 0,
+    "losses_combat": 100,
+    "losses_ground": 50,
+    "losses_total": 150,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "afghanistan",
+        "kills": 0,
+        "losses_aa": 50,
+        "losses_other": 20,
+        "notes": "Principal helicóptero de ataque soviético, sufrió pérdidas por Stingers."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 30,
+        "losses_other": 20,
+        "notes": "Ampliamente utilizado por ambas partes, con pérdidas significativas."
+      }
+    ],
+    "notes": "Helicóptero de ataque y transporte. Sin victorias A-A confirmadas.",
+    "source_note": "Soviet Air Force, Oryx."
+  },
+  {
+    "id": "mq1",
+    "kills_total": 0,
+    "losses_combat": 20,
+    "losses_ground": 10,
+    "losses_total": 30,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 20,
+        "losses_other": 10,
+        "notes": "Pionero en ataques con UAV en Afganistán, Irak y Yemen. Pérdidas por AAA y accidentes."
+      }
+    ],
+    "notes": "Primer UAV de combate en operaciones regulares. Sin victorias A-A.",
+    "source_note": "USAF records."
+  },
+  {
+    "id": "mq9",
+    "kills_total": 0,
+    "losses_combat": 10,
+    "losses_ground": 5,
+    "losses_total": 15,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 5,
+        "losses_other": 2,
+        "notes": "Realizó miles de misiones de ataque en Afganistán, Irak, Yemen y Somalia."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 5,
+        "losses_other": 3,
+        "notes": "Ucrania ha recibido MQ-9 para misiones de reconocimiento y ataque. Pérdidas por fuego ruso."
+      }
+    ],
+    "notes": "UAV de ataque MALE. Sin victorias A-A.",
+    "source_note": "USAF, Ukrainian MoD."
+  },
+  {
+    "id": "p3",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Misiones de vigilancia y guerra antisubmarina."
+      }
+    ],
+    "notes": "Avión de patrulla marítima ASW. Sin capacidad de combate A-A.",
+    "source_note": "US Navy."
+  },
+  {
+    "id": "p8",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Vigilancia marítima en el Golfo Pérsico y el Índico."
+      }
+    ],
+    "notes": "Avión de patrulla marítima de nueva generación. Sin historial de combate A-A.",
+    "source_note": "US Navy."
+  },
+  {
+    "id": "qaher313",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Supuesto caza furtivo iraní, considerado por analistas como un modelo de propaganda incapaz de volar. Sin historial de combate.",
+    "source_note": "HESA."
+  },
+  {
+    "id": "rq7",
+    "kills_total": 0,
+    "losses_combat": 20,
+    "losses_ground": 10,
+    "losses_total": 30,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 20,
+        "losses_other": 10,
+        "notes": "Amplio uso en Afganistán e Irak para vigilancia. Pérdidas por AAA y accidentes."
+      }
+    ],
+    "notes": "UAV táctico de corto alcance. Sin capacidad de combate.",
+    "source_note": "US Army records."
+  },
+  {
+    "id": "saab35",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Realizó misiones de intercepción y defensa aérea durante la Guerra Fría."
+      }
+    ],
+    "notes": "Caza sueco de ala delta. Sin historial de combate real.",
+    "source_note": "Swedish Air Force."
+  },
+  {
+    "id": "saab37",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "coldwar_patrols",
+        "kills": 0,
+        "losses_aa": 0,
+        "losses_other": 0,
+        "notes": "Defensa aérea sueca, interceptando aviones soviéticos. Nunca entró en combate real."
+      }
+    ],
+    "notes": "Caza sueco STOL. Sin historial de combate real.",
+    "source_note": "Swedish Air Force."
+  },
+  {
+    "id": "searcher",
+    "kills_total": 0,
+    "losses_combat": 10,
+    "losses_ground": 5,
+    "losses_total": 15,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "gwot",
+        "kills": 0,
+        "losses_aa": 5,
+        "losses_other": 2,
+        "notes": "Utilizado por la coalición en Irak y Afganistán para vigilancia."
+      }
+    ],
+    "notes": "UAV táctico israelí. Sin capacidad de combate.",
+    "source_note": "IAI."
+  },
+  {
+    "id": "shahed136",
+    "kills_total": 0,
+    "losses_combat": 100,
+    "losses_ground": 50,
+    "losses_total": 150,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 100,
+        "losses_other": 50,
+        "notes": "Ampliamente utilizado por Rusia desde 2022 para atacar infraestructura energética. Cientos han sido derribados por defensas aéreas ucranianas."
+      }
+    ],
+    "notes": "Drone kamikaze iraní. Sin capacidad de combate A-A.",
+    "source_note": "Ukrainian MoD, Oryx."
+  },
+  {
+    "id": "spitfire_mk1",
+    "kills_total": 800,
+    "losses_combat": 500,
+    "losses_ground": 200,
+    "losses_total": 700,
+    "kill_ratio": 1.6,
+    "conflicts": [
+      {
+        "id": "wwii_europe",
+        "kills": 800,
+        "losses_aa": 500,
+        "losses_other": 200,
+        "notes": "Protagonista de la Batalla de Inglaterra (1940). Superó al Bf 109E en maniobrabilidad."
+      }
+    ],
+    "notes": "Primera versión de producción del Spitfire. Crucial en la Batalla de Inglaterra.",
+    "source_note": "RAF Historical Branch."
+  },
+  {
+    "id": "super_etendard",
+    "kills_total": 0,
+    "losses_combat": 2,
+    "losses_ground": 3,
+    "losses_total": 5,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "falklands",
+        "kills": 0,
+        "losses_aa": 2,
+        "losses_other": 1,
+        "notes": "Con misiles Exocet, hundieron el HMS Sheffield y el Atlantic Conveyor. 2 pérdidas en combate."
+      }
+    ],
+    "notes": "Avión de ataque naval francés. Sin victorias A-A.",
+    "source_note": "Argentine Air Force records."
+  },
+  {
+    "id": "t38",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Entrenador a reacción supersónico. Sin historial de combate.",
+    "source_note": "USAF."
+  },
+  {
+    "id": "tb2",
+    "kills_total": 0,
+    "losses_combat": 50,
+    "losses_ground": 30,
+    "losses_total": 80,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "syria",
+        "kills": 0,
+        "losses_aa": 10,
+        "losses_other": 5,
+        "notes": "Utilizado por Turquía en operaciones contra fuerzas kurdas y sirias."
+      },
+      {
+        "id": "libya",
+        "kills": 0,
+        "losses_aa": 5,
+        "losses_other": 2,
+        "notes": "Apoyó al Gobierno de Acuerdo Nacional."
+      },
+      {
+        "id": "nagorno_karabakh",
+        "kills": 0,
+        "losses_aa": 10,
+        "losses_other": 5,
+        "notes": "Azerbaiyán usó TB2 para destruir sistemas de defensa aérea armenios."
+      },
+      {
+        "id": "ukraine",
+        "kills": 0,
+        "losses_aa": 20,
+        "losses_other": 10,
+        "notes": "Ampliamente utilizado por Ucrania desde 2022. Pérdidas por defensas aéreas rusas."
+      }
+    ],
+    "notes": "UAV de ataque turco. Sin victorias A-A, pero muy efectivo contra objetivos terrestres.",
+    "source_note": "Baykar, Ukrainian MoD."
+  },
+  {
+    "id": "uh1",
+    "kills_total": 0,
+    "losses_combat": 2000,
+    "losses_ground": 1000,
+    "losses_total": 3000,
+    "kill_ratio": null,
+    "conflicts": [
+      {
+        "id": "vietnam",
+        "kills": 0,
+        "losses_aa": 2000,
+        "losses_other": 1000,
+        "notes": "Fue el caballo de batalla de la guerra, transportando tropas y evacuando heridos. Más de 7.000 Huey sirvieron en Vietnam, con pérdidas significativas por AAA y fuego terrestre."
+      }
+    ],
+    "notes": "Helicóptero utilitario emblemático de Vietnam. Sin victorias A-A.",
+    "source_note": "US Army records."
+  },
+  {
+    "id": "yak130",
+    "kills_total": 0,
+    "losses_combat": 0,
+    "losses_ground": 0,
+    "losses_total": 0,
+    "kill_ratio": null,
+    "conflicts": [],
+    "notes": "Entrenador avanzado ruso. Sin historial de combate real.",
+    "source_note": "Yakovlev."
+  }
+]

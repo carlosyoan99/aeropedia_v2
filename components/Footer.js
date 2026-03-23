@@ -4,7 +4,6 @@
  * aparece flotando en la esquina inferior derecha con Inicio, Favoritos y Subir.
  */
 
-import { router } from '../router/index.js';
 import { store }  from '../store/index.js';
 import { prefs, applyThemeToDom } from '../store/preferences.js';
 
@@ -51,11 +50,7 @@ export class Footer {
           <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd"/>
         </svg>
       </button>
-      <button class="fab-btn" id="fabHome" title="Ir al Archivo" aria-label="Ir al archivo principal">
-        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
-          <path d="M2 11l8-8 8 8v7a1 1 0 01-1 1h-5v-4H6v4H3a1 1 0 01-1-1v-7z"/>
-        </svg>
-      </button>
+
       <button class="fab-btn" id="fabTheme" title="Cambiar tema" aria-label="Cambiar tema">
         <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15" aria-hidden="true">
           <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/>
@@ -85,11 +80,7 @@ export class Footer {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    this.#fab?.querySelector('#fabHome')?.addEventListener('click', () => {
-      router.navigate('/');
-    });
-
-    this.#fab?.querySelector('#fabTheme')?.addEventListener('click', () => {
+this.#fab?.querySelector('#fabTheme')?.addEventListener('click', () => {
       const themes = ['dark', 'light', 'high-contrast'];
       const cur  = prefs.get('display', 'theme') || 'dark';
       const next = themes[(themes.indexOf(cur) + 1) % themes.length];
