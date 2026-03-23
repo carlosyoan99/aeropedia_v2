@@ -7,23 +7,49 @@
 import { store }   from '../store/index.js';
 import { router }  from '../router/index.js';
 import { prefs }   from '../store/preferences.js';
-import { setPageMeta, FALLBACK_IMG, debounce , buildBreadcrumb } from '../utils/index.js';
+import { setPageMeta, FALLBACK_IMG, debounce  } from '../utils/index.js';
 
 // Coordenadas aproximadas por conflicto [cx%, cy%] sobre un mapa Mercator simple
 const CONFLICT_COORDS = {
-  wwii_europe:      [50, 35], wwii_pacific:    [80, 40], wwii_east:       [60, 30],
-  wwii_africa:      [48, 52], spanish_civil_war:[44,40],
-  korea:            [82, 35], vietnam:          [79, 48], suez:           [55, 48],
-  sixday:           [56, 46], yom_kippur:       [56, 46], iran_iraq:      [60, 46],
-  war_of_attrition: [56, 47], falklands:        [38, 78], gulf_war:       [60, 47],
-  desert_storm:     [60, 47], yugoslavia:       [50, 37], kosovo:         [51, 37],
-  india_pakistan:   [68, 45], india_china:      [70, 42], gwot:           [64, 46],
-  iraq:             [60, 46], afghanistan:      [64, 44], syria:          [57, 45],
-  ukraine:          [56, 32], mali:             [44, 53], libya:          [50, 48],
-  chechnya:         [60, 36], somalia:          [58, 57], mozambique:     [56, 65],
-  nagorno_karabakh: [60, 40], ethiopia_tigray:  [56, 54],
-  coldwar_patrols:  [50, 25],
-  panama:           [28, 50],  // Panamá: 8.9°N 79.5°O → posición corregida
+  wwii_europe                  [54.2, 22.2],
+  wwii_pacific                 [91.7, 41.7],
+  wwii_east                    [75.0, 25.0],
+  wwii_africa                  [55.6, 36.1],
+  spanish_civil_war            [49.2, 27.8],
+  korea                        [85.3, 29.4],
+  vietnam                      [79.7, 41.1],
+  india_pakistan               [69.4, 34.4],
+  india_china                  [73.6, 32.2],
+  suez                         [59.2, 33.3],
+  sixday                       [59.7, 32.8],
+  yom_kippur                   [59.7, 32.8],
+  war_of_attrition             [59.2, 33.3],
+  gulf_war                     [63.1, 33.9],
+  desert_storm                 [63.1, 33.9],
+  iran_iraq                    [62.8, 31.7],
+  iraq                         [62.2, 31.7],
+  syria                        [60.6, 30.6],
+  israel_lebanon               [59.7, 31.7],
+  afghanistan                  [68.3, 31.1],
+  gwot                         [68.3, 31.1],
+  yugoslavia                   [55.0, 25.6],
+  kosovo                       [55.8, 26.7],
+  ukraine                      [58.9, 22.8],
+  chechnya                     [62.8, 26.1],
+  mali                         [49.4, 40.6],
+  libya                        [54.7, 35.0],
+  somalia                      [62.5, 46.7],
+  mozambique                   [59.7, 60.0],
+  ethiopia_tigray              [60.6, 42.2],
+  nagorno_karabakh             [63.1, 27.8],
+  rwanda                       [58.3, 51.1],
+  sudanese                     [58.3, 41.7],
+  falklands                    [33.6, 78.9],
+  panama                       [27.8, 45.0],
+  korean_war                   [85.3, 29.4],
+  coldwar_patrols              [50.0, 11.1],
+  portuguese_colonial          [53.9, 56.7],
+  nagorno                      [63.1, 27.8],
 };
 
 const ERA_MAP = {
@@ -78,8 +104,7 @@ export class TheaterView {
         <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
         Volver
       </button>
-        ${buildBreadcrumb('/theater')}
-      <div>
+<div>
         <h1 class="theater-title">
           <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
           Teatro de Operaciones
@@ -159,22 +184,44 @@ export class TheaterView {
 
     // Continentes simplificados (polígonos aproximados)
     const landmasses = [
-      // América del Norte
-      'M 100,50 L 280,50 L 300,80 L 290,150 L 260,200 L 220,220 L 180,200 L 140,180 L 100,130 Z',
+      // América del Norte (más precisa)
+      'M 100,55 L 135,50 L 165,48 L 195,50 L 220,52 L 240,58 L 255,72 L 265,95 L 270,118 L 265,140 L 250,165 L 235,185 L 218,195 L 200,200 L 185,195 L 170,185 L 155,168 L 140,148 L 125,130 L 112,108 L 102,82 Z',
+      // América Central (puente)
+      'M 218,195 L 230,198 L 238,205 L 235,215 L 228,218 L 220,212 L 215,205 Z',
       // América del Sur
-      'M 200,230 L 280,230 L 290,280 L 270,370 L 230,420 L 200,400 L 180,350 L 190,290 Z',
-      // Europa
-      'M 440,50 L 560,50 L 580,80 L 560,120 L 520,130 L 480,120 L 440,110 Z',
-      // África
-      'M 460,150 L 560,150 L 580,200 L 570,310 L 530,380 L 490,390 L 460,350 L 450,260 L 460,200 Z',
-      // Asia
-      'M 560,50 L 900,50 L 920,80 L 900,160 L 860,200 L 800,220 L 730,210 L 650,190 L 590,160 L 560,120 Z',
-      // Asia sur / sureste
-      'M 650,200 L 780,200 L 800,240 L 790,300 L 760,320 L 700,300 L 660,260 Z',
-      // Australia
-      'M 780,310 L 900,310 L 920,360 L 890,400 L 840,410 L 800,390 L 780,360 Z',
+      'M 210,222 L 255,218 L 280,228 L 292,248 L 290,278 L 282,310 L 275,340 L 268,368 L 252,395 L 235,415 L 218,420 L 205,408 L 195,385 L 188,355 L 188,322 L 192,292 L 198,262 L 202,238 Z',
+      // Europa occidental
+      'M 442,58 L 470,50 L 500,48 L 528,52 L 548,62 L 555,80 L 548,100 L 530,115 L 510,122 L 490,118 L 468,110 L 450,95 L 442,78 Z',
+      // Escandinavia
+      'M 475,38 L 495,32 L 512,35 L 520,48 L 508,58 L 490,55 L 478,48 Z',
       // Groenlandia
-      'M 300,30 L 390,30 L 410,60 L 380,90 L 330,80 L 300,60 Z',
+      'M 305,25 L 345,20 L 380,22 L 400,32 L 405,48 L 390,62 L 365,68 L 340,65 L 315,55 L 305,40 Z',
+      // África (forma más fiel)
+      'M 455,148 L 490,140 L 525,142 L 555,148 L 572,168 L 578,195 L 575,225 L 572,255 L 568,285 L 558,315 L 545,348 L 528,375 L 508,392 L 488,398 L 468,390 L 452,368 L 445,338 L 442,305 L 445,272 L 448,238 L 450,208 L 452,178 Z',
+      // Cuerno de África
+      'M 558,250 L 578,245 L 590,255 L 582,270 L 568,272 Z',
+      // Madagascar
+      'M 572,310 L 582,305 L 588,318 L 585,335 L 575,340 L 568,330 Z',
+      // Asia (Eurasia)
+      'M 548,62 L 595,52 L 650,48 L 705,45 L 755,42 L 800,40 L 840,42 L 875,48 L 905,55 L 920,70 L 915,90 L 900,110 L 882,128 L 858,142 L 828,155 L 798,162 L 768,168 L 738,172 L 708,178 L 680,182 L 652,185 L 625,182 L 598,172 L 575,158 L 558,140 L 550,118 L 548,95 Z',
+      // Península Arábiga
+      'M 575,185 L 598,178 L 618,182 L 628,198 L 622,218 L 608,228 L 592,225 L 578,212 Z',
+      // India
+      'M 658,185 L 678,185 L 695,195 L 698,218 L 692,240 L 680,258 L 668,262 L 656,250 L 648,228 L 648,208 Z',
+      // Sudeste asiático
+      'M 730,185 L 758,182 L 780,192 L 788,212 L 782,232 L 762,242 L 742,238 L 728,222 L 725,205 Z',
+      // Japón (simplificado)
+      'M 845,115 L 858,112 L 865,122 L 858,132 L 845,128 Z',
+      // Australia
+      'M 775,318 L 820,308 L 865,310 L 898,325 L 915,348 L 912,375 L 895,398 L 865,412 L 832,418 L 800,412 L 775,392 L 762,368 L 762,342 Z',
+      // Nueva Zelanda (simplificado)
+      'M 928,388 L 935,382 L 940,392 L 935,402 L 928,398 Z',
+      // Islas Británicas
+      'M 445,68 L 455,62 L 465,65 L 468,75 L 460,82 L 450,80 Z',
+      // Península Ibérica
+      'M 438,90 L 460,88 L 472,95 L 470,112 L 455,118 L 440,110 L 435,98 Z',
+      // Cor de Ceilán / Sri Lanka
+      'M 690,248 L 696,244 L 700,250 L 696,258 L 688,255 Z',
     ];
 
     for (const d of landmasses) {

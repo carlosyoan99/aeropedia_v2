@@ -4,7 +4,7 @@
 
 import { store } from '../store/index.js';
 import { router } from '../router/index.js';
-import { formatNumber, formatStat, FALLBACK_IMG, setPageMeta, STAT_META, genBadgeHTML , buildBreadcrumb } from '../utils/index.js';
+import { formatNumber, formatStat, FALLBACK_IMG, setPageMeta, STAT_META, genBadgeHTML  } from '../utils/index.js';
 import { drawRadarChart, drawBarChart } from '../components/Charts.js';
 
 const COMPARE_COLORS = ['#3b82f6', '#f59e0b', '#10b981'];
@@ -47,7 +47,7 @@ export class CompareView {
         <div class="compare-empty-inner">
           <p class="compare-empty-icon">⚖</p>
           <p class="compare-empty-title">Nada que comparar</p>
-          <p class="compare-empty-sub">Selecciona 2 o 3 aeronaves desde la galería para compararlas aquí.</p>
+          <p class="compare-empty-sub">Selecciona 2 o 3 aeronaves desde la galería usando el botón + en cada tarjeta.</p>
           <a href="/" data-link class="btn-back-home">← Ir a la galería</a>
         </div>
       </div>`;
@@ -62,17 +62,15 @@ export class CompareView {
         <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
         Volver
       </button>
-        ${buildBreadcrumb('/compare')}
       <h1 class="compare-title">
         <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
         Comparación de Aeronaves
       </h1>
-      <button id="clearCompareAllBtn" class="btn-cancel" style="margin-left:auto"
-        aria-label="Limpiar comparador">
+      <button id="clearCompareAllBtn" class="btn-cancel compare-clear-btn" aria-label="Limpiar comparador">
         <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true">
           <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
         </svg>
-        Limpiar comparador
+        Limpiar
       </button>
     </div>
 

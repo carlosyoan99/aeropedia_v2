@@ -369,5 +369,54 @@
     "flag": "🇵🇦",
     "color": "#047857",
     "desc": "Operación Just Cause. Participaron F-117 Nighthawk (primer uso en combate), AC-130 Spectre, AH-1 Cobra, AH-64 Apache, UH-60 Black Hawk, CH-47 Chinook, C-130 Hercules, MC-130 Combat Talon, OV-10 Bronco."
+  },
+  "coldwar_patrols": {
+    "label": "Patrullas de la Guerra Fría",
+    "years": "1947–1991",
+    "flag": "🌐",
+    "color": "#6366f1",
+    "desc": "Operaciones de patrulla, interceptación e inteligencia aérea durante la Guerra Fría entre la OTAN y el Pacto de Varsovia."
+  },
+  "india_pakistan": {
+    "label": "Conflictos India-Pakistán",
+    "years": "1947–presente",
+    "flag": "🇮🇳",
+    "color": "#f59e0b",
+    "desc": "Serie de guerras y escaramuzas entre India y Pakistán desde la partición en 1947, incluyendo las guerras de 1947, 1965, 1971 y el conflicto de Kargil (1999)."
+  },
+  "cuba_missile": {
+    "label": "Crisis de los Misiles de Cuba",
+    "years": "1962",
+    "flag": "🇨🇺",
+    "color": "#ef4444",
+    "desc": "Confrontación de 13 días entre EE.UU. y la URSS por el despliegue de misiles nucleares soviéticos en Cuba. El punto más cercano a la guerra nuclear durante la Guerra Fría."
+  },
+  "borneo": {
+    "label": "Confrontación de Borneo",
+    "years": "1963–1966",
+    "flag": "🇲🇾",
+    "color": "#10b981",
+    "desc": "Conflicto armado entre Indonesia y la recién formada Malaysia, con participación de tropas británicas y del Commonwealth en defensa de Malasia y Borneo del Norte."
+  },
+  "iran": {
+    "label": "Operaciones sobre Irán",
+    "years": "2019–presente",
+    "flag": "🇮🇷",
+    "color": "#f97316",
+    "desc": "Operaciones de vigilancia e inteligencia aérea en espacio aéreo iraní y sus proximidades, incluyendo el derribo del RQ-170 en 2011."
+  },
+  "south_africa": {
+    "label": "Guerra de la Frontera Sudafricana",
+    "years": "1966–1989",
+    "flag": "🇿🇦",
+    "color": "#84cc16",
+    "desc": "Conflicto armado entre Sudáfrica (y sus aliados) contra fuerzas de la SWAPO y fuerzas cubano-angoleñas en Angola y Namibia."
+  },
+  "somalia": {
+    "label": "Intervención en Somalia",
+    "years": "1992–1995, 2006–presente",
+    "flag": "🇸🇴",
+    "color": "#78716c",
+    "desc": "Intervenciones militares en Somalia, incluyendo la Operación Restore Hope (1992-1995) con el incidente de Mogadiscio (1993), y las operaciones posteriores contra Al-Shabaab desde 2006."
   }
 }

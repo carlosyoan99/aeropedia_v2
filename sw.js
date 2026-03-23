@@ -1,38 +1,59 @@
 /**
- * sw.js — Service Worker de AeroPedia
- * Cache-first para assets, network-first para datos JSON.
+ * sw.js — Service Worker de AeroPedia v4
+ * Cache-first para todos los assets estáticos (JS, CSS, vistas, utils, componentes).
+ * Network-first para datos JSON.
+ * Cache-first con límite para imágenes.
  */
 
-const CACHE_VERSION = 'aeropedia-v2';
+const CACHE_VERSION = 'aeropedia-v4';
 const CACHE_STATIC  = `${CACHE_VERSION}-static`;
 const CACHE_DATA    = `${CACHE_VERSION}-data`;
 const CACHE_IMAGES  = `${CACHE_VERSION}-images`;
 
+// Todos los assets estáticos que pueden cachearse en install
 const STATIC_ASSETS = [
   './',
   './index.html',
   './main.js',
   './styles.css',
   './manifest.json',
-  './sw.js',
+
+  // Core modules
+  './router/index.js',
   './store/index.js',
   './store/preferences.js',
-  './router/index.js',
+
+  // Utils
   './utils/index.js',
+  './utils/exportImage.js',
+
+  // Components
   './components/Header.js',
+  './components/Footer.js',
   './components/Charts.js',
   './components/PWAInstallBanner.js',
+
+  // ALL views (lazy loaded but better cached upfront)
+  './views/HomeView.js',
+  './views/AircraftDetailView.js',
+  './views/CompareView.js',
+  './views/FavoritesView.js',
+  './views/TheaterView.js',
+  './views/StatsView.js',
+  './views/KillsView.js',
+  './views/FleetsView.js',
+  './views/MachView.js',
+  './views/SettingsView.js',
+  './views/HelpView.js',
+  './views/SharedView.js',
+
+  // Icons
   './icons/icon-96.svg',
   './icons/icon-192.svg',
   './icons/icon-512.svg',
-  // Vistas (precachear las más usadas)
-  './views/HomeView.js',
-  './views/AircraftDetailView.js',
-  './views/FavoritesView.js',
-  './views/SettingsView.js',
-  // Resto se cachean en primer uso (lazy)
 ];
 
+// Data files — network-first (need fresh data)
 const DATA_PATTERNS = [
   /\/data\/aircraft\.json$/,
   /\/data\/conflicts\.json$/,
@@ -40,19 +61,25 @@ const DATA_PATTERNS = [
   /\/data\/kills\.json$/,
 ];
 
+// Images — cache-first with 300 item limit
 const IMAGE_PATTERN = /\/public\/(min|max|mid)\/.+\.webp$/;
 
-// ── Install ───────────────────────────────────────────────────
+// ── Install: precache all static assets ──────────────────────
 self.addEventListener('install', (event) => {
   self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_STATIC).then(cache =>
-      cache.addAll(STATIC_ASSETS).catch(err => console.warn('[SW] precache error:', err))
-    )
+    caches.open(CACHE_STATIC).then(cache => {
+      // Use individual adds so one failure doesn't block others
+      return Promise.allSettled(
+        STATIC_ASSETS.map(url =>
+          cache.add(url).catch(err => console.warn(`[SW] Failed to cache ${url}:`, err))
+        )
+      );
+    })
   );
 });
 
-// ── Activate — limpiar versiones anteriores ────────────────────
+// ── Activate: purge old caches ────────────────────────────────
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then(keys =>
@@ -70,27 +97,32 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
+  // Only handle same-origin requests
   if (url.origin !== location.origin) return;
 
+  // JSON data: network-first (keep fresh, fallback to cache)
   if (DATA_PATTERNS.some(p => p.test(url.pathname))) {
     event.respondWith(networkFirst(request, CACHE_DATA));
     return;
   }
 
+  // Images: cache-first with eviction limit
   if (IMAGE_PATTERN.test(url.pathname)) {
-    event.respondWith(cacheFirstWithLimit(request, CACHE_IMAGES, 250));
+    event.respondWith(cacheFirstWithLimit(request, CACHE_IMAGES, 300));
     return;
   }
 
+  // SPA navigation: serve index.html from cache when offline
   if (request.mode === 'navigate') {
     event.respondWith(navigateSPA(request));
     return;
   }
 
+  // All other static assets: cache-first
   event.respondWith(cacheFirst(request, CACHE_STATIC));
 });
 
-// ── Estrategias ───────────────────────────────────────────────
+// ── Strategies ────────────────────────────────────────────────
 async function networkFirst(request, cacheName) {
   const cache = await caches.open(cacheName);
   try {
@@ -99,8 +131,9 @@ async function networkFirst(request, cacheName) {
     return response;
   } catch {
     const cached = await cache.match(request);
-    return cached ?? new Response(JSON.stringify({ offline: true }), {
-      status: 503, headers: { 'Content-Type': 'application/json' }
+    return cached ?? new Response(JSON.stringify({ offline: true, error: 'No network' }), {
+      status: 503,
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 }
@@ -136,17 +169,23 @@ async function cacheFirstWithLimit(request, cacheName, limit) {
 }
 
 async function navigateSPA(request) {
+  const cache = await caches.open(CACHE_STATIC);
   try {
-    return await fetch(request, { signal: AbortSignal.timeout(5000) });
+    // Try network first for navigation
+    const response = await fetch(request, { signal: AbortSignal.timeout(5000) });
+    if (response.ok) return response;
+    throw new Error('Non-ok response');
   } catch {
-    const cache  = await caches.open(CACHE_STATIC);
+    // Serve cached index.html for all navigation (SPA routing)
     const cached = await cache.match('./index.html') ?? await cache.match('./');
-    return cached ?? new Response('<!DOCTYPE html><html><body><h1>Sin conexión</h1></body></html>',
-      { status: 200, headers: { 'Content-Type': 'text/html' } });
+    return cached ?? new Response(
+      '<!DOCTYPE html><html lang="es"><body style="font-family:system-ui;padding:2rem;text-align:center"><h1>✈ AeroPedia</h1><p>Sin conexión. Abre la app desde tu pantalla de inicio.</p></body></html>',
+      { status: 200, headers: { 'Content-Type': 'text/html; charset=utf-8' } }
+    );
   }
 }
 
-// ── Mensajes ──────────────────────────────────────────────────
+// ── Messages ──────────────────────────────────────────────────
 self.addEventListener('message', (event) => {
   if (event.data?.type === 'SKIP_WAITING') self.skipWaiting();
   if (event.data?.type === 'GET_VERSION')  event.ports[0]?.postMessage({ version: CACHE_VERSION });

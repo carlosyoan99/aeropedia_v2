@@ -189,6 +189,12 @@ export class Header {
     if (open) {
       this.#closeDropdown();
     } else {
+      // Position fixed dropdown relative to the button
+      if (menu && btn) {
+        const rect = btn.getBoundingClientRect();
+        menu.style.top   = `${rect.bottom + 6}px`;
+        menu.style.right = `${window.innerWidth - rect.right}px`;
+      }
       menu?.setAttribute('aria-hidden', 'false');
       menu?.classList.add('open');
       btn?.setAttribute('aria-expanded', 'true');
