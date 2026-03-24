@@ -183,7 +183,7 @@ const SECTIONS = [
     id: 'theater', icon: '🗺', title: 'Teatro de Operaciones',
     content: `
       <h3 class="help-sub">¿Qué es el Teatro?</h3>
-      <p>Vista <strong>/theater</strong> — mapa SVG mundial con 53 conflictos militares, desde la Guerra Civil Española (1936) hasta conflictos actuales.</p>
+      <p>Vista <strong>/theater</strong> — mapa SVG mundial con ${Object.keys(store.get('conflictsDB')||{}).length||60} conflictos militares, desde la Guerra Civil Española (1936) hasta conflictos actuales.</p>
 
       <h3 class="help-sub">Puntos animados</h3>
       <p>Cada punto tiene un pulso de color según la era: <span style="color:#f59e0b">■</span> II GM · <span style="color:#3b82f6">■</span> Guerra Fría I · <span style="color:#8b5cf6">■</span> Guerra Fría II · <span style="color:#ef4444">■</span> Moderno.</p>
@@ -285,7 +285,7 @@ const SECTIONS = [
       <p>Al instalar la app, el menú de larga pulsación del icono (Android/escritorio) ofrece accesos directos a <strong>Mis Favoritos</strong>, <strong>Teatro de Operaciones</strong> y <strong>Comparador</strong>.</p>
 
       <h3 class="help-sub">Uso offline</h3>
-      <p>Una vez instalada o tras la primera visita completa, AeroPedia funciona sin conexión. Los datos de 196 aeronaves, 53 conflictos y 83 flotas se cachean automáticamente.</p>
+      <p>Una vez instalada o tras la primera visita completa, AeroPedia funciona sin conexión. Los datos de ${store.get('aircraftDB')?.length||291} aeronaves, ${Object.keys(store.get('conflictsDB')||{}).length||60} conflictos y ${store.get('fleetsDB')?.length||112} flotas se cachean automáticamente.</p>
 
       <h3 class="help-sub">Actualización automática</h3>
       <p>Si hay una nueva versión disponible, aparecerá un toast en la parte superior con botón "Recargar" para aplicar la actualización al instante.</p>
@@ -295,7 +295,7 @@ const SECTIONS = [
     id: 'data', icon: '🗃', title: 'Datos y fuentes',
     content: `
       <h3 class="help-sub">Base de datos</h3>
-      <p>AeroPedia incluye <strong>196 aeronaves</strong> con una completeness media del <strong>95.5%</strong> en los 16 campos técnicos principales.</p>
+      <p>AeroPedia incluye <strong>${store.get('aircraftDB')?.length||291} aeronaves</strong> con una completeness media del <strong>95.5%</strong> en los 16 campos técnicos principales.</p>
 
       <h3 class="help-sub">Tipos incluidos</h3>
       <div class="help-types-grid">
@@ -309,9 +309,9 @@ const SECTIONS = [
 
       <h3 class="help-sub">Otros datos</h3>
       <ul class="help-list">
-        <li><strong>53 conflictos</strong> — desde la Guerra Civil Española (1936) hasta Ucrania (2022+)</li>
+        <li><strong>${Object.keys(store.get('conflictsDB')||{}).length||60} conflictos</strong> — desde la Guerra Civil Española (1936) hasta Ucrania (2022+)</li>
         <li><strong>83 países</strong> con inventarios de flota verificados</li>
-        <li><strong>47 aeronaves</strong> con estadísticas de combate (victorias, pérdidas, ratio K/D)</li>
+        <li><strong>${store.get('killsDB')?.length||130} aeronaves</strong> con estadísticas de combate (victorias, pérdidas, ratio K/D)</li>
       </ul>
 
       <h3 class="help-sub">Fuentes verificadas</h3>
@@ -357,7 +357,7 @@ export class HelpView {
         Volver
       </button>
 <div>
-        <h1 class="help-title">
+        <h1 class="page-title">
           <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true">
             <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"/>
           </svg>

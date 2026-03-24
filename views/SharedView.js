@@ -57,7 +57,7 @@ export class SharedView {
           <article class="card" data-id="${p.id}" style="cursor:pointer" role="button" tabindex="0"
             aria-label="Ver ficha de ${p.name}">
             <div class="card-img-wrap">
-              <img src="./public/min/${p.img}.webp" alt="${p.name}"
+              <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="${p.name}"
                 loading="lazy" width="280" height="158"
                 onerror="this.src='${FALLBACK_IMG}'">
               <span class="card-badge-type">${p.type}</span>

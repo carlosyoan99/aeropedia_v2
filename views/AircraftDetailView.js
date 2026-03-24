@@ -38,7 +38,7 @@ export class AircraftDetailView {
     setPageMeta({
       title: `${p.name} — AeroPedia`,
       description: p.desc,
-      image: `./public/max/${p.img}.webp`,
+      image: `./public/max/${p.img?.[0] ?? p.img}.webp`,
     });
 
     this.#el = document.createElement('div');
@@ -63,7 +63,7 @@ export class AircraftDetailView {
       .filter(c => conflictsDB[c])
       .map(c => {
         const cf = conflictsDB[c];
-        return `<a class="conflict-chip" href="/theater#${c}" data-link
+        return `<a class="conflict-chip" href="/theater" data-link data-conflict="${c}"
           title="${cf.label}" style="--chip-color:${cf.color}">${cf.flag} ${cf.label}</a>`;
       }).join('');
 
@@ -266,6 +266,8 @@ export class AircraftDetailView {
             Producción y Estado
           </h2>
           <div class="detail-specs">
+            ${p.crew_roles?.length > 1 ? this.#specRow('Tripulación', p.crew_roles.join(' · ')) : ''}
+            ${p.derived_from ? this.#specRow('Derivado de', p.derived_from.toUpperCase()) : ''}
             ${this.#specRow('Fabricante', val(p.manufacturer))}
             ${p.units_built ? this.#specRow('Unidades fabricadas', formatNumber(p.units_built)) : ''}
             ${p.unit_cost_m ? this.#specRow('Coste unitario', `${p.unit_cost_m} M$ aprox.`) : ''}
@@ -307,11 +309,13 @@ export class AircraftDetailView {
       <!-- Columna visual -->
       <aside class="detail-visual" aria-label="Imagen y estadísticas clave">
         <div class="detail-img-glow" aria-hidden="true"></div>
+        <!-- Gallery: show thumbs if multiple images -->
         <img
-          src="./public/max/${p.img}.webp"
+          id="detailMainImg"
+          src="./public/max/${p.img?.[0] ?? p.img}.webp"
           onerror="this.src='${FALLBACK_IMG}'"
           class="detail-img"
-          alt="${p.name} — Vista lateral"
+          alt="${p.name} — Vista principal"
           width="600" height="338"
         >
         <div class="detail-img-stats" role="list" aria-label="Estadísticas clave">
@@ -525,6 +529,33 @@ export class AircraftDetailView {
       const btn = this.#el.querySelector('#compareDetailBtn');
       btn?.classList.toggle('active', inCompare);
       btn?.setAttribute('aria-pressed', inCompare);
+    });
+
+    // ── Conflict chips → navigate to Theater ───────────────
+    this.#el.addEventListener('click', async (e) => {
+      const chip = e.target.closest('[data-conflict]');
+      if (!chip) return;
+      e.preventDefault();
+      const { prefs } = await import('../store/preferences.js');
+      prefs.setOne('theater', 'lastConflict', chip.dataset.conflict);
+      const { router } = await import('../router/index.js');
+      router.navigate('/theater');
+    });
+
+    // ── Image gallery thumbnails ────────────────────────────
+    this.#el.addEventListener('click', (e) => {
+      const thumb = e.target.closest('.detail-thumb');
+      if (!thumb) return;
+      const mainImg = this.#el.querySelector('#detailMainImg');
+      if (mainImg) {
+        mainImg.src = thumb.dataset.full;
+        mainImg.onerror = () => { mainImg.src = '${FALLBACK_IMG}'; };
+      }
+      // Update active state
+      this.#el.querySelectorAll('.detail-thumb').forEach(t => {
+        t.classList.toggle('active', t === thumb);
+        t.setAttribute('aria-pressed', t === thumb);
+      });
     });
   }
 }

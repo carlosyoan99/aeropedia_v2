@@ -15,7 +15,7 @@ const initialState = {
   theme:         loadLS('aeropedia_theme', 'dark'),
   view:          'gallery',
   currentRoute:  '/',
-  search:        '', cat: 'all', onlyFavs: false, activeConflict: 'all',
+  search:        '', cat: 'all', onlyFavs: false,
 
   // Favoritos
   favs:     loadLS('aeropedia_favs', []),

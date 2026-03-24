@@ -48,7 +48,7 @@ export class MachView {
     grid.innerHTML = planes.map(p => `
       <button class="mach-ref-btn mach-ref-btn--recent" data-speed="${p.speed}"
         aria-label="Usar velocidad de ${p.name}: ${p.speed.toLocaleString('es-ES')} km/h">
-        <img src="./public/min/${p.img}.webp" alt="" width="44" height="25"
+        <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="" width="44" height="25"
           style="object-fit:cover;border-radius:3px;flex-shrink:0"
           onerror="this.style.display='none'">
         <span class="mach-ref-name" style="flex:1;text-align:left">${p.name}</span>
@@ -71,7 +71,7 @@ export class MachView {
         <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
         Volver
       </button>
-<h1 class="mach-title">Calculadora Mach</h1>
+<h1 class="page-title">Calculadora Mach</h1>
     </div>
 
     <div class="mach-layout">

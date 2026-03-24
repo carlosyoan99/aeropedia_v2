@@ -84,7 +84,7 @@ export async function exportFavsAsImage(items, options = {}) {
   // ── Cargar imágenes ────────────────────────────────────────────
   const images = await Promise.all(
     items.map(({ plane }) =>
-      loadImage(`./public/min/${plane.img}.webp`).catch(() => null)
+      loadImage(`./public/min/${plane.img?.[0] ?? plane.img}.webp`).catch(() => null)
     )
   );
 

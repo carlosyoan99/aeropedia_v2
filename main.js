@@ -23,19 +23,21 @@ import { PWAInstallBanner, registerSW }        from './components/PWAInstallBann
 
 // ── Carga de datos ─────────────────────────────────────────────
 async function loadCoreData() {
-  const [aRes, cRes, kRes] = await Promise.all([
+  const [aRes, cRes, kRes, fRes] = await Promise.all([
     fetch('./data/aircraft.json'),
     fetch('./data/conflicts.json'),
     fetch('./data/kills.json'),
+    fetch('./data/fleets.json'),
   ]);
   if (!aRes.ok || !cRes.ok)
     throw new Error('No se pudieron cargar los datos. Usa un servidor HTTP (npx serve .)');
-  const [aircraftDB, conflictsDB, killsDB] = await Promise.all([
+  const [aircraftDB, conflictsDB, killsDB, fleetsDB] = await Promise.all([
     aRes.json(),
     cRes.json(),
     kRes.ok ? kRes.json() : [],
+    fRes.ok ? fRes.json() : [],
   ]);
-  store.setState({ aircraftDB, conflictsDB, killsDB });
+  store.setState({ aircraftDB, conflictsDB, killsDB, fleetsDB });
 }
 
 // ── Rutas ──────────────────────────────────────────────────────
@@ -122,7 +124,13 @@ function registerRoutes() {
                   <span>${p.name}</span>
                 </a>`).join('')}
             </div>` : ''}
-          <a href="/" data-link class="btn-back-home" style="margin-top:1rem">← Volver al archivo</a>
+          <div style="display:flex;gap:.75rem;margin-top:1rem;justify-content:center;flex-wrap:wrap">
+            <a href="/" data-link class="btn-back-home">← Volver al archivo</a>
+            <button class="btn-back" onclick="history.back()">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+              Volver atrás
+            </button>
+          </div>
         </div>`;
         return el;
       },

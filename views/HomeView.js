@@ -53,10 +53,6 @@ export class HomeView {
       if (changed) this.#applyDensityPrefs();
     }));
 
-    if (store.get('activeConflict') !== 'all') {
-      this.#showConflictBadge(store.get('activeConflict'));
-    }
-
     return this.#el;
   }
 
@@ -86,15 +82,9 @@ export class HomeView {
           <!-- Filtro de categoría -->
           <select id="catFilter" class="cat-select" aria-label="Filtrar por categoría">
             <option value="all">Todos los tipos</option>
-            <option value="Caza">Caza</option>
-            <option value="Bombardero">Bombardero</option>
-            <option value="Ataque">Ataque CAS</option>
-            <option value="Especial">AWACS / ISR</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Drone">Drone / UAV</option>
-            <option value="Experimental">Experimental</option>
-            <option value="Helicóptero de ataque">Helicóptero ataque</option>
-            <option value="Entrenamiento">Entrenamiento</option>
+            ${[...new Set(store.get('aircraftDB').map(p => p.type).filter(Boolean))].sort().map(t =>
+              `<option value="${t}" ${store.get('cat') === t ? 'selected' : ''}>${t}</option>`
+            ).join('')}
           </select>
 
           <!-- Acciones secundarias -->
@@ -110,10 +100,6 @@ export class HomeView {
             <button id="timelineToggleBtn" class="header-btn archive-btn timeline-toggle-btn" aria-expanded="false" aria-controls="timelinePanel" title="Filtrar por época (T)" aria-label="Timeline">
               <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zm6-8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2h-2zm0 8a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2h-2z"/></svg>
               <span class="archive-btn-label">Timeline</span>
-            </button>
-            <button id="clearConflictBtn" class="header-btn conflict-badge hidden" aria-label="Limpiar filtro de conflicto">
-              <span id="conflictBadgeText"></span>
-              <svg viewBox="0 0 20 20" fill="currentColor" width="11" height="11" aria-hidden="true"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
             </button>
           </div>
         </div>
@@ -279,11 +265,10 @@ export class HomeView {
     const rerender = debounce(() => this.#renderAll(), 120);
     this.#unsubs.push(
       store.subscribe(['search','cat','onlyFavs','favs','timelineActive','timelineMin',
-        'timelineMax','sortStat','sortAsc','activeConflict'], rerender),
+        'timelineMax','sortStat','sortAsc'], rerender),
       store.subscribe('view',        v => this.#syncView(v)),
       store.subscribe('compareList', () => this.#updateCompareBar()),
-      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#renderAll(); }),
-      store.subscribe('activeConflict', v => this.#showConflictBadge(v)),
+      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#syncCatOptions(); this.#renderAll(); }),
       store.subscribe('recents',     () => this.#renderRecentsList()),
     );
   }
@@ -291,7 +276,7 @@ export class HomeView {
   // ── Filtrado avanzado ──────────────────────────────────────────
   #getFiltered() {
     const { aircraftDB, search: q, cat, onlyFavs, timelineActive,
-            timelineMin, timelineMax, favs, activeConflict } = store.getState();
+            timelineMin, timelineMax, favs} = store.getState();
 
     const parsed = parseAdvancedQuery(q);
     const useAdvanced = q.includes(':');
@@ -324,8 +309,8 @@ export class HomeView {
         const matchCat      = cat === 'all' || p.type === cat;
         const matchFav      = !onlyFavs || favs.includes(p.id);
         const matchTimeline = !timelineActive || (p.year >= timelineMin && p.year <= timelineMax);
-        const matchConflict = activeConflict === 'all' || (p.conflicts || []).includes(activeConflict);
-        return matchSearch && matchCat && matchFav && matchTimeline && matchConflict;
+        const matchConflict ==== 'all' || (p.conflicts || []).includes();
+        return matchSearch && matchCat && matchFav && matchTimeline;
       });
   }
 
@@ -339,13 +324,13 @@ export class HomeView {
     const countEl = this.#el?.querySelector('#resultCount');
     if (countEl && countEl.textContent !== String(filtered.length))
       countEl.textContent = filtered.length;
-    const { cat, search: q, onlyFavs, timelineActive, timelineMin, timelineMax, activeConflict } = store.getState();
+    const { cat, search: q, onlyFavs, timelineActive, timelineMin, timelineMax} = store.getState();
     const labels = [];
     if (cat !== 'all') labels.push(cat.toUpperCase());
     if (onlyFavs) labels.push('⭐ FAVORITOS');
     if (timelineActive) labels.push(`${timelineMin}–${timelineMax}`);
-    if (activeConflict !== 'all') {
-      const cf = store.get('conflictsDB')[activeConflict];
+    if (!== 'all') {
+      const cf = store.get('conflictsDB')[];
       if (cf) labels.push(`${cf.flag} ${cf.label}`);
     }
     if (q && !q.includes(':')) labels.push(`"${q}"`);
@@ -421,7 +406,7 @@ export class HomeView {
     card.innerHTML = `
       ${inCompare ? '<div class="card-selected-bar" aria-hidden="true"></div>' : ''}
       <div class="card-img-wrap">
-        <img data-src="./public/min/${plane.img}.webp"
+        <img data-src="./public/min/${plane.img?.[0] ?? plane.img}.webp"
           src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"
           alt="${plane.name} — ${plane.type}" loading="lazy" width="280" height="158"
           onerror="this.src='${FALLBACK_IMG}'">
@@ -503,7 +488,7 @@ export class HomeView {
             <td class="rank-pos mono">${medals[i] || (i+1)}</td>
             <td class="rank-plane">
               <div class="rank-plane-cell">
-                <img data-src="./public/min/${p.img}.webp"
+                <img data-src="./public/min/${p.img?.[0] ?? p.img}.webp"
                   src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"
                   class="rank-thumb" alt="${p.name}" width="50" height="28"
                   onerror="this.src='${FALLBACK_IMG}'">
@@ -584,7 +569,7 @@ export class HomeView {
 
     listEl.innerHTML = planes.map(p => `
       <button class="recents-item" data-id="${p.id}" role="listitem" aria-label="Ver ficha de ${p.name}">
-        <img src="./public/min/${p.img}.webp" alt="" width="52" height="30"
+        <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="" width="52" height="30"
           style="object-fit:cover;border-radius:4px;flex-shrink:0"
           onerror="this.style.display='none'">
         <div class="recents-item-info">
@@ -666,16 +651,6 @@ export class HomeView {
   }
 
   // ── Conflict badge ─────────────────────────────────────────────
-  #showConflictBadge(conflictId) {
-    const btn  = this.#el?.querySelector('#clearConflictBtn');
-    const text = this.#el?.querySelector('#conflictBadgeText');
-    if (!btn || !text) return;
-    if (!conflictId || conflictId === 'all') { btn.classList.add('hidden'); return; }
-    const cf = store.get('conflictsDB')[conflictId];
-    if (!cf) return;
-    text.textContent = `${cf.flag} ${cf.label}`;
-    btn.classList.remove('hidden');
-  }
 
   // ── Compare bar ────────────────────────────────────────────────
   #updateCompareBar() {
@@ -792,7 +767,7 @@ export class HomeView {
 
     // Conflict badge
     this.#el.querySelector('#clearConflictBtn')?.addEventListener('click', () => {
-      store.setState({ activeConflict: 'all' });
+      store.setState({: 'all' });
     });
 
     // Quick compare overlay
@@ -873,8 +848,8 @@ export class HomeView {
   }
 
   #emptyState() {
-    const { onlyFavs, activeConflict } = store.getState();
-    const cf  = activeConflict !== 'all' ? store.get('conflictsDB')[activeConflict] : null;
+    const { onlyFavs} = store.getState();
+    const cf  =!== 'all' ? store.get('conflictsDB')[] : null;
     const msg = onlyFavs ? 'No tienes aeronaves guardadas. Usa ★ en las tarjetas.'
       : cf ? `Ninguna aeronave registrada en "${cf.label}".`
       : 'No hay resultados. Prueba con la búsqueda avanzada: <code>tipo:Caza país:USA</code>';

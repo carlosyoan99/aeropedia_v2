@@ -48,7 +48,13 @@ export class CompareView {
           <p class="compare-empty-icon">⚖</p>
           <p class="compare-empty-title">Nada que comparar</p>
           <p class="compare-empty-sub">Selecciona 2 o 3 aeronaves desde la galería usando el botón + en cada tarjeta.</p>
-          <a href="/" data-link class="btn-back-home">← Ir a la galería</a>
+          <div style="display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;margin-top:.5rem">
+            <a href="/" data-link class="btn-back-home">← Ir al archivo</a>
+            <button class="btn-back" onclick="history.back()">
+              <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
+              Volver atrás
+            </button>
+          </div>
         </div>
       </div>`;
     }
@@ -79,7 +85,7 @@ export class CompareView {
       ${planes.map((p, i) => `
         <div class="compare-plane-card" style="--accent:${COMPARE_COLORS[i]}">
           <div class="compare-plane-img-wrap">
-            <img src="./public/min/${p.img}.webp" alt="${p.name}" width="240" height="135"
+            <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="${p.name}" width="240" height="135"
               onerror="this.src='${FALLBACK_IMG}'">
             <div class="compare-plane-color-bar" style="background:${COMPARE_COLORS[i]}"></div>
           </div>

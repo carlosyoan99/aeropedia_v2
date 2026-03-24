@@ -84,7 +84,7 @@ export class StatsView {
         Volver
       </button>
 <div>
-        <h1 class="stats-title">
+        <h1 class="page-title">
           <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
           Estadísticas Globales
         </h1>
@@ -121,7 +121,7 @@ export class StatsView {
           [s.heaviest, '⚖ Más pesado',      `${fmt(Math.round((s.heaviest?.mtow||0)/1000))} T`],
         ].map(([p, label, val]) => p ? `
           <button class="stats-record-card" data-id="${p.id}" aria-label="Ver ficha de ${p.name}">
-            <img src="./public/min/${p.img}.webp" alt="${p.name}" width="160" height="90"
+            <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="${p.name}" width="160" height="90"
               style="width:100%;height:90px;object-fit:cover;border-radius:6px;margin-bottom:.5rem"
               onerror="this.style.display='none'">
             <p class="stats-record-label">${label}</p>
@@ -182,7 +182,7 @@ export class StatsView {
         ${[...db].sort((a,b)=>b.speed-a.speed).slice(0,10).map((p,i)=>
           `<button class="stats-top-item" data-id="${p.id}" role="listitem" aria-label="Ver ficha de ${p.name}">
             <span class="stats-top-rank mono">${['🥇','🥈','🥉'][i]||`#${i+1}`}</span>
-            <img src="./public/min/${p.img}.webp" alt="" width="52" height="30"
+            <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="" width="52" height="30"
               style="object-fit:cover;border-radius:4px;flex-shrink:0" onerror="this.style.display='none'">
             <div class="stats-top-info">
               <span class="stats-top-name">${p.name}</span>

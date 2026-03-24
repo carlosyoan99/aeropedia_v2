@@ -30,7 +30,7 @@ export class FleetsView {
         <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
         Volver
       </button>
-        <h1 class="fleets-title">Flotas Aéreas Mundiales</h1>
+        <h1 class="page-title">Flotas Aéreas Mundiales</h1>
       </div>
 
       <div id="fleetsSummary" class="fleets-summary" role="region" aria-label="Resumen global"></div>
@@ -191,7 +191,7 @@ export class FleetsView {
       const p = aircraftDB.find(x => x.id === a.id);
       return `<tr class="fleet-aircraft-row" data-id="${a.id}" tabindex="0" role="button" aria-label="Ver ficha de ${a.name}">
         <td style="width:44px">
-          <img data-src="./public/min/${p?.img}.webp"
+          <img data-src="./public/min/${p?.img?.[0] ?? p?.img}.webp"
             src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E"
             class="fat-img" alt="${a.name}" width="44" height="25"
             onerror="this.src='${FALLBACK_IMG}'">

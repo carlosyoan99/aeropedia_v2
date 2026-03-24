@@ -56,7 +56,7 @@ export class FavoritesView {
         Volver
       </button>
 <div class="favs-title-wrap">
-        <h1 class="favs-title">
+        <h1 class="page-title">
           <svg viewBox="0 0 20 20" fill="currentColor" width="17" height="17" style="color:#f59e0b" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
           Mis Favoritos
         </h1>
@@ -432,7 +432,7 @@ export class FavoritesView {
             return `<tr class="compare-table-row" data-id="${p.id}" style="cursor:pointer" tabindex="0"
               role="button" aria-label="Ver ficha de ${p.name}">
               <td><div style="display:flex;align-items:center;gap:.5rem">
-                <img src="./public/min/${p.img}.webp" alt="" width="44" height="25"
+                <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="" width="44" height="25"
                   style="object-fit:cover;border-radius:4px;flex-shrink:0"
                   onerror="this.style.display='none'">
                 <div>
@@ -483,7 +483,7 @@ export class FavoritesView {
         <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13"><path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"/></svg>
       </div>
       ${!compact?`<div class="fav-card-img-wrap">
-        <img src="./public/min/${plane.img}.webp" alt="${plane.name}" width="120" height="68"
+        <img src="./public/min/${plane.img?.[0] ?? plane.img}.webp" alt="${plane.name}" width="120" height="68"
           loading="lazy" onerror="this.src='${FALLBACK_IMG}'">
         ${meta.pinned?'<span class="fav-pin-badge" aria-label="Fijado">📌</span>':''}
       </div>`:''}
@@ -855,7 +855,8 @@ export class FavoritesView {
               href: dataUrl,
               download: `aeropedia-favoritos-${new Date().toISOString().slice(0,10)}.png`,
             });
-            a.click();
+            document.body.appendChild(a);
+            a.click(); setTimeout(() => document.body.removeChild(a), 100);
             showToast(`✓ Imagen exportada (${items.length} aeronaves)`);
           } catch (err) {
             showToast(`✗ Error al generar imagen: ${err.message}`);
@@ -876,7 +877,13 @@ export class FavoritesView {
           ? store.get('favs')
           : (store.get('collections')[active]?.ids||[]);
         const url = store.buildShareUrl(ids);
-        copyToClipboard(url).then(()=>showToast('✓ Enlace copiado al portapapeles'));
+        if (navigator.share) {
+          navigator.share({ title: 'Mis Favoritos — AeroPedia', url }).catch(() => {
+            copyToClipboard(url).then(() => showToast('✓ Enlace copiado'));
+          });
+        } else {
+          copyToClipboard(url).then(() => showToast('✓ Enlace copiado al portapapeles'));
+        }
         return;
       }
 

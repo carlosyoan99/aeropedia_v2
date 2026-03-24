@@ -11,45 +11,49 @@ import { setPageMeta, FALLBACK_IMG, debounce  } from '../utils/index.js';
 
 // Coordenadas aproximadas por conflicto [cx%, cy%] sobre un mapa Mercator simple
 const CONFLICT_COORDS = {
-  wwii_europe                  [54.2, 22.2],
-  wwii_pacific                 [91.7, 41.7],
-  wwii_east                    [75.0, 25.0],
-  wwii_africa                  [55.6, 36.1],
-  spanish_civil_war            [49.2, 27.8],
-  korea                        [85.3, 29.4],
-  vietnam                      [79.7, 41.1],
-  india_pakistan               [69.4, 34.4],
-  india_china                  [73.6, 32.2],
-  suez                         [59.2, 33.3],
-  sixday                       [59.7, 32.8],
-  yom_kippur                   [59.7, 32.8],
-  war_of_attrition             [59.2, 33.3],
-  gulf_war                     [63.1, 33.9],
-  desert_storm                 [63.1, 33.9],
-  iran_iraq                    [62.8, 31.7],
-  iraq                         [62.2, 31.7],
-  syria                        [60.6, 30.6],
-  israel_lebanon               [59.7, 31.7],
-  afghanistan                  [68.3, 31.1],
-  gwot                         [68.3, 31.1],
-  yugoslavia                   [55.0, 25.6],
-  kosovo                       [55.8, 26.7],
-  ukraine                      [58.9, 22.8],
-  chechnya                     [62.8, 26.1],
-  mali                         [49.4, 40.6],
-  libya                        [54.7, 35.0],
-  somalia                      [62.5, 46.7],
-  mozambique                   [59.7, 60.0],
-  ethiopia_tigray              [60.6, 42.2],
-  nagorno_karabakh             [63.1, 27.8],
-  rwanda                       [58.3, 51.1],
-  sudanese                     [58.3, 41.7],
-  falklands                    [33.6, 78.9],
-  panama                       [27.8, 45.0],
-  korean_war                   [85.3, 29.4],
-  coldwar_patrols              [50.0, 11.1],
-  portuguese_colonial          [53.9, 56.7],
-  nagorno                      [63.1, 27.8],
+  wwii_europe: [54.2, 22.2],
+  wwii_pacific: [91.7, 41.7],
+  wwii_east: [75.0, 25.0],
+  wwii_africa: [55.6, 36.1],
+  spanish_civil_war: [49.2, 27.8],
+  korea: [85.3, 29.4],
+  vietnam: [79.7, 41.1],
+  india_pakistan: [69.4, 34.4],
+  india_china: [73.6, 32.2],
+  suez: [59.2, 33.3],
+  sixday: [59.7, 32.8],
+  yom_kippur: [59.7, 32.8],
+  war_of_attrition: [59.2, 33.3],
+  gulf_war: [63.1, 33.9],
+  desert_storm: [63.1, 33.9],
+  iran_iraq: [62.8, 31.7],
+  iraq: [62.2, 31.7],
+  syria: [60.6, 30.6],
+  israel_lebanon: [59.7, 31.7],
+  afghanistan: [68.3, 31.1],
+  gwot: [68.3, 31.1],
+  yugoslavia: [55.0, 25.6],
+  kosovo: [55.8, 26.7],
+  ukraine: [58.9, 22.8],
+  chechnya: [62.8, 26.1],
+  mali: [49.4, 40.6],
+  libya: [54.7, 35.0],
+  somalia: [62.5, 46.7],
+  mozambique: [59.7, 60.0],
+  ethiopia_tigray: [60.6, 42.2],
+  nagorno_karabakh: [63.1, 27.8],
+  rwanda: [58.3, 51.1],
+  sudanese: [58.3, 41.7],
+  falklands: [33.6, 78.9],
+  panama: [27.8, 45.0],
+  korean_war: [85.3, 29.4],
+  coldwar_patrols: [50.0, 11.1],
+  portuguese_colonial: [53.9, 56.7],
+  nagorno: [63.1, 27.8],
+  cuba_missile: [22.1, 52.0],
+  borneo: [115.0, 57.8],
+  iran: [53.3, 45.0],
+  south_africa: [22.0, 72.2],
 };
 
 const ERA_MAP = {
@@ -105,7 +109,7 @@ export class TheaterView {
         Volver
       </button>
 <div>
-        <h1 class="theater-title">
+        <h1 class="page-title">
           <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/></svg>
           Teatro de Operaciones
         </h1>
@@ -404,7 +408,7 @@ export class TheaterView {
             ${planes.map(p => `
               <button class="theater-plane-chip" data-id="${p.id}"
                 aria-label="Ver ficha de ${p.name}">
-                <img src="./public/min/${p.img}.webp" alt=""
+                <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt=""
                   width="44" height="25" style="object-fit:cover;border-radius:3px;flex-shrink:0"
                   onerror="this.style.display='none'">
                 <div class="theater-plane-chip-info">

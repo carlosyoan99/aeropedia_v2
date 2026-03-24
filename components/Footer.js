@@ -20,7 +20,7 @@ export class Footer {
       <div class="footer-inner">
         <div class="footer-left">
           <a href="/" data-link class="footer-logo">AERO<span>PEDIA</span></a>
-          <span class="footer-tagline">Enciclopedia interactiva de aviación militar · 196 aeronaves</span>
+          <span class="footer-tagline">Enciclopedia interactiva de aviación militar · <span id="footerAcCount">${store.get('aircraftDB')?.length || ''}</span> aeronaves</span>
         </div>
         <nav class="footer-links" aria-label="Navegación del pie de página">
           <a href="/"          data-link class="footer-link">Archivo</a>
@@ -67,6 +67,16 @@ export class Footer {
   }
 
   #bindEvents() {
+    // Update aircraft count when DB loads
+    import('../store/index.js').then(({ store }) => {
+      const update = () => {
+        const el = this.#el?.querySelector('#footerAcCount');
+        if (el) el.textContent = store.get('aircraftDB')?.length || '';
+      };
+      store.subscribe('aircraftDB', update);
+      update();
+    });
+
     // Show FAB when scrolled > 200px
     window.addEventListener('scroll', () => {
       const show = window.scrollY > 200;

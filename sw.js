@@ -5,7 +5,7 @@
  * Cache-first con límite para imágenes.
  */
 
-const CACHE_VERSION = 'aeropedia-v4';
+const CACHE_VERSION = 'aeropedia-v5';
 const CACHE_STATIC  = `${CACHE_VERSION}-static`;
 const CACHE_DATA    = `${CACHE_VERSION}-data`;
 const CACHE_IMAGES  = `${CACHE_VERSION}-images`;
