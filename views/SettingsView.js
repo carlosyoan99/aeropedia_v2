@@ -12,7 +12,6 @@
 
 import { store }    from '../store/index.js';
 import { prefs, DEFAULTS, applyThemeToDom, applyFontScale, applyAnimations, applyDensity, applyFocusRing } from '../store/preferences.js';
-import { router }   from '../router/index.js';
 import { setPageMeta, showToast, debounce  } from '../utils/index.js';
 
 export class SettingsView {

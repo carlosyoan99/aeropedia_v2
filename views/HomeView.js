@@ -268,7 +268,7 @@ export class HomeView {
         'timelineMax','sortStat','sortAsc'], rerender),
       store.subscribe('view',        v => this.#syncView(v)),
       store.subscribe('compareList', () => this.#updateCompareBar()),
-      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#syncCatOptions(); this.#renderAll(); }),
+      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#renderAll(); }),
       store.subscribe('recents',     () => this.#renderRecentsList()),
     );
   }
@@ -309,7 +309,7 @@ export class HomeView {
         const matchCat      = cat === 'all' || p.type === cat;
         const matchFav      = !onlyFavs || favs.includes(p.id);
         const matchTimeline = !timelineActive || (p.year >= timelineMin && p.year <= timelineMax);
-        const matchConflict ==== 'all' || (p.conflicts || []).includes();
+        //const matchConflict ==== 'all' || (p.conflicts || []).includes();
         return matchSearch && matchCat && matchFav && matchTimeline;
       });
   }
@@ -329,10 +329,10 @@ export class HomeView {
     if (cat !== 'all') labels.push(cat.toUpperCase());
     if (onlyFavs) labels.push('⭐ FAVORITOS');
     if (timelineActive) labels.push(`${timelineMin}–${timelineMax}`);
-    if (!== 'all') {
+    /*if (!== 'all') {
       const cf = store.get('conflictsDB')[];
       if (cf) labels.push(`${cf.flag} ${cf.label}`);
-    }
+    }*/
     if (q && !q.includes(':')) labels.push(`"${q}"`);
     const lbl = this.#el?.querySelector('#resultFilterLabel');
     if (lbl) lbl.textContent = labels.length ? labels.join(' · ') : 'TODOS LOS MODELOS';
@@ -766,10 +766,11 @@ export class HomeView {
     });
 
     // Conflict badge
+    /*
     this.#el.querySelector('#clearConflictBtn')?.addEventListener('click', () => {
       store.setState({: 'all' });
     });
-
+    */
     // Quick compare overlay
 
     // ESC cierra overlay
@@ -849,7 +850,7 @@ export class HomeView {
 
   #emptyState() {
     const { onlyFavs} = store.getState();
-    const cf  =!== 'all' ? store.get('conflictsDB')[] : null;
+    // const cf  =!== 'all' ? store.get('conflictsDB')[] : null;
     const msg = onlyFavs ? 'No tienes aeronaves guardadas. Usa ★ en las tarjetas.'
       : cf ? `Ninguna aeronave registrada en "${cf.label}".`
       : 'No hay resultados. Prueba con la búsqueda avanzada: <code>tipo:Caza país:USA</code>';
