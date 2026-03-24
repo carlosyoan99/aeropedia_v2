@@ -122,21 +122,21 @@ export class AircraftDetailView {
       </button>
       <div class="detail-topbar-actions">
         <!-- Favorito -->
-        <button class="btn-detail-fav ${store.isFav(p.id) ? 'active' : ''}"
+        <button class="btn-back btn-detail-fav ${store.isFav(p.id) ? 'active' : ''}"
           id="detailFavBtn"
           aria-label="${store.isFav(p.id) ? 'Quitar de favoritos' : 'Guardar en favoritos'}"
           aria-pressed="${store.isFav(p.id)}"
           title="${store.isFav(p.id) ? 'Quitar de favoritos' : 'Guardar en favoritos'}">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          ${store.isFav(p.id) ? 'Favorito' : 'Favoritos'}
+          <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          ★ Favoritos
         </button>
         <!-- Compartir -->
-        <button class="btn-share" id="shareBtn" aria-label="Compartir ficha">
+        <button class="btn-back btn-share" id="shareBtn" aria-label="Compartir ficha">
           <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/></svg>
           Compartir
         </button>
         <!-- Comparar -->
-        <button class="btn-compare-detail ${inCompare ? 'active' : ''}"
+        <button class="btn-back btn-compare-detail ${inCompare ? 'active' : ''}"
           id="compareDetailBtn"
           aria-label="${inCompare ? 'Quitar de comparación' : 'Añadir a comparación'}"
           aria-pressed="${inCompare}">
@@ -549,7 +549,7 @@ export class AircraftDetailView {
       const mainImg = this.#el.querySelector('#detailMainImg');
       if (mainImg) {
         mainImg.src = thumb.dataset.full;
-        mainImg.onerror = () => { mainImg.src = '${FALLBACK_IMG}'; };
+        mainImg.onerror = () => { mainImg.src = FALLBACK_IMG; };
       }
       // Update active state
       this.#el.querySelectorAll('.detail-thumb').forEach(t => {
