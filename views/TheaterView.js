@@ -330,13 +330,18 @@ export class TheaterView {
     );
 
     listEl.innerHTML = filtered.map(([id, cf]) => {
-      const era = this.#getEra(id);
+      const era      = this.#getEra(id);
+      const countries = (cf.countries || []).slice(0, 3);
+      const countryHint = countries.length
+        ? `<span class="theater-list-countries mono">${countries.join(' · ')}${(cf.countries||[]).length > 3 ? ` +${(cf.countries||[]).length - 3}` : ''}</span>`
+        : '';
       return `<button class="theater-list-item ${this.#selectedId === id ? 'active' : ''}"
         data-id="${id}" role="listitem" aria-pressed="${this.#selectedId === id}">
         <span class="theater-list-flag" aria-hidden="true">${cf.flag}</span>
         <div class="theater-list-info">
           <span class="theater-list-label">${cf.label}</span>
           <span class="theater-list-years mono">${cf.years}</span>
+          ${countryHint}
         </div>
         <span class="theater-era-dot theater-dot--${era}" aria-hidden="true"></span>
       </button>`;
@@ -386,6 +391,8 @@ export class TheaterView {
 
     const kills = store.get('killsDB')?.filter(k => (k.conflicts||[]).some(c=>c.id===id)) || [];
 
+    const countries = cf.countries || [];
+
     detailEl.innerHTML = `
       <div class="theater-detail-header">
         <span class="theater-detail-flag">${cf.flag}</span>
@@ -396,6 +403,17 @@ export class TheaterView {
       </div>
 
       <p class="theater-detail-desc">${cf.desc || ''}</p>
+
+      ${countries.length ? `
+        <div class="theater-detail-section">
+          <h3 class="theater-detail-sub">
+            <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+            Países involucrados
+          </h3>
+          <div class="theater-countries-wrap">
+            ${countries.map(country => `<span class="theater-country-chip">${country}</span>`).join('')}
+          </div>
+        </div>` : ''}
 
       ${planes.length ? `
         <div class="theater-detail-section">
@@ -423,33 +441,20 @@ export class TheaterView {
           <h3 class="theater-detail-sub">📊 Estadísticas de combate</h3>
           ${kills.slice(0, 5).map(k => {
             const p    = aircraftDB.find(x => x.id === k.id);
-            const c    = (k.conflicts||[]).find(x => x.id === id);
-            if (!p || !c) return '';
+            const kc   = (k.conflicts||[]).find(x => x.id === id);
+            if (!p || !kc) return '';
             return `<div class="theater-kill-row">
               <span class="theater-kill-name">${p.name}</span>
-              <span style="color:var(--success);font-family:var(--font-mono);font-size:.72rem">${(c.kills||0)} victorias</span>
-              <span style="color:var(--danger);font-family:var(--font-mono);font-size:.72rem">${(c.losses_aa||0)} pérdidas</span>
+              <span style="color:var(--success);font-family:var(--font-mono);font-size:.72rem">${(kc.kills||0)} victorias</span>
+              <span style="color:var(--danger);font-family:var(--font-mono);font-size:.72rem">${(kc.losses_aa||0)} pérdidas</span>
             </div>`;
           }).join('')}
         </div>` : ''}
-
-      <div class="theater-detail-actions">
-        <button class="btn-detail theater-filter-btn" data-conflict="${id}"
-          aria-label="Ver aeronaves de este conflicto en la galería">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/></svg>
-          Ver en galería
-        </button>
-      </div>`;
+    `;
 
     // Bind: click en aeronave → navegar a su ficha
     detailEl.querySelectorAll('.theater-plane-chip').forEach(btn => {
       btn.addEventListener('click', () => router.navigate(`/aircraft/${btn.dataset.id}`));
-    });
-
-    // Filtrar galería por conflicto
-    detailEl.querySelector('.theater-filter-btn')?.addEventListener('click', () => {
-      store.setState({ activeConflict: id });
-      router.navigate('/');
     });
   }
 

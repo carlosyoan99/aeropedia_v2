@@ -3,7 +3,7 @@
  * Nav fixed: logo + main links + "Más" dropdown + compare badge + theme + hamburger
  */
 
-import { store }  from '../store/index.js';
+import { store, selectCompareList }  from '../store/index.js';
 import { prefs, applyThemeToDom } from '../store/preferences.js';
 import { router } from '../router/index.js';
 
@@ -56,7 +56,7 @@ export class Header {
   }
 
   #template() {
-    const cmpCount = store.getState().compareList.length;
+    const cmpCount = (selectCompareList(store.getState())).length;
     const primaryLinks = NAV_PRIMARY.map(n => `
       <a href="${n.href}" data-link class="nav-link" data-page="${n.page}">
         ${navIcon(n.icon)}${n.label}
@@ -249,7 +249,7 @@ export class Header {
   }
 
   #syncCompareLink() {
-    const count = store.get('compareList').length;
+    const count = (store.get('compareList') || []).length;
     const badge = this.#el?.querySelector('#navCompareBadge');
     if (!badge) return;
     badge.textContent = count || '';

@@ -4,7 +4,7 @@
  *                     Timeline panel + Filtro por conflicto
  */
 
-import { store } from '../store/index.js';
+import { store, selectAircraftDB, selectCategories, selectFavs, selectCompareList, selectView, selectTimeline, selectSearch, selectCat, selectOnlyFavs, selectSortStat, selectSortAsc } from '../store/index.js';
 import { prefs }  from '../store/preferences.js';
 import { router } from '../router/index.js';
 import {
@@ -82,7 +82,7 @@ export class HomeView {
           <!-- Filtro de categoría -->
           <select id="catFilter" class="cat-select" aria-label="Filtrar por categoría">
             <option value="all">Todos los tipos</option>
-            ${[...new Set(store.get('aircraftDB').map(p => p.type).filter(Boolean))].sort().map(t =>
+            ${selectCategories(store.getState()).map(t =>
               `<option value="${t}" ${store.get('cat') === t ? 'selected' : ''}>${t}</option>`
             ).join('')}
           </select>
@@ -268,15 +268,20 @@ export class HomeView {
         'timelineMax','sortStat','sortAsc'], rerender),
       store.subscribe('view',        v => this.#syncView(v)),
       store.subscribe('compareList', () => this.#updateCompareBar()),
-      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#renderAll(); }),
+      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#syncCatOptions(); this.#renderAll(); }),
       store.subscribe('recents',     () => this.#renderRecentsList()),
     );
   }
 
   // ── Filtrado avanzado ──────────────────────────────────────────
   #getFiltered() {
-    const { aircraftDB, search: q, cat, onlyFavs, timelineActive,
-            timelineMin, timelineMax, favs} = store.getState();
+    const state = store.getState();
+    const aircraftDB   = selectAircraftDB(state);
+    const favs         = selectFavs(state);
+    const q            = selectSearch(state);
+    const cat          = selectCat(state);
+    const onlyFavs     = selectOnlyFavs(state);
+    const { timelineActive, timelineMin, timelineMax } = selectTimeline(state);
 
     const parsed = parseAdvancedQuery(q);
     const useAdvanced = q.includes(':');
@@ -309,7 +314,6 @@ export class HomeView {
         const matchCat      = cat === 'all' || p.type === cat;
         const matchFav      = !onlyFavs || favs.includes(p.id);
         const matchTimeline = !timelineActive || (p.year >= timelineMin && p.year <= timelineMax);
-        //const matchConflict ==== 'all' || (p.conflicts || []).includes();
         return matchSearch && matchCat && matchFav && matchTimeline;
       });
   }
@@ -329,10 +333,6 @@ export class HomeView {
     if (cat !== 'all') labels.push(cat.toUpperCase());
     if (onlyFavs) labels.push('⭐ FAVORITOS');
     if (timelineActive) labels.push(`${timelineMin}–${timelineMax}`);
-    /*if (!== 'all') {
-      const cf = store.get('conflictsDB')[];
-      if (cf) labels.push(`${cf.flag} ${cf.label}`);
-    }*/
     if (q && !q.includes(':')) labels.push(`"${q}"`);
     const lbl = this.#el?.querySelector('#resultFilterLabel');
     if (lbl) lbl.textContent = labels.length ? labels.join(' · ') : 'TODOS LOS MODELOS';
@@ -649,9 +649,6 @@ export class HomeView {
     if (resetBtn) resetBtn.disabled = !timelineActive;
     this.#el?.querySelector('#timelineToggleBtn')?.classList.toggle('active', timelineActive);
   }
-
-  // ── Conflict badge ─────────────────────────────────────────────
-
   // ── Compare bar ────────────────────────────────────────────────
   #updateCompareBar() {
     const bar = this.#el?.querySelector('#compareBar');
@@ -672,6 +669,17 @@ export class HomeView {
   }
 
   // ── Vista toggle ───────────────────────────────────────────────
+  // ── Sync category dropdown from DB ──────────────────────────
+  #syncCatOptions() {
+    const sel = this.#el?.querySelector('#catFilter');
+    if (!sel) return;
+    const types = selectCategories(store.getState());
+    const cur   = store.get('cat') || 'all';
+    sel.innerHTML =
+      '<option value="all">Todos los tipos</option>' +
+      types.map(t => `<option value="${t}"${cur === t ? ' selected' : ''}>${t}</option>`).join('');
+  }
+
   #syncView(view) {
     const gv = this.#el?.querySelector('#galleryView');
     const rv = this.#el?.querySelector('#rankingView');
@@ -764,15 +772,6 @@ export class HomeView {
     this.#el.querySelector('#clearRecentsBtn')?.addEventListener('click', () => {
       store.setState({ recents: [] });
     });
-
-    // Conflict badge
-    /*
-    this.#el.querySelector('#clearConflictBtn')?.addEventListener('click', () => {
-      store.setState({: 'all' });
-    });
-    */
-    // Quick compare overlay
-
     // ESC cierra overlay
     document.addEventListener('keydown', e => {
       if (e.key === 'Escape') {
@@ -850,7 +849,6 @@ export class HomeView {
 
   #emptyState() {
     const { onlyFavs} = store.getState();
-    // const cf  =!== 'all' ? store.get('conflictsDB')[] : null;
     const msg = onlyFavs ? 'No tienes aeronaves guardadas. Usa ★ en las tarjetas.'
       : cf ? `Ninguna aeronave registrada en "${cf.label}".`
       : 'No hay resultados. Prueba con la búsqueda avanzada: <code>tipo:Caza país:USA</code>';
