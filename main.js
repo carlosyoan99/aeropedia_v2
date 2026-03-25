@@ -37,7 +37,7 @@ async function loadCoreData() {
     kRes.ok ? kRes.json() : [],
     fRes.ok ? fRes.json() : [],
   ]);
-  store.dispatch({ type: 'db/loaded', payload: { aircraftDB, conflictsDB, killsDB, fleetsDB } });
+  store.store({ aircraftDB, conflictsDB, killsDB, fleetsDB });
 }
 
 // ── Rutas ──────────────────────────────────────────────────────
