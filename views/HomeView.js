@@ -1,16 +1,13 @@
 /**
  * views/HomeView.js — Galería + Ranking + Búsqueda avanzada +
  *                     Panel de recientes + Comparación rápida inline +
- *                     Timeline panel + Filtro por conflicto
+ *                     Timeline panel
  */
 
-import { store, selectAircraftDB, selectCategories, selectFavs, selectCompareList, selectView, selectTimeline, selectSearch, selectCat, selectOnlyFavs, selectSortStat, selectSortAsc } from '../store/index.js';
+import { store, selectAircraftDB, selectCategories, selectFavs, selectTimeline, selectSearch, selectCat, selectOnlyFavs } from '../store/index.js';
 import { prefs }  from '../store/preferences.js';
 import { router } from '../router/index.js';
-import {
-  genBadgeHTML, formatStat, FALLBACK_IMG, lazyLoad, setPageMeta, debounce,
-  parseAdvancedQuery, matchAdvancedQuery, getQueryHints,
-} from '../utils/index.js';
+import { genBadgeHTML, formatStat, FALLBACK_IMG, lazyLoad, setPageMeta, debounce, parseAdvancedQuery, matchAdvancedQuery, getQueryHints} from '../utils/index.js';
 
 const STAT_COLORS = {
   speed: '#3b82f6', range: '#8b5cf6', ceiling: '#06b6d4', mtow: '#f59e0b', year: '#10b981',
@@ -45,7 +42,6 @@ export class HomeView {
     this.#unsubs.push(prefs.subscribe('display', (d) => {
       const density  = d.cardDensity || 'normal';
       const cols     = d.galleryColumns || 'auto';
-      const showBars = d.showStatBars !== false;
       const gallery  = this.#el?.querySelector('#gallery');
       if (!gallery) return;
       const changed = gallery.dataset.density !== density
@@ -177,7 +173,7 @@ export class HomeView {
             <input type="range" id="timelineMax" class="timeline-input" min="1950" max="${TL_MAX}" step="${TL_STEP}" value="${TL_MAX}" aria-label="Año final">
           </div>
           <div class="timeline-ticks" aria-hidden="true">
-            ${[1940,1960,1980,2000,2024].map(y => `<span>${y}</span>`).join('')}
+            ${[1940,1960,1980,2000,2020].map(y => `<span>${y}</span>`).join('')}
           </div>
           <p class="timeline-hint">Arrastra para filtrar por año de entrada en servicio</p>
         </div>
@@ -299,7 +295,6 @@ export class HomeView {
     }
 
     return [...aircraftDB]
-      .sort((a, b) => a.name.localeCompare(b.name))
       .filter(p => {
         const matchSearch = !q
           ? true
@@ -314,6 +309,7 @@ export class HomeView {
         const matchCat      = cat === 'all' || p.type === cat;
         const matchFav      = !onlyFavs || favs.includes(p.id);
         const matchTimeline = !timelineActive || (p.year >= timelineMin && p.year <= timelineMax);
+
         return matchSearch && matchCat && matchFav && matchTimeline;
       });
   }
@@ -326,8 +322,7 @@ export class HomeView {
 
   #updateCounter(filtered) {
     const countEl = this.#el?.querySelector('#resultCount');
-    if (countEl && countEl.textContent !== String(filtered.length))
-      countEl.textContent = filtered.length;
+    if (countEl && countEl.textContent !== String(filtered.length)) countEl.textContent = filtered.length;
     const { cat, search: q, onlyFavs, timelineActive, timelineMin, timelineMax} = store.getState();
     const labels = [];
     if (cat !== 'all') labels.push(cat.toUpperCase());
@@ -774,8 +769,7 @@ export class HomeView {
     });
     // ESC cierra overlay
     document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') {
-      }
+      if (e.key === 'Escape') {}
       const tag    = document.activeElement?.tagName.toLowerCase();
       const typing = ['input','select','textarea'].includes(tag);
       if (!typing) {
@@ -794,7 +788,9 @@ export class HomeView {
       if (favBtn) {
         const id = favBtn.dataset.fav; store.toggleFav(id);
         const now = store.isFav(id);
-        favBtn.classList.toggle('active', now); favBtn.setAttribute('aria-pressed', now); return;
+        favBtn.classList.toggle('active', now);
+        favBtn.setAttribute('aria-pressed', now);
+        return;
       }
       // Comparar (toggle al comparador)
       const cmpBtn = e.target.closest('.cmp-btn[data-cmp]');
@@ -850,7 +846,6 @@ export class HomeView {
   #emptyState() {
     const { onlyFavs} = store.getState();
     const msg = onlyFavs ? 'No tienes aeronaves guardadas. Usa ★ en las tarjetas.'
-      : cf ? `Ninguna aeronave registrada en "${cf.label}".`
       : 'No hay resultados. Prueba con la búsqueda avanzada: <code>tipo:Caza país:USA</code>';
     return `<div class="empty-state" role="status">
       <div class="hud-lines" aria-hidden="true"><div class="hud-scan-line"></div><div class="hud-scan-line" style="animation-delay:.25s"></div></div>
