@@ -2606,11 +2606,6 @@ th[aria-sort="none"]       .sort-icon { color: var(--text-4); }
   .view-btn-label { display: none; }
 }
 
-/* ── Density toggle visibility ────────────────────── */
-.archive-density {
-  /* will be hidden in ranking view via JS */
-}
-
 /* ── Mach recents ─────────────────────────────────── */
 .mach-ref-btn--recent {
   display: flex !important;
