@@ -69,9 +69,7 @@ export class HomeView {
             <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
               <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
             </svg>
-            <input type="search" id="mainSearch" class="search-input"
-              placeholder="Buscar aeronave, país, ID… (p. ej. f35, tipo:Caza)"
-              aria-label="Buscar aeronave" autocomplete="off" value="">
+            <input type="search" id="mainSearch" class="search-input" placeholder="Buscar aeronave, país, ID… (p. ej. f35, tipo:Caza)" aria-label="Buscar aeronave" autocomplete="off" value="">
             <kbd class="search-kbd" aria-hidden="true">/</kbd>
           </div>
 
@@ -564,9 +562,7 @@ export class HomeView {
 
     listEl.innerHTML = planes.map(p => `
       <button class="recents-item" data-id="${p.id}" role="listitem" aria-label="Ver ficha de ${p.name}">
-        <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="" width="52" height="30"
-          style="object-fit:cover;border-radius:4px;flex-shrink:0"
-          onerror="this.style.display='none'">
+        <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="" width="52" height="30" style="object-fit:cover;border-radius:4px;flex-shrink:0" onerror="this.style.display='none'">
         <div class="recents-item-info">
           <span class="recents-item-name">${p.name}</span>
           <span class="recents-item-sub mono">${p.country} · ${p.year}</span>

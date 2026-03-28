@@ -3,7 +3,6 @@
  * Ruta: /help  · Acceso: botón ? en el header
  */
 
-import { router }      from '../router/index.js';
 import { store }       from '../store/index.js';
 import { setPageMeta  } from '../utils/index.js';
 
