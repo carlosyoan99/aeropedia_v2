@@ -240,4 +240,7 @@ export class KillsView {
       }
     });
   }
+
+  destroy() {}
+
 }

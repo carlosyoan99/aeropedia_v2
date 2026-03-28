@@ -461,4 +461,7 @@ export class HelpView {
       items[next]?.focus();
     });
   }
+
+  destroy() {}
+
 }

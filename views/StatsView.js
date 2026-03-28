@@ -301,4 +301,7 @@ export class StatsView {
       if (btn?.dataset.id) router.navigate(`/aircraft/${btn.dataset.id}`);
     });
   }
+
+  destroy() {}
+
 }

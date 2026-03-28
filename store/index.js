@@ -14,6 +14,7 @@
  *   store.get(key)
  *   store.subscribe(keys, cb)        → unsub()
  *   store.subscribeAll(cb)           → unsub()
+ *   // Métodos de dominio (wrappers sobre dispatch)
  *   store.toggleFav(id), store.toggleCompare(id), etc.
  */
 

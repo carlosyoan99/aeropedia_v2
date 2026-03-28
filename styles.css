@@ -1802,7 +1802,7 @@ body.high-contrast .site-header {
 .theater-era-btn.active { background:var(--primary-glow); border-color:var(--primary); color:var(--primary); font-weight:600; }
 .theater-count-badge { font-family:var(--font-mono); font-size:.68rem; color:var(--text-3); margin-left:auto; }
 
-.theater-layout { display:grid; grid-template-columns:1fr 300px; gap:1.25rem; align-items:start; }
+.theater-layout { display:grid; grid-template-columns:auto 1fr; gap:1.25rem; align-items:start; }
 @media (max-width:768px) { .theater-layout { grid-template-columns:1fr; } }
 
 .theater-map-wrap {
@@ -3030,4 +3030,22 @@ th[aria-sort="none"]       .sort-icon { color: var(--text-4); }
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* ── Load more / Gallery pagination ──────────────────── */
+.gallery-load-more {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0 .5rem;
+}
+.gallery-load-more .btn-back {
+  min-width: 200px;
+  justify-content: center;
+}
+
+/* ── Skeleton card ──────────────────────────────────── */
+.card--skeleton {
+  pointer-events: none;
+  min-height: 200px;
 }

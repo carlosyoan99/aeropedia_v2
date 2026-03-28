@@ -99,4 +99,7 @@ export class SharedView {
 
     return this.#el;
   }
+
+  destroy() {}
+
 }

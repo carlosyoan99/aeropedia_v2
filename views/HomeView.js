@@ -1,13 +1,16 @@
 /**
  * views/HomeView.js — Galería + Ranking + Búsqueda avanzada +
  *                     Panel de recientes + Comparación rápida inline +
- *                     Timeline panel
+ *                     Timeline panel + Filtro por conflicto
  */
 
 import { store, selectAircraftDB, selectCategories, selectFavs, selectTimeline, selectSearch, selectCat, selectOnlyFavs } from '../store/index.js';
 import { prefs }  from '../store/preferences.js';
 import { router } from '../router/index.js';
-import { genBadgeHTML, formatStat, FALLBACK_IMG, lazyLoad, setPageMeta, debounce, parseAdvancedQuery, matchAdvancedQuery, getQueryHints} from '../utils/index.js';
+import {
+  genBadgeHTML, formatStat, FALLBACK_IMG, lazyLoad, setPageMeta, debounce,
+  parseAdvancedQuery, matchAdvancedQuery, getQueryHints,
+} from '../utils/index.js';
 
 const STAT_COLORS = {
   speed: '#3b82f6', range: '#8b5cf6', ceiling: '#06b6d4', mtow: '#f59e0b', year: '#10b981',
@@ -35,9 +38,14 @@ export class HomeView {
     // If data is already loaded (e.g. navigating back), render immediately.
     // Otherwise wait for store.subscribe('aircraftDB') which fires after load.
     if (store.get('aircraftDB')?.length) {
+      // Data already loaded (e.g. navigating back)
       this.#renderAll();
+      this.#updateCompareBar();
+    } else {
+      // Data loading in background — show skeleton
+      this.#renderSkeleton();
+      this.#updateCompareBar();
     }
-    this.#updateCompareBar();
     // Only react to cardDensity/galleryColumns/showStatBars changes, not all display prefs
     this.#unsubs.push(prefs.subscribe('display', (d) => {
       const density  = d.cardDensity || 'normal';
@@ -50,6 +58,30 @@ export class HomeView {
     }));
 
     return this.#el;
+  }
+
+
+  // ── Skeleton UI (muestra mientras cargan los datos) ──────────
+  #renderSkeleton() {
+    const gallery = this.#el?.querySelector('#gallery');
+    if (!gallery) return;
+    // 8 skeleton cards
+    const frag = document.createDocumentFragment();
+    for (let i = 0; i < 8; i++) {
+      const card = document.createElement('div');
+      card.className = 'card card--skeleton';
+      card.setAttribute('aria-hidden', 'true');
+      card.innerHTML = `
+        <div class="skeleton" style="height:135px;border-radius:var(--radius-lg) var(--radius-lg) 0 0"></div>
+        <div style="padding:.75rem;display:flex;flex-direction:column;gap:.5rem">
+          <div class="skeleton" style="height:.9rem;width:70%;border-radius:4px"></div>
+          <div class="skeleton" style="height:.75rem;width:45%;border-radius:4px"></div>
+          <div class="skeleton" style="height:.7rem;width:55%;border-radius:4px;margin-top:.25rem"></div>
+        </div>`;
+      frag.appendChild(card);
+    }
+    gallery.innerHTML = '';
+    gallery.appendChild(frag);
   }
 
   destroy() {
@@ -69,7 +101,9 @@ export class HomeView {
             <svg class="search-icon" viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
               <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/>
             </svg>
-            <input type="search" id="mainSearch" class="search-input" placeholder="Buscar aeronave, país, ID… (p. ej. f35, tipo:Caza)" aria-label="Buscar aeronave" autocomplete="off" value="">
+            <input type="search" id="mainSearch" class="search-input"
+              placeholder="Buscar aeronave, país, ID… (p. ej. f35, tipo:Caza)"
+              aria-label="Buscar aeronave" autocomplete="off" value="">
             <kbd class="search-kbd" aria-hidden="true">/</kbd>
           </div>
 
@@ -262,7 +296,7 @@ export class HomeView {
         'timelineMax','sortStat','sortAsc'], rerender),
       store.subscribe('view',        v => this.#syncView(v)),
       store.subscribe('compareList', () => this.#updateCompareBar()),
-      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#syncCatOptions(); this.#renderAll(); }),
+      store.subscribe('aircraftDB',  () => { this.#buildDecadeMarks(); this.#syncCatOptions(); this.#renderAll(); this.#updateCompareBar(); }),
       store.subscribe('recents',     () => this.#renderRecentsList()),
     );
   }
@@ -307,7 +341,6 @@ export class HomeView {
         const matchCat      = cat === 'all' || p.type === cat;
         const matchFav      = !onlyFavs || favs.includes(p.id);
         const matchTimeline = !timelineActive || (p.year >= timelineMin && p.year <= timelineMax);
-
         return matchSearch && matchCat && matchFav && matchTimeline;
       });
   }
@@ -315,12 +348,32 @@ export class HomeView {
   #renderAll() {
     const filtered = this.#getFiltered();
     this.#updateCounter(filtered);
-    store.get('view') === 'gallery' ? this.#renderGallery(filtered) : this.#renderRanking(filtered);
+    // Render above-the-fold immediately
+    this.#renderAboveTheFold(filtered);
+    // Defer recents sidebar (lower priority)
+    if (typeof requestIdleCallback !== 'undefined') {
+      requestIdleCallback(() => this.#renderRecentsList(), { timeout: 500 });
+    } else {
+      setTimeout(() => this.#renderRecentsList(), 100);
+    }
+  }
+
+  #renderAboveTheFold(filtered) {
+    // Reset page only when filter changes (new filtered set)
+    if (this.#allFiltered.length && filtered.length !== this.#allFiltered.length) {
+      this.#page = 1;
+    }
+    if ((store.get('view') || 'gallery') === 'gallery') {
+      this.#renderGallery(filtered);
+    } else {
+      this.#renderRanking(filtered);
+    }
   }
 
   #updateCounter(filtered) {
     const countEl = this.#el?.querySelector('#resultCount');
-    if (countEl && countEl.textContent !== String(filtered.length)) countEl.textContent = filtered.length;
+    if (countEl && countEl.textContent !== String(filtered.length))
+      countEl.textContent = filtered.length;
     const { cat, search: q, onlyFavs, timelineActive, timelineMin, timelineMax} = store.getState();
     const labels = [];
     if (cat !== 'all') labels.push(cat.toUpperCase());
@@ -336,6 +389,12 @@ export class HomeView {
     const gallery = this.#el?.querySelector('#gallery');
     if (!gallery) return;
     if (!planes.length) { gallery.innerHTML = this.#emptyState(); return; }
+
+    // Reset page if planes changed meaningfully
+    if (planes.length !== this.#allFiltered.length) this.#page = 1;
+    // Store full list for load-more
+    this.#allFiltered = planes;
+    const visible = planes.slice(0, PAGE_SIZE * this.#page);
 
     // Skip full rebuild if same planes in same order (avoids flicker on minor state changes)
     const currentIds  = [...gallery.querySelectorAll('[id^="card-"]')].map(e => e.id.replace('card-',''));
@@ -380,6 +439,22 @@ export class HomeView {
     for (const plane of planes) frag.appendChild(this.#createCard(plane));
     gallery.innerHTML = '';
     gallery.appendChild(frag);
+
+    // Load-more sentinel (shows when more items exist)
+    const existing = gallery.querySelector('.gallery-load-more');
+    if (existing) existing.remove();
+    if (planes.length > PAGE_SIZE * this.#page) {
+      const more = document.createElement('div');
+      more.className = 'gallery-load-more';
+      more.innerHTML = `<button class="btn-back" id="loadMoreBtn">
+        Ver más (${planes.length - PAGE_SIZE * this.#page} restantes)
+      </button>`;
+      gallery.appendChild(more);
+      gallery.querySelector('#loadMoreBtn')?.addEventListener('click', () => {
+        this.#page++;
+        this.#renderGallery(this.#allFiltered);
+      }, { once: true });
+    }
     lazyLoad(gallery);
   }
 
@@ -562,7 +637,9 @@ export class HomeView {
 
     listEl.innerHTML = planes.map(p => `
       <button class="recents-item" data-id="${p.id}" role="listitem" aria-label="Ver ficha de ${p.name}">
-        <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="" width="52" height="30" style="object-fit:cover;border-radius:4px;flex-shrink:0" onerror="this.style.display='none'">
+        <img src="./public/min/${p.img?.[0] ?? p.img}.webp" alt="" width="52" height="30"
+          style="object-fit:cover;border-radius:4px;flex-shrink:0"
+          onerror="this.style.display='none'">
         <div class="recents-item-info">
           <span class="recents-item-name">${p.name}</span>
           <span class="recents-item-sub mono">${p.country} · ${p.year}</span>
@@ -784,9 +861,7 @@ export class HomeView {
       if (favBtn) {
         const id = favBtn.dataset.fav; store.toggleFav(id);
         const now = store.isFav(id);
-        favBtn.classList.toggle('active', now);
-        favBtn.setAttribute('aria-pressed', now);
-        return;
+        favBtn.classList.toggle('active', now); favBtn.setAttribute('aria-pressed', now); return;
       }
       // Comparar (toggle al comparador)
       const cmpBtn = e.target.closest('.cmp-btn[data-cmp]');
@@ -842,6 +917,7 @@ export class HomeView {
   #emptyState() {
     const { onlyFavs} = store.getState();
     const msg = onlyFavs ? 'No tienes aeronaves guardadas. Usa ★ en las tarjetas.'
+      : cf ? `Ninguna aeronave registrada en "${cf.label}".`
       : 'No hay resultados. Prueba con la búsqueda avanzada: <code>tipo:Caza país:USA</code>';
     return `<div class="empty-state" role="status">
       <div class="hud-lines" aria-hidden="true"><div class="hud-scan-line"></div><div class="hud-scan-line" style="animation-delay:.25s"></div></div>

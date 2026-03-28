@@ -65,6 +65,13 @@
 
   <!-- Contenedor de vistas (router outlet) -->
   <main id="app-outlet" tabindex="-1" aria-label="Contenido principal"></main>
+  <div id="offline-indicator" hidden role="status" aria-live="polite"
+    style="position:fixed;bottom:1rem;left:50%;transform:translateX(-50%);
+           background:var(--danger,#dc2626);color:#fff;padding:.4rem 1rem;
+           border-radius:var(--radius,8px);font-size:.8rem;z-index:9999;
+           box-shadow:0 2px 8px rgba(0,0,0,.3)">
+    ⚡ Sin conexión — modo offline
+  </div>
   <div id="app-footer"></div>
 
   <!-- Toast global -->

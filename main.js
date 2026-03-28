@@ -1,5 +1,6 @@
 /**
  * main.js — Bootstrap de AeroPedia SPA
+ * Non-blocking: renderiza la app inmediatamente, carga datos en background.
  */
 
 import { store }                               from './store/index.js';
@@ -21,7 +22,7 @@ import { PWAInstallBanner, registerSW }        from './components/PWAInstallBann
   } catch { document.documentElement.setAttribute('data-theme', 'dark'); }
 })();
 
-// ── Carga de datos ─────────────────────────────────────────────
+// ── Carga de datos (non-blocking, en background) ───────────────
 async function loadCoreData() {
   const [aRes, cRes, kRes, fRes] = await Promise.all([
     fetch('./data/aircraft.json'),
@@ -29,15 +30,22 @@ async function loadCoreData() {
     fetch('./data/kills.json'),
     fetch('./data/fleets.json'),
   ]);
-  if (!aRes.ok || !cRes.ok)
-    throw new Error('No se pudieron cargar los datos. Usa un servidor HTTP (npx serve .)');
+
+  if (!aRes.ok) throw new Error(`aircraft.json: HTTP ${aRes.status}`);
+  if (!cRes.ok) throw new Error(`conflicts.json: HTTP ${cRes.status}`);
+
   const [aircraftDB, conflictsDB, killsDB, fleetsDB] = await Promise.all([
     aRes.json(),
     cRes.json(),
     kRes.ok ? kRes.json() : [],
     fRes.ok ? fRes.json() : [],
   ]);
-  store.dispatch({ type: 'db/loaded', payload: { aircraftDB, conflictsDB, killsDB, fleetsDB } });
+
+  // Single dispatch → one render cycle
+  store.dispatch({
+    type: 'db/loaded',
+    payload: { aircraftDB, conflictsDB, killsDB, fleetsDB },
+  });
 }
 
 // ── Rutas ──────────────────────────────────────────────────────
@@ -107,8 +115,8 @@ function registerRoutes() {
       render: () => {
         const el = document.createElement('div');
         el.className = 'not-found-view';
-        const recents = store.get('recents').slice(0, 3);
-        const db      = store.get('aircraftDB');
+        const recents = (store.get('recents') || []).slice(0, 3);
+        const db = store.get('aircraftDB') || [];
         const recentPlanes = recents.map(id => db.find(p => p.id === id)).filter(Boolean);
         el.innerHTML = `<div class="not-found-inner">
           <p class="not-found-code mono">404</p>
@@ -119,7 +127,7 @@ function registerRoutes() {
               <p class="not-found-recents-label">Vistas recientemente:</p>
               ${recentPlanes.map(p => `
                 <a href="/aircraft/${p.id}" data-link class="not-found-recent-item">
-                  <img src="./public/min/${p.img}.webp" alt="${p.name}" width="44" height="25"
+                  <img src="./public/min/${(p.img?.[0] ?? p.img)}.webp" alt="${p.name}" width="44" height="25"
                     style="object-fit:cover;border-radius:4px" onerror="this.style.display='none'">
                   <span>${p.name}</span>
                 </a>`).join('')}
@@ -134,6 +142,7 @@ function registerRoutes() {
         </div>`;
         return el;
       },
+      destroy() {},
     }));
 }
 
@@ -144,16 +153,27 @@ function initMultiTabSync() {
       try {
         const newFavs = JSON.parse(e.newValue);
         if (JSON.stringify(newFavs) !== JSON.stringify(store.get('favs')))
-          store.setState({ favs: newFavs });
+          store.dispatch({ type: 'favs/syncExternal', payload: { favs: newFavs } });
       } catch {}
     }
     if (e.key === 'aeropedia_favs_meta' && e.newValue) {
-      try { store.setState({ favsMeta: JSON.parse(e.newValue) }); } catch {}
+      try { store.dispatch({ type: '__setState__', payload: { favsMeta: JSON.parse(e.newValue) } }); } catch {}
     }
     if (e.key === 'aeropedia_collections' && e.newValue) {
-      try { store.setState({ collections: JSON.parse(e.newValue) }); } catch {}
+      try { store.dispatch({ type: '__setState__', payload: { collections: JSON.parse(e.newValue) } }); } catch {}
     }
   });
+}
+
+// ── Indicador offline ──────────────────────────────────────────
+function initOfflineIndicator() {
+  const show = () => {
+    const el = document.getElementById('offline-indicator');
+    if (el) el.hidden = navigator.onLine;
+  };
+  window.addEventListener('online', show);
+  window.addEventListener('offline', show);
+  show();
 }
 
 // ── Init ───────────────────────────────────────────────────────
@@ -164,62 +184,44 @@ async function init() {
   // 2. Multi-tab sync
   initMultiTabSync();
 
-  // 3. Header
+  // 3. Header + Footer (monta UI inmediatamente)
   const headerEl = document.getElementById('app-header');
   if (headerEl) headerEl.appendChild(new Header().render());
 
-  // 4. Skeleton loading
-  const outlet = document.getElementById('app-outlet');
-  if (outlet) outlet.innerHTML = `
-    <div class="init-loading" role="status" aria-live="polite">
-      <div class="init-loading-inner">
-        <div class="init-spinner" aria-hidden="true"></div>
-        <p class="init-loading-text mono">Cargando base de datos…</p>
-      </div>
-    </div>`;
-
-  // 5. Datos
-  try {
-    await loadCoreData();
-  } catch (err) {
-    if (outlet) outlet.innerHTML = `
-      <div class="load-error" role="alert">
-        <p class="load-error-title">Error al cargar la base de datos</p>
-        <p class="load-error-msg">${err.message}</p>
-        <p class="load-error-hint">Sirve el proyecto con: <code>npx serve .</code></p>
-      </div>`;
-    return;
-  }
-
-  // 6. Rutas
-  registerRoutes();
-
-  // 7. Aria-live para lectores de pantalla
-  if (prefs.get('a11y', 'announceRoutes')) {
-    const announcer = document.getElementById('route-announcer');
-    router.beforeEach(() => {
-      setTimeout(() => {
-        if (announcer) {
-          announcer.textContent = `Navegando a: ${document.title}`;
-          setTimeout(() => { announcer.textContent = ''; }, 1500);
-        }
-      }, 300);
-    });
-  }
-
-  // 8. Init router
-  await router.init();
-
-  // 8.5 Footer
   const footerEl = document.getElementById('app-footer');
   if (footerEl) footerEl.appendChild(new Footer().render());
 
-  // 9. PWA
+  // 4. Rutas registradas antes de init (para que el router funcione)
+  registerRoutes();
+
+  // 5. Router init → renderiza la vista actual (puede ser sin datos aún)
+  await router.init();
+
+  // 6. Carga de datos en BACKGROUND (no bloquea el primer render)
+  loadCoreData().catch(err => {
+    console.error('[AeroPedia] Error cargando datos:', err);
+    // Mostrar error solo si la vista actual necesita los datos
+    const outlet = document.getElementById('app-outlet');
+    if (outlet && !store.get('aircraftDB')?.length) {
+      outlet.innerHTML = `
+        <div class="load-error" role="alert">
+          <p class="load-error-title">Error al cargar la base de datos</p>
+          <p class="load-error-msg">${err.message}</p>
+          <p class="load-error-hint">Intenta recargar la página. Si usas el proyecto localmente: <code>npx serve .</code></p>
+          <button onclick="location.reload()" class="btn-back" style="margin-top:1rem">↺ Recargar</button>
+        </div>`;
+    }
+  });
+
+  // 7. PWA
   await registerSW();
   const pwaBanner = new PWAInstallBanner();
   pwaBanner.init();
 
-  // 10. Atajos globales
+  // 8. Offline indicator
+  initOfflineIndicator();
+
+  // 9. Atajos globales
   document.addEventListener('keydown', (e) => {
     const tag    = document.activeElement?.tagName.toLowerCase();
     const typing = ['input', 'select', 'textarea'].includes(tag);
